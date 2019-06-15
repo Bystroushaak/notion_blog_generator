@@ -16,9 +16,8 @@ class Page:
         self.content = content
         self.shared = shared
 
-    def save(self, path=None):
-        if not path:
-            path = self.path
+    def save(self, blog_path):
+        path = os.path.join(blog_path, self.path)
 
         dirname = os.path.dirname(path)
         if not os.path.exists(dirname):
@@ -67,9 +66,26 @@ def iterate_zipfile(zipfile_path):
 
 
 def postprocess_html(shared_resources, all_pages, blog_path):
+    find_and_rename_index_page(all_pages)
+
     for path, page in all_pages.items():
         page.postprocess(all_pages)
-        page.save(os.path.join(blog_path, path))
+        page.save(blog_path)
+
+
+def find_and_rename_index_page(all_pages):
+    root_pages = [root_page for root_page in all_pages.values()
+                  if not os.path.dirname(root_page.path)]
+
+    if len(root_pages) != 1:
+        raise ValueError("Fuck, multiple root pages, implement --root-page switch later.")
+
+    root_page = root_pages[0]
+
+    index_name = "index.html"
+    all_pages[index_name] = root_page
+    del all_pages[root_page.path]
+    root_page.path = index_name
 
 
 if __name__ == '__main__':
