@@ -45,6 +45,7 @@ class Page:
     def postprocess(self, all_pages):
         self._remove_inlined_style(self.dom)
         self._add_utf_declaration(self.dom)
+        self._add_atom_feed(self.dom)
 
     def _remove_inlined_style(self, dom):
         style = dom.match("head", "style")[0]
@@ -64,6 +65,17 @@ class Page:
         utf_tag = dhtmlparser.parseString(utf_tag_str).find("meta")[0]
 
         head.childs.append(utf_tag)
+
+    def _add_atom_feed(self, dom):
+        head = dom.find("head")[0]
+
+        atom_tag_str = (
+            '<link rel="alternate" type="application/atom+xml" '
+            'href="http://rfox.eu/raw/feeds/notion_blog.xml" />'
+        )
+        atom_tag = dhtmlparser.parseString(atom_tag_str).find("link")[0]
+
+        head.childs.append(atom_tag)
 
 
 def generate_blog(zipfile, blog_path):
