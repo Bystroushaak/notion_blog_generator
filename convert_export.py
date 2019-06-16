@@ -20,6 +20,40 @@ class SharedResources:
     def add_css(self, css):
         self.css = css
 
+        self.css += """
+.corner-ribbon{
+  width: 14em;
+  background: #e43;
+  position: absolute;
+  text-align: center;
+  line-height: 2.5em;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  position: fixed;
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+.corner-ribbon.top-right{
+  top: 2.8em;
+  right: -3em;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.corner-ribbon.bottom-right{
+  top: auto;
+  right: -50px;
+  bottom: 25px;
+  left: auto;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.red{background: #e43;}"""
+
         return self._css_path
 
     def save(self):
@@ -92,6 +126,7 @@ class Page:
         self._add_atom_feed(self.dom)
         self._add_file_icons(self.dom)
         self._add_breadcrumb(self.dom)
+        self._add_patreon_button(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -166,6 +201,17 @@ class Page:
         all_items_tag = dhtmlparser.parseString(all_items)
 
         dom.find("body")[0].childs.insert(0, all_items_tag)
+
+    def _add_patreon_button(self, dom):
+        html_code = (
+            '<div class="corner-ribbon top-right red">'
+            '<a href="https://www.patreon.com/bePatron?u=2618881">Become a Patron</a>'
+            '</div>'
+        )
+        button_tag = dhtmlparser.parseString(html_code)
+
+        dom.find("body")[0].childs.append(button_tag)
+
 
 
 def generate_blog(zipfile, blog_root):
