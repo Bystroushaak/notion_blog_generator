@@ -160,8 +160,9 @@ class Page:
 
         items = ["<a href='{}' class='breadcrumb'>{}</a>".format(*item)
                  for item in bread_crumbs]
+        items.append(self.title)
 
-        all_items = " / ".join(items) + "\n"
+        all_items = " / ".join(items) + "\n\n"
         all_items_tag = dhtmlparser.parseString(all_items)
 
         dom.find("body")[0].childs.insert(0, all_items_tag)
