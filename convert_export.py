@@ -36,6 +36,10 @@ class Page:
 
         self.is_index = False
 
+    @property
+    def title(self):
+        return self.dom.find("h1", {"class": "page-title"})[0].getContent()
+
     def save(self, blog_path):
         path = os.path.join(blog_path, self.path)
 
@@ -63,9 +67,17 @@ class Page:
             if not "href" in a.params:
                 continue
 
+            # fixed later
+            if a.params.get("class", "") == "breadcrumb":
+                continue
+
             href = a.params["href"]
             if href.startswith(dirname):
                 a.params["href"] = href.split("/", 1)[-1]
+
+        # fix breadcrumb links
+        for a in dom.find("a", {"class": 'breadcrumb'}):
+            a.params["href"] = "../" + a.params["href"]
 
         # fix also style link
         style = dom.find("link", {"rel": "stylesheet"})[0]
@@ -79,6 +91,7 @@ class Page:
         self._add_utf_declaration(self.dom)
         self._add_atom_feed(self.dom)
         self._add_file_icons(self.dom)
+        self._add_breadcrumb(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -130,6 +143,29 @@ class Page:
 
             a[0].childs.insert(0, file_icon_tag)
 
+    def _add_breadcrumb(self, dom):
+        if "/" not in self.path:
+            return
+
+        bread_crumbs = []
+
+        path = ""
+        dirs = self.path.rsplit("/", 1)[0].split("/")  # just the dirs
+        for dirname in dirs:
+            full_path = os.path.join(path, dirname + ".html")
+            title = self.shared.all_pages[full_path].title
+            path_up = (len(dirs) - len(full_path.split("/"))) * "../" + "index.html"
+            bread_crumbs.append([path_up, title])
+            path = os.path.join(path, dirname)
+
+        items = ["<a href='{}' class='breadcrumb'>{}</a>".format(*item)
+                 for item in bread_crumbs]
+
+        all_items = " / ".join(items) + "\n"
+        all_items_tag = dhtmlparser.parseString(all_items)
+
+        dom.find("body")[0].childs.insert(0, all_items_tag)
+
 
 def generate_blog(zipfile, blog_root):
     remove_old_blog(blog_root)
@@ -168,14 +204,13 @@ def iterate_zipfile(zipfile_path):
 
 
 def postprocess_html(all_pages, blog_path):
-    find_and_rename_index_page(all_pages)
-
     for path, page in all_pages.items():
         page.postprocess()
         page.save(blog_path)
 
+    find_and_rename_index_page(all_pages, blog_path)
 
-def find_and_rename_index_page(all_pages):
+def find_and_rename_index_page(all_pages, blog_path):
     root_pages = [root_page for root_page in all_pages.values()
                   if not os.path.dirname(root_page.path)]
 
@@ -184,10 +219,8 @@ def find_and_rename_index_page(all_pages):
 
     root_page = root_pages[0]
 
-    index_name = "index.html"
-    all_pages[index_name] = root_page
-    del all_pages[root_page.path]
-    root_page.path = index_name
+    os.rename(os.path.join(blog_path, root_page.path),
+              os.path.join(blog_path, "index.html"))
 
 
 if __name__ == '__main__':
