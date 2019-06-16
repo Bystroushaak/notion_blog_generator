@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 import os
 import sys
+import copy
 import shutil
 import os.path
 import zipfile
@@ -32,6 +33,8 @@ class Page:
         self.shared = shared
         self.dom = dhtmlparser.parseString(self.content)
 
+        self.is_index = False
+
     def save(self, blog_path):
         path = os.path.join(blog_path, self.path)
 
@@ -42,11 +45,45 @@ class Page:
         with open(path, "w") as f:
             f.write(self.dom.prettify())
 
+        if self.is_index:
+            self._save_also_index_page(path)
+
+    def _save_also_index_page(self, path):
+        full_path_without_filetype = path.rsplit(".", 1)[0]
+        index_path = os.path.join(full_path_without_filetype, "index.html")
+        dirname = full_path_without_filetype.rsplit("/", 1)[-1]
+
+        if not os.path.exists(full_path_without_filetype):
+            os.makedirs(full_path_without_filetype, exist_ok=True)
+
+        # fix all local links
+        dom = copy.copy(self.dom)
+        for a in dom.find("a"):
+            if not "href" in a.params:
+                continue
+
+            href = a.params["href"]
+            if href.startswith(dirname):
+                a.params["href"] = href.split("/", 1)[-1]
+
+        # fix also style link
+        style = dom.find("link", {"rel": "stylesheet"})[0]
+        style.params["href"] = "../" + style.params["href"]
+
+        with open(index_path, "w") as f:
+            f.write(dom.prettify())
+
     def postprocess(self, all_pages):
         self._remove_inlined_style(self.dom)
         self._add_utf_declaration(self.dom)
         self._add_atom_feed(self.dom)
         self._add_file_icons(self.dom)
+
+        full_path_without_filetype = self.path.rsplit(".", 1)[0]
+        for path in all_pages.keys():
+            if path.startswith(full_path_without_filetype + "/"):
+                self.is_index = True
+                break
 
     def _remove_inlined_style(self, dom):
         style = dom.match("head", "style")[0]
