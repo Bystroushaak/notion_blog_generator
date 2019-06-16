@@ -46,6 +46,7 @@ class Page:
         self._remove_inlined_style(self.dom)
         self._add_utf_declaration(self.dom)
         self._add_atom_feed(self.dom)
+        self._add_file_icons(self.dom)
 
     def _remove_inlined_style(self, dom):
         style = dom.match("head", "style")[0]
@@ -76,6 +77,20 @@ class Page:
         atom_tag = dhtmlparser.parseString(atom_tag_str).find("link")[0]
 
         head.childs.append(atom_tag)
+
+    def _add_file_icons(self, dom):
+        file_icon_str = '<span class="icon">🗎</span>'
+        file_icon_tag = dhtmlparser.parseString(file_icon_str).find("span")[0]
+
+        for figure in dom.find("figure", {"class": "link-to-page"}):
+            if figure.find("span", {"class": "icon"}):
+                continue
+
+            a = figure.find("a")
+            if not a:
+                continue
+
+            a[0].childs.insert(0, file_icon_tag)
 
 
 def generate_blog(zipfile, blog_path):
