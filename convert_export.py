@@ -11,10 +11,11 @@ import dhtmlparser
 
 
 class SharedResources:
-    def __init__(self, blog_root):
+    def __init__(self, blog_root, all_pages):
         self.css = ""
         self._css_path = "style.css"
         self._blog_root = blog_root
+        self.all_pages = all_pages
 
     def add_css(self, css):
         self.css = css
@@ -27,7 +28,7 @@ class SharedResources:
 
 
 class Page:
-    def __init__(self, path: str, content, shared):
+    def __init__(self, path: str, content, shared: SharedResources):
         self.path = path
         self.content = content
         self.shared = shared
@@ -73,14 +74,14 @@ class Page:
         with open(index_path, "w") as f:
             f.write(dom.prettify())
 
-    def postprocess(self, all_pages):
+    def postprocess(self):
         self._remove_inlined_style(self.dom)
         self._add_utf_declaration(self.dom)
         self._add_atom_feed(self.dom)
         self._add_file_icons(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
-        for path in all_pages.keys():
+        for path in self.shared.all_pages.keys():
             if path.startswith(full_path_without_filetype + "/"):
                 self.is_index = True
                 break
@@ -130,12 +131,12 @@ class Page:
             a[0].childs.insert(0, file_icon_tag)
 
 
-def generate_blog(zipfile, blog_path):
-    remove_old_blog(blog_path)
-
-    shared_resources = SharedResources(blog_path)
+def generate_blog(zipfile, blog_root):
+    remove_old_blog(blog_root)
 
     all_pages = {}
+    shared_resources = SharedResources(blog_root, all_pages)
+
     for zf, item in iterate_zipfile(zipfile):
         if item.filename.endswith(".html"):
             all_pages[item.filename] = Page(item.filename,
@@ -143,10 +144,10 @@ def generate_blog(zipfile, blog_path):
                                             shared_resources)
             print(item.filename, "extracted and stored for postprocessing")
         else:
-            zf.extract(item, path=blog_path)
+            zf.extract(item, path=blog_root)
             print(item.filename, "extracted")
 
-    postprocess_html(shared_resources, all_pages, blog_path)
+    postprocess_html(all_pages, blog_root)
     shared_resources.save()
 
 
@@ -166,11 +167,11 @@ def iterate_zipfile(zipfile_path):
     zf.close()
 
 
-def postprocess_html(shared_resources, all_pages, blog_path):
+def postprocess_html(all_pages, blog_path):
     find_and_rename_index_page(all_pages)
 
     for path, page in all_pages.items():
-        page.postprocess(all_pages)
+        page.postprocess()
         page.save(blog_path)
 
 
