@@ -16,6 +16,7 @@ class SharedResources:
         self._css_path = "style.css"
         self._blog_root = blog_root
         self.all_pages = all_pages
+        self.title_map = None
 
     def add_css(self, css):
         self.css = css
@@ -59,6 +60,13 @@ class SharedResources:
     def save(self):
         with open(os.path.join(self._blog_root, self._css_path), "w") as f:
             f.write(self.css.strip() + "\n\n")
+
+    def generate_title_map(self):
+        self.title_map = {
+            page.title: page
+            for page in self.all_pages.values()
+        }
+
 
 
 class Page:
@@ -128,6 +136,7 @@ class Page:
         self._add_breadcrumb(self.dom)
         self._add_patreon_button(self.dom)
         self._add_twitter_card(self.dom)
+        self._fix_notion_links(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -268,6 +277,18 @@ class Page:
 
         dom.find("head")[0].childs.extend(meta_tags.find("meta"))
 
+    def _fix_notion_links(self, dom):
+        links = dom.find("a", fn=lambda x: x.params.get("href", "").startswith("https://www.notion.so"))
+        for a in links:
+            link_content = a.getContent().strip()
+            if link_content not in self.shared.title_map:
+                continue
+
+            path = self.shared.title_map[link_content].path
+            path = path.replace(" ", "%20")
+            path = (path.count("/") * "../") + path
+            a.params["href"] = path
+
 
 def generate_blog(zipfile, blog_root):
     remove_old_blog(blog_root)
@@ -284,6 +305,8 @@ def generate_blog(zipfile, blog_root):
         else:
             zf.extract(item, path=blog_root)
             print(item.filename, "extracted")
+
+    shared_resources.generate_title_map()
 
     postprocess_html(all_pages, blog_root)
     shared_resources.save()
