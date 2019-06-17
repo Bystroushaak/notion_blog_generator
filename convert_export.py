@@ -130,7 +130,7 @@ class Page:
 
     def postprocess(self):
         self._remove_inlined_style(self.dom)
-        self._add_utf_declaration(self.dom)
+        # self._add_utf_declaration(self.dom)
         self._add_atom_feed(self.dom)
         self._add_file_icons(self.dom)
         self._add_breadcrumb(self.dom)
