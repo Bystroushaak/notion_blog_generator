@@ -130,7 +130,6 @@ class Page:
 
     def postprocess(self):
         self._remove_inlined_style(self.dom)
-        # self._add_utf_declaration(self.dom)
         self._add_atom_feed(self.dom)
         self._add_file_icons(self.dom)
         self._add_breadcrumb(self.dom)
@@ -154,14 +153,6 @@ class Page:
         new_style = dhtmlparser.parseString(style_str).find("link")[0]
 
         style.replaceWith(new_style)
-
-    def _add_utf_declaration(self, dom):
-        head = dom.find("head")[0]
-
-        utf_tag_str = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
-        utf_tag = dhtmlparser.parseString(utf_tag_str).find("meta")[0]
-
-        head.childs.append(utf_tag)
 
     def _add_atom_feed(self, dom):
         head = dom.find("head")[0]
@@ -278,15 +269,18 @@ class Page:
         dom.find("head")[0].childs.extend(meta_tags.find("meta"))
 
     def _fix_notion_links(self, dom):
-        links = dom.find("a", fn=lambda x: x.params.get("href", "").startswith("https://www.notion.so"))
-        for a in links:
+        for a in dom.find("a"):
             link_content = a.getContent().strip()
             if link_content not in self.shared.title_map:
+                continue
+
+            if not a.params.get("href", "").startswith("https://www.notion.so"):
                 continue
 
             path = self.shared.title_map[link_content].path
             path = path.replace(" ", "%20")
             path = (path.count("/") * "../") + path
+
             a.params["href"] = path
 
 
