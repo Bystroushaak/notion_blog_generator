@@ -6,6 +6,8 @@ import shutil
 import os.path
 import zipfile
 import argparse
+from urllib.parse import urlparse
+from urllib.parse import parse_qs
 
 import dhtmlparser
 
@@ -136,6 +138,7 @@ class Page:
         self._add_patreon_button(self.dom)
         self._add_twitter_card(self.dom)
         self._fix_notion_links(self.dom)
+        self._fix_youtube_embeds(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -282,6 +285,34 @@ class Page:
             path = (path.count("/") * "../") + path
 
             a.params["href"] = path
+
+    def _fix_youtube_embeds(self, dom):
+        embed_code = (
+            '<iframe width="100%%" height="50%%" frameborder="0" src="https://www.youtube.com/embed/%s"'
+            'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" '
+            'allowfullscreen></iframe>\n\n'
+        )
+
+        youtube_links = dom.match(
+            "figure",
+            {"tag_name": "div", "params": {"class": "source"}},
+            "a"
+        )
+        for link in youtube_links:
+            video_url = link.params.get("href", "")
+            if "youtu" not in video_url:
+                continue
+
+            if "?v=" in video_url or "&v=" in video_url:
+                query = urlparse(video_url).query
+                video_hash = parse_qs(query)["v"][0]
+            else:
+                video_hash = urlparse(video_url).path[0]
+
+            html = embed_code % video_hash
+            tag = dhtmlparser.parseString(html)
+
+            link.replaceWith(tag)
 
 
 def generate_blog(zipfile, blog_root):
