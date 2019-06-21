@@ -121,11 +121,17 @@ class Page:
 
         # fix breadcrumb links
         for a in dom.find("a", {"class": 'breadcrumb'}):
-            a.params["href"] = "../" + a.params["href"]
+            if not a.params["href"].startswith("http"):
+                a.params["href"] = "../" + a.params["href"]
 
         # fix also style link
         style = dom.find("link", {"rel": "stylesheet"})[0]
         style.params["href"] = "../" + style.params["href"]
+
+        # oh, and also images
+        for img in dom.find("img"):
+            if not img.params["src"].startswith("http"):
+                img.params["src"] = "../" + img.params["src"]
 
         with open(index_path, "w") as f:
             f.write(dom.prettify())
