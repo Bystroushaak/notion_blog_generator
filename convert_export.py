@@ -145,6 +145,7 @@ class Page:
         self._add_twitter_card(self.dom)
         self._fix_notion_links(self.dom)
         self._fix_youtube_embeds(self.dom)
+        self._add_analytics_tag(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -319,6 +320,22 @@ class Page:
             tag = dhtmlparser.parseString(html)
 
             link.replaceWith(tag)
+
+    def _add_analytics_tag(self, dom):
+        analytics_code = """
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script src="https://www.googletagmanager.com/gtag/js?id=UA-142545439-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'UA-142545439-1');
+        </script>
+        """
+        analytics_tag = dhtmlparser.parseString(analytics_code)
+        dom.find("head")[0].childs.append(analytics_tag)
+
 
 
 def generate_blog(zipfile, blog_root):
