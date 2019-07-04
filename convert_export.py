@@ -60,6 +60,7 @@ class SharedResources:
         return self._css_path
 
     def save(self):
+        self.css = self.css.replace("white-space: pre-wrap;\n", "", 1)
         with open(os.path.join(self._blog_root, self._css_path), "w") as f:
             f.write(self.css.strip() + "\n\n")
 
