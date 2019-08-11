@@ -314,8 +314,19 @@ class Page:
             if "?v=" in video_url or "&v=" in video_url:
                 query = urlparse(video_url).query
                 video_hash = parse_qs(query)["v"][0]
+
+            elif "youtu.be" in video_url and "t=" in video_url and "&v=" not in video_url:
+                parsed = urlparse(video_url)
+                video_hash = parsed.path
+                if video_hash.startswith("/"):
+                    video_hash = video_hash[1:]
+
+                if parsed.query:
+                    video_hash += "?" + parsed.query.replace("t=", "start=")
+
             else:
                 video_hash = urlparse(video_url).path[0]
+                print("Unparsed alt video %s hash:%s" % (video_url, video_hash))
 
             html = embed_code % video_hash
             tag = dhtmlparser.parseString(html)
