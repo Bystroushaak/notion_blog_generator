@@ -1,6 +1,5 @@
 #! /usr/bin/env python3
 import os
-import sys
 import copy
 import shutil
 import os.path
@@ -10,6 +9,7 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 
 import dhtmlparser
+from PIL import Image
 
 
 class SharedResources:
@@ -155,6 +155,7 @@ class Page:
         self._fix_notion_links(self.dom)
         self._fix_youtube_embeds(self.dom)
         self._add_analytics_tag(self.dom)
+        self._generate_thumbnails(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -356,6 +357,69 @@ class Page:
         analytics_tag = dhtmlparser.parseString(analytics_code)
         dom.find("head")[0].childs.append(analytics_tag)
 
+    def _generate_thumbnails(self, dom):
+        dhtmlparser.makeDoubleLinked(dom)
+
+        def parse_width(tag):
+            widths = [
+                elem.strip().split(":")[-1].replace("%", "")
+                for elem in tag.params.get("style", "").split(";")
+                if elem.strip().lower().startswith("width:") and elem.strip().lower().endswith("%")
+            ]
+
+            if not widths:
+                return
+
+            return float(widths[0])
+
+        def get_thumb_path(image_path):
+            thumb_dir = os.path.dirname(image_path)
+            thumb_name = os.path.basename(img.params["src"])
+            thumb_name = str(thumb_name).rsplit(".", 1)[0] + "_thumb.jpg"
+            return os.path.join(thumb_dir, thumb_name)
+
+        def create_thumbnail(abs_image_path, abs_thumb_path, width):
+            img = Image.open(abs_image_path)
+
+            if img.mode in ('RGBA', 'LA'):  # sigh..
+                background = Image.new(img.mode[:-1], img.size, 'white')
+                background.paste(img, img.split()[-1])
+                img = background
+
+            img.convert('RGB')
+
+            height = img.size[1] * (img.size[0] / width)
+            img.thumbnail((width, height), Image.ANTIALIAS)
+            img.save(abs_thumb_path, "JPEG")
+            img.close()
+
+        for img in dom.find("img"):
+            if not img.params.get("src"):
+                print("Warning: image without src: " % img.tagToString())
+                continue
+
+            if "width:" in img.params.get("style", "") and "%" in img.params.get("style", ""):
+                width = parse_width(img)
+            elif "width:" in img.parent.parent.parent.params.get("style", ""):
+                width = parse_width(img.parent.parent.parent)
+            else:
+                continue
+
+            width = int(900 / 100.0 * width) + 5  # 900 is the max width on the page
+
+            rel_image_path = img.params["src"]
+            rel_thumb_path = get_thumb_path(rel_image_path)
+            abs_image_path = os.path.join(self.shared._blog_root, os.path.dirname(self.path), rel_image_path)
+            abs_thumb_path = os.path.join(self.shared._blog_root, os.path.dirname(self.path), rel_thumb_path)
+
+            try:
+                create_thumbnail(abs_image_path, abs_thumb_path, width)
+                print("Generated thumbnail %s." % rel_thumb_path)
+            except OSError as e:
+                print("Can't convert %s: %s" % (abs_image_path, str(e)))
+                continue
+
+            img.params["src"] = rel_thumb_path
 
 
 def generate_blog(zipfile, blog_root):
