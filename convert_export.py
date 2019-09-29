@@ -63,7 +63,12 @@ pre {
  white-space: -pre-wrap;      /* Opera 4-6 */
  white-space: -o-pre-wrap;    /* Opera 7 */
  word-wrap: break-word;       /* Internet Explorer 5.5+ */
-}"""
+}
+
+figure iframe {
+    height: 550px;
+}
+"""
 
         return self._css_path
 
