@@ -11,6 +11,8 @@ from urllib.parse import parse_qs
 import dhtmlparser
 from PIL import Image
 
+DEFAULT_WIDTH = 900  # 900 is the max width on the page
+
 
 class SharedResources:
     def __init__(self, blog_root, all_pages):
@@ -408,9 +410,9 @@ class Page:
             elif "width:" in img.parent.parent.parent.params.get("style", ""):
                 width = parse_width(img.parent.parent.parent)
             else:
-                continue
+                width = DEFAULT_WIDTH
 
-            width = int(900 / 100.0 * width) + 5  # 900 is the max width on the page
+            width = int(DEFAULT_WIDTH / 100.0 * width) + 5
 
             rel_image_path = img.params["src"]
             rel_thumb_path = get_thumb_path(rel_image_path)
