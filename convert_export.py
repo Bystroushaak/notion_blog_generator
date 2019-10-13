@@ -405,14 +405,15 @@ class Page:
                 print("Warning: image without src: " % img.tagToString())
                 continue
 
+            alt_style = img.parent.parent.parent.params.get("style", "")
             if "width:" in img.params.get("style", "") and "%" in img.params.get("style", ""):
                 width = parse_width(img)
-            elif "width:" in img.parent.parent.parent.params.get("style", ""):
+                width = int(DEFAULT_WIDTH / 100.0 * width) + 5
+            elif "width:" in alt_style and "%" in alt_style:
                 width = parse_width(img.parent.parent.parent)
+                width = int(DEFAULT_WIDTH / 100.0 * width) + 5
             else:
                 width = DEFAULT_WIDTH
-
-            width = int(DEFAULT_WIDTH / 100.0 * width) + 5
 
             rel_image_path = img.params["src"]
             rel_thumb_path = get_thumb_path(rel_image_path)
