@@ -395,6 +395,9 @@ class Page:
 
             img.convert('RGB')
 
+            if img.size[0] < DEFAULT_WIDTH:
+                raise OSError("Already smaller than required.")
+
             height = img.size[1] * (img.size[0] / width)
             img.thumbnail((width, height), Image.ANTIALIAS)
             img.save(abs_thumb_path, "JPEG")
@@ -403,6 +406,10 @@ class Page:
         for img in dom.find("img"):
             if not img.params.get("src"):
                 print("Warning: image without src: " % img.tagToString())
+                continue
+
+            if img.params["src"].startswith("http://") or img.params["src"].startswith("https://"):
+                print("Warning: remote image: %s " % img.params["src"])
                 continue
 
             alt_style = img.parent.parent.parent.params.get("style", "")
