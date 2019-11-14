@@ -163,6 +163,7 @@ class Page:
         self._fix_youtube_embeds(self.dom)
         self._add_analytics_tag(self.dom)
         self._generate_thumbnails(self.dom)
+        self._add_favicon(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -436,6 +437,11 @@ class Page:
 
             img.params["src"] = rel_thumb_path
 
+    def _add_favicon(self, dom):
+        favicon_code = '<link rel="shortcut icon" href="http://blog.rfox.eu/favicon.ico">'
+        favicon_tag = dhtmlparser.parseString(favicon_code)
+        dom.find("head")[0].childs.append(favicon_tag)
+
 
 def generate_blog(zipfile, blog_root):
     remove_old_blog(blog_root)
@@ -457,6 +463,8 @@ def generate_blog(zipfile, blog_root):
 
     postprocess_html(all_pages, blog_root)
     shared_resources.save()
+
+    shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), blog_root)
 
 
 def remove_old_blog(blog_path):
@@ -481,6 +489,7 @@ def postprocess_html(all_pages, blog_path):
         page.save(blog_path)
 
     find_and_rename_index_page(all_pages, blog_path)
+
 
 def find_and_rename_index_page(all_pages, blog_path):
     root_pages = [root_page for root_page in all_pages.values()
