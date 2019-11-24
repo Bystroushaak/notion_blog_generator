@@ -89,6 +89,7 @@ class Page:
         self._add_analytics_tag(self.dom)
         self._generate_thumbnails(self.dom)
         self._add_favicon(self.dom)
+        self._postprocess_inlined_styles(self.dom)
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
@@ -366,3 +367,8 @@ class Page:
         favicon_code = '<link rel="shortcut icon" href="http://blog.rfox.eu/favicon.ico">'
         favicon_tag = dhtmlparser.parseString(favicon_code)
         dom.find("head")[0].childs.append(favicon_tag)
+
+    def _postprocess_inlined_styles(self, dom):
+        for item in dom.find("", fn=lambda x: "style" in x.params):
+            if item.getTagName() == "figure":
+                item.params["style"] = item.params["style"].replace("white-space:pre-wrap;", "")
