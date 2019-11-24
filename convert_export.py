@@ -11,80 +11,9 @@ from urllib.parse import parse_qs
 import dhtmlparser
 from PIL import Image
 
+from lib import SharedResources
+
 DEFAULT_WIDTH = 900  # 900 is the max width on the page
-
-
-class SharedResources:
-    def __init__(self, blog_root, all_pages):
-        self.css = ""
-        self._css_path = "style.css"
-        self._blog_root = blog_root
-        self.all_pages = all_pages
-        self.title_map = None
-
-    def add_css(self, css):
-        self.css = css
-
-        self.css += """
-.corner-ribbon{
-  width: 14em;
-  background: #e43;
-  position: absolute;
-  text-align: center;
-  line-height: 2.5em;
-  letter-spacing: 1px;
-  color: #f0f0f0;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-  position: fixed;
-  box-shadow: 0 0 3px rgba(0,0,0,.3);
-}
-
-.corner-ribbon.top-right{
-  top: 2.8em;
-  right: -3em;
-  left: auto;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-}
-
-.corner-ribbon.bottom-right{
-  top: auto;
-  right: -50px;
-  bottom: 25px;
-  left: auto;
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-}
-
-.corner-ribbon.red{background: #e43;}
-
-pre {
- white-space: pre-wrap;       /* css-3 */
- white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
- white-space: -pre-wrap;      /* Opera 4-6 */
- white-space: -o-pre-wrap;    /* Opera 7 */
- word-wrap: break-word;       /* Internet Explorer 5.5+ */
-}
-
-figure iframe {
-    height: 550px;
-}
-"""
-
-        return self._css_path
-
-    def save(self):
-        self.css = self.css.replace("white-space: pre-wrap;\n", "", 1)
-        with open(os.path.join(self._blog_root, self._css_path), "w") as f:
-            f.write(self.css.strip() + "\n\n")
-
-    def generate_title_map(self):
-        self.title_map = {
-            page.title: page
-            for page in self.all_pages.values()
-        }
-
 
 
 class Page:
@@ -446,14 +375,13 @@ class Page:
 def generate_blog(zipfile, blog_root):
     remove_old_blog(blog_root)
 
-    all_pages = {}
-    shared_resources = SharedResources(blog_root, all_pages)
+    shared_resources = SharedResources(blog_root)
 
     for zf, item in iterate_zipfile(zipfile):
         if item.filename.endswith(".html"):
-            all_pages[item.filename] = Page(item.filename,
-                                            zf.read(item).decode("utf-8"),
-                                            shared_resources)
+            page = Page(item.filename, zf.read(item).decode("utf-8"),
+                        shared_resources)
+            shared_resources.add_page(item.filename, page)
             print(item.filename, "extracted and stored for postprocessing")
         else:
             zf.extract(item, path=blog_root)
@@ -461,7 +389,7 @@ def generate_blog(zipfile, blog_root):
 
     shared_resources.generate_title_map()
 
-    postprocess_html(all_pages, blog_root)
+    postprocess_html(shared_resources, blog_root)
     shared_resources.save()
 
     shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), blog_root)
@@ -483,16 +411,16 @@ def iterate_zipfile(zipfile_path):
     zf.close()
 
 
-def postprocess_html(all_pages, blog_path):
-    for path, page in all_pages.items():
+def postprocess_html(shared_resources, blog_path):
+    for path, page in shared_resources.all_pages.items():
         page.postprocess()
         page.save(blog_path)
 
-    find_and_rename_index_page(all_pages, blog_path)
+    find_and_rename_index_page(shared_resources, blog_path)
 
 
-def find_and_rename_index_page(all_pages, blog_path):
-    root_pages = [root_page for root_page in all_pages.values()
+def find_and_rename_index_page(shared_resources, blog_path):
+    root_pages = [root_page for root_page in shared_resources.all_pages.values()
                   if not os.path.dirname(root_page.path)]
 
     if len(root_pages) != 1:
