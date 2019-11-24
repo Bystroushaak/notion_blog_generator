@@ -1,5 +1,5 @@
-import copy
 import os
+import copy
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
