@@ -308,7 +308,7 @@ class Page:
 
         def get_thumb_path(image_path):
             thumb_dir = os.path.dirname(image_path)
-            thumb_name = os.path.basename(img.params["src"])
+            thumb_name = os.path.basename(img.params["src"].replace("%20", " "))
             thumb_name = str(thumb_name).rsplit(".", 1)[0] + "_thumb.jpg"
             return os.path.join(thumb_dir, thumb_name)
 
@@ -330,6 +330,14 @@ class Page:
             img.save(abs_thumb_path, "JPEG")
             img.close()
 
+        def path_that_handles_percents_and_spaces():
+            dirname = os.path.dirname(self.path)
+
+            if not os.path.exists(dirname) and r"%20" in dirname:
+                dirname = dirname.replace(r"%20", " ")
+
+            return os.path.join(self.shared._blog_root, dirname)
+
         for img in dom.find("img"):
             if not img.params.get("src"):
                 print("Warning: image without src: " % img.tagToString())
@@ -349,10 +357,10 @@ class Page:
             else:
                 width = DEFAULT_WIDTH
 
-            rel_image_path = img.params["src"]
+            rel_image_path = img.params["src"].replace(r"%20", " ")
             rel_thumb_path = get_thumb_path(rel_image_path)
-            abs_image_path = os.path.join(self.shared._blog_root, os.path.dirname(self.path), rel_image_path)
-            abs_thumb_path = os.path.join(self.shared._blog_root, os.path.dirname(self.path), rel_thumb_path)
+            abs_image_path = os.path.join(path_that_handles_percents_and_spaces(), rel_image_path)
+            abs_thumb_path = os.path.join(path_that_handles_percents_and_spaces(), rel_thumb_path)
 
             try:
                 create_thumbnail(abs_image_path, abs_thumb_path, width)
