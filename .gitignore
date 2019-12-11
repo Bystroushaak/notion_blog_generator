@@ -102,3 +102,4 @@ venv.bak/
 .mypy_cache/
 
 .idea
+redirects_for_nginx.txt

@@ -171,7 +171,7 @@ def _save_remappings(remapped, old_blog_root, new_root):
         remappings.append((old.replace(old_blog_root, ""), new_sub_path))
 
     nginx_redir_str = "location '%s' {\n    return 301 %s;\n}\n"
-    with open("nginx_redirects.txt", "w") as f:
+    with open("redirects_for_nginx.txt", "w") as f:
         for old, new in remappings:
             f.write(nginx_redir_str % (old, new))
 
