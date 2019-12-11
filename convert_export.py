@@ -101,6 +101,9 @@ def fix_filenames_and_generate_new_structure(blog_root, real_blog_root):
     blog_subdir = blog_subdir.replace("%20", "_")
     blog_subdir_path = os.path.join(new_root, blog_subdir)
 
+    os.rename(os.path.join(blog_subdir_path, "English_section"), os.path.join(blog_subdir_path, "en"))
+    os.rename(os.path.join(blog_subdir_path, "Czech_section"), os.path.join(blog_subdir_path, "cz"))
+
     shutil.rmtree(blog_root)
     shutil.move(blog_subdir_path, blog_root)
     shutil.rmtree(new_root)
@@ -142,6 +145,8 @@ def _fix_elements(orig_dirname, new_dirname, dom, element_name, path_param):
             continue
 
         new_path = _replace_spaces_and_old_blog_root(new_path, "", "")
+        new_path = new_path.replace("English_section/", "en/")
+        new_path = new_path.replace("Czech_section/", "cz/")
 
         # print("Remapping <%s %s='%s'> -> %s" % (element_name, path_param, orig_path, new_path))
         full_old_path = os.path.abspath(os.path.join(orig_dirname, orig_path))
