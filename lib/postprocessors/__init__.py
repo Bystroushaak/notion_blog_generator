@@ -10,3 +10,5 @@ from .add_analytics_tag import AddAnalyticsTag
 from .generate_thumbnails import GenerateThumbnails
 from .add_favicon import AddFavicon
 from .postprocess_inlined_styles import PostprocessInlinedStyles
+from .postprocess_changelog import PostprocessChangelog
+from .postprocess_index import PostprocessIndex

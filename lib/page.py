@@ -102,6 +102,8 @@ class Page:
             postprocessors.GenerateThumbnails,
             postprocessors.AddFavicon,
             postprocessors.PostprocessInlinedStyles,
+            postprocessors.PostprocessChangelog,
+            postprocessors.PostprocessIndex,
         ]
 
         for postprocessor in postprocessors_classes:

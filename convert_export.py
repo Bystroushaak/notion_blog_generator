@@ -66,6 +66,8 @@ def iterate_zipfile(zipfile_path):
 def postprocess_all_html_pages(shared_resources, blog_root):
     for path, page in shared_resources.all_pages.items():
         page.postprocess()
+
+    for path, page in shared_resources.all_pages.items():
         page.save(blog_root)
 
 
