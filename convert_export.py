@@ -165,11 +165,19 @@ def _save_remappings(remapped, old_blog_root, new_root):
     remappings = []
     for old, new in remapped.items():
         new_sub_path = new.replace(new_root, "")
+
+        new_sub_path = new_sub_path.replace("English_section/", "en/")
+        new_sub_path = new_sub_path.replace("Czech_section/", "cz/")
+
         if new_sub_path == "":
             new_sub_path = "/"
 
-        new_path = os.path.join(old_blog_root,
-                                new_sub_path[1:] if new_sub_path.startswith("/") else new_sub_path)
+        real_sub_path = new_sub_path
+        if new_sub_path.startswith("/") and len(new_sub_path) > 1:
+            real_sub_path = new_sub_path[1:]
+
+        new_path = os.path.join(old_blog_root, real_sub_path)
+
         if not os.path.exists(new_path):
             continue
 
