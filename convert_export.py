@@ -5,12 +5,14 @@ import os.path
 import zipfile
 import argparse
 
+import dhtmlparser
+
 from lib import SharedResources
 from lib.page import Page
 
 
 def generate_blog(zipfile, blog_root):
-    remove_old_blog(blog_root)
+    empty_directory(blog_root)
 
     shared_resources = SharedResources(blog_root)
 
@@ -24,15 +26,28 @@ def generate_blog(zipfile, blog_root):
             zf.extract(item, path=blog_root)
             print(item.filename, "extracted")
 
+    real_blog_root = _get_real_blog_root(blog_root)
+    shared_resources._real_blog_root = real_blog_root
     shared_resources.generate_title_map()
 
     postprocess_all_html_pages(shared_resources, blog_root)
     shared_resources.save()
 
-    shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), blog_root)
+    shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), real_blog_root)
+
+    fix_filenames_and_generate_new_structure(blog_root, real_blog_root)
 
 
-def remove_old_blog(blog_path):
+def _get_real_blog_root(blog_root):
+    for path in os.listdir(blog_root):
+        full_path = os.path.join(blog_root, path)
+        if os.path.isdir(full_path):
+            return full_path
+
+    raise ValueError("Real blogroot not found!")
+
+
+def empty_directory(blog_path):
     if os.path.exists(blog_path):
         shutil.rmtree(blog_path)
 
@@ -48,25 +63,116 @@ def iterate_zipfile(zipfile_path):
     zf.close()
 
 
-def postprocess_all_html_pages(shared_resources, blog_path):
+def postprocess_all_html_pages(shared_resources, blog_root):
     for path, page in shared_resources.all_pages.items():
         page.postprocess()
-        page.save(blog_path)
-
-    find_and_rename_index_page(shared_resources, blog_path)
+        page.save(blog_root)
 
 
-def find_and_rename_index_page(shared_resources, blog_path):
-    root_pages = [root_page for root_page in shared_resources.all_pages.values()
-                  if not os.path.dirname(root_page.path)]
+def fix_filenames_and_generate_new_structure(blog_root, real_blog_root):
+    print("Remapping old structure with spaces to new with underscore..")
 
-    if len(root_pages) != 1:
-        raise ValueError("Fuck, multiple root pages, implement --root-page switch later.")
+    new_root = os.path.join(os.path.dirname(blog_root), "generate_nicer_url")
+    empty_directory(new_root)
 
-    root_page = root_pages[0]
+    # sigh..
+    remapped = {}
+    for root, dirs, files in os.walk(blog_root):
+        for dn in dirs:
+            dir_path = os.path.join(root, dn)
+            alt_dir_path = _replace_spaces_and_old_blog_root(dir_path, blog_root, new_root)
 
-    os.rename(os.path.join(blog_path, root_page.path),
-              os.path.join(blog_path, "index.html"))
+            os.makedirs(alt_dir_path, exist_ok=True)
+            remapped[os.path.abspath(dir_path)] = os.path.abspath(alt_dir_path)
+
+        for fn in files:
+            file_path = os.path.join(root, fn)
+            alt_file_path = _replace_spaces_and_old_blog_root(file_path, blog_root, new_root)
+
+            remapped[os.path.abspath(file_path)] = os.path.abspath(alt_file_path)
+            shutil.copy(file_path, alt_file_path)
+
+    for old_fn, new_fn in list(remapped.items()):
+        if new_fn.endswith(".html") or new_fn.endswith(".htm"):
+            remapped.update(_change_embed_paths_in_html(old_fn, new_fn))
+
+    blog_subdir = os.path.basename(real_blog_root)
+    blog_subdir = blog_subdir.replace(" ", "_")
+    blog_subdir = blog_subdir.replace("%20", "_")
+    blog_subdir_path = os.path.join(new_root, blog_subdir)
+
+    shutil.rmtree(blog_root)
+    shutil.move(blog_subdir_path, blog_root)
+    shutil.rmtree(new_root)
+
+    _save_remappings(remapped, blog_root, os.path.join(new_root, blog_subdir))
+
+    print("Done.")
+
+
+def _replace_spaces_and_old_blog_root(old_path, blog_root, new_root):
+    alt_path = old_path.replace(" ", "_")
+    alt_path = alt_path.replace("%20", "_")
+    return alt_path.replace(blog_root, new_root, 1)
+
+
+def _change_embed_paths_in_html(orig_file_path, alt_file_path):
+    with open(alt_file_path) as f:
+        dom = dhtmlparser.parseString(f.read())
+
+    orig_dirname = os.path.dirname(orig_file_path)
+    new_dirname = os.path.dirname(alt_file_path)
+
+    remapped = _fix_elements(orig_dirname, new_dirname, dom, "a", "href")
+    remapped.update(_fix_elements(orig_dirname, new_dirname, dom, "img", "src"))
+
+    with open(alt_file_path, "w") as f:
+        f.write(dom.__str__())
+
+    return remapped
+
+
+def _fix_elements(orig_dirname, new_dirname, dom, element_name, path_param):
+    remapped = {}
+    for tag in dom.find(element_name):
+        new_path = tag.params.get(path_param)
+        orig_path = new_path
+
+        if new_path is None or "://" in new_path:
+            continue
+
+        new_path = _replace_spaces_and_old_blog_root(new_path, "", "")
+
+        # print("Remapping <%s %s='%s'> -> %s" % (element_name, path_param, orig_path, new_path))
+        full_old_path = os.path.abspath(os.path.join(orig_dirname, orig_path))
+        full_new_path = os.path.abspath(os.path.join(new_dirname, new_path))
+        remapped[full_old_path] = full_new_path
+
+        tag.params[path_param] = new_path
+
+    return remapped
+
+
+def _save_remappings(remapped, old_blog_root, new_root):
+    old_blog_root = os.path.abspath(old_blog_root)
+    new_root = os.path.abspath(new_root)
+
+    remappings = []
+    for old, new in remapped.items():
+        new_sub_path = new.replace(new_root, "")
+        if new_sub_path == "":
+            new_sub_path = "/"
+
+        new_path = os.path.join(old_blog_root,
+                                new_sub_path[1:] if new_sub_path.startswith("/") else new_sub_path)
+        if not os.path.exists(new_path):
+            continue
+
+        remappings.append((old.replace(old_blog_root, ""), new_sub_path))
+
+    with open("remapping.txt", "w") as f:
+        for old, new in remappings:
+            f.write("%s -> %s\n" % (old, new))
 
 
 if __name__ == '__main__':
