@@ -9,7 +9,7 @@ class RemoveInlinedStyle(Postprocessor):
         style = dom.match("head", "style")[0]
 
         style_path = shared.add_css(style.getContent())
-        style_path = ("../" * page.path.count("/")) + style_path
+        style_path = ("../" * (page.path.count("/") - 1)) + style_path
 
         style_str = '<link rel="stylesheet" type="text/css" href="%s">' % style_path
         new_style = dhtmlparser.parseString(style_str).find("link")[0]

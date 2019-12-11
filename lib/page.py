@@ -57,14 +57,28 @@ class Page:
             if href.startswith(dirname):
                 a.params["href"] = href.split("/", 1)[-1]
 
+        is_root_index = os.path.abspath(full_path_without_filetype) == os.path.abspath(self.shared._real_blog_root)
+
         # fix breadcrumb links
-        for a in dom.find("a", {"class": 'breadcrumb'}):
-            if not a.params["href"].startswith("http"):
-                a.params["href"] = "../" + a.params["href"]
+        for a in dom.find("a"):
+            if "href" not in a.params:
+                continue
+
+            href = a.params["href"]
+            if href.startswith("http"):
+                continue
+
+            if is_root_index:
+                href = href.split("/", 1)[-1]  # throw blog root from the beginning
+            else:
+                href = "../" + href
+
+            a.params["href"] = href
 
         # fix also style link
-        style = dom.find("link", {"rel": "stylesheet"})[0]
-        style.params["href"] = "../" + style.params["href"]
+        if not is_root_index:
+            style = dom.find("link", {"rel": "stylesheet"})[0]
+            style.params["href"] = "../" + style.params["href"]
 
         # oh, and also images
         for img in dom.find("img"):
