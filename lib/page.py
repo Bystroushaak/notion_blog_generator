@@ -104,6 +104,7 @@ class Page:
             postprocessors.PostprocessInlinedStyles,
             postprocessors.PostprocessChangelog,
             postprocessors.PostprocessIndex,
+            postprocessors.AddSidebar,
         ]
 
         for postprocessor in postprocessors_classes:

@@ -60,6 +60,36 @@ pre {
 figure iframe {
     height: 550px;
 }
+
+#sidebar_top {
+    visibility: hidden;
+    height: 0;
+}
+#sidebar_bottom {
+    margin-top: 2em;
+    width: 100%;
+}
+@media only screen and (min-width: 1800px) {
+    #sidebar_top {
+        width: 25em;
+        height: auto;
+
+        float: right;
+        visibility: visible;
+        position: -webkit-sticky;
+        position: sticky;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+		font-size: small;
+
+        top: 0;
+        margin-top: 11em;
+        padding-top: 1em;
+        margin-right: -35em;
+    }
+    #sidebar_bottom {
+        visibility: hidden;
+    }
+}
 """
 
         return self._css_path

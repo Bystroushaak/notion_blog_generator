@@ -17,7 +17,8 @@ class PostprocessIndex(Postprocessor):
 
         if cls.index_set and PostprocessChangelog.is_set:
             content_el = cls.index_dom.find("div", {"id": "20c0a2f2-1f89-41fb-8a1d-b42e89b2ecb0"})[0]
-            content_el.replaceWith(dhtmlparser.parseString(content_el.__str__() + PostprocessChangelog.last_five))
+            content_el.replaceWith(dhtmlparser.parseString(content_el.__str__() +
+                                                           PostprocessChangelog.get_last_five_as_html_for_mainpage()))
             cls.index_already_processed = True
             return
 

@@ -9,6 +9,7 @@ import dhtmlparser
 
 from lib import SharedResources
 from lib.page import Page
+from lib.postprocessors import AddSidebar
 
 
 def generate_blog(zipfile, blog_root):
@@ -66,6 +67,8 @@ def iterate_zipfile(zipfile_path):
 def postprocess_all_html_pages(shared_resources, blog_root):
     for path, page in shared_resources.all_pages.items():
         page.postprocess()
+
+    AddSidebar.add_to_all_relevant_pages()
 
     for path, page in shared_resources.all_pages.items():
         page.save(blog_root)
