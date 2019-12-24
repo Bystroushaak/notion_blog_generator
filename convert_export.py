@@ -157,6 +157,9 @@ def _fix_elements(orig_dirname, new_dirname, dom, element_name, path_param):
             if "Bystroushaak%20s%20blog/" in new_path:
                 new_path = new_path.replace("Bystroushaak%20s%20blog/", "")
 
+        if element_name == "meta" and tag.params.get("name") != "twitter:image":
+            continue
+
         orig_path = new_path
         if orig_path is None or "://" in orig_path:
             continue
