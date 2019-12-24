@@ -133,6 +133,7 @@ def _change_embed_paths_in_html(orig_file_path, alt_file_path):
 
     remapped = _fix_elements(orig_dirname, new_dirname, dom, "a", "href")
     remapped.update(_fix_elements(orig_dirname, new_dirname, dom, "img", "src"))
+    remapped.update(_fix_elements(orig_dirname, new_dirname, dom, "meta", "content"))  # twitter card
 
     with open(alt_file_path, "w") as f:
         f.write(dom.__str__())
@@ -142,11 +143,22 @@ def _change_embed_paths_in_html(orig_file_path, alt_file_path):
 
 def _fix_elements(orig_dirname, new_dirname, dom, element_name, path_param):
     remapped = {}
+    was_on_blog = False
+    blog_domain = "http://blog.rfox.eu/"
+
     for tag in dom.find(element_name):
         new_path = tag.params.get(path_param)
-        orig_path = new_path
 
-        if new_path is None or "://" in new_path:
+        # mostly for twitter card
+        if new_path and blog_domain in new_path:
+            was_on_blog = True
+            new_path = new_path.replace(blog_domain, "")
+
+            if "Bystroushaak%20s%20blog/" in new_path:
+                new_path = new_path.replace("Bystroushaak%20s%20blog/", "")
+
+        orig_path = new_path
+        if orig_path is None or "://" in orig_path:
             continue
 
         new_path = _replace_spaces_and_old_blog_root(new_path, "", "")
@@ -158,7 +170,13 @@ def _fix_elements(orig_dirname, new_dirname, dom, element_name, path_param):
         full_new_path = os.path.abspath(os.path.join(new_dirname, new_path))
         remapped[full_old_path] = full_new_path
 
+        # return back the absolute URL
+        if was_on_blog:
+            new_path = blog_domain + new_path
+        was_on_blog = False
+
         tag.params[path_param] = new_path
+
 
     return remapped
 
