@@ -90,6 +90,10 @@ figure iframe {
         visibility: hidden;
     }
 }
+
+.twitter-share-button {
+    float: right;
+}
 """
 
         return self._css_path

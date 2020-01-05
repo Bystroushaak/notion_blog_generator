@@ -96,6 +96,7 @@ class Page:
             postprocessors.AddBreadcrumb,
             postprocessors.AddPatreonButton,
             postprocessors.AddTwitterCard,
+            postprocessors.AddTwitterShareButton,
             postprocessors.FixNotionLinks,
             postprocessors.FixYoutubeEmbeds,
             postprocessors.AddAnalyticsTag,
