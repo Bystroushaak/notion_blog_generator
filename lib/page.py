@@ -108,11 +108,12 @@ class Page:
             postprocessors.AddSidebar,
         ]
 
-        for postprocessor in postprocessors_classes:
-            postprocessor.postprocess(self.dom, self, self.shared)
-
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
         for path in self.shared.all_pages.keys():
             if path.startswith(full_path_without_filetype + "/"):
                 self.is_index = True
                 break
+
+        for postprocessor in postprocessors_classes:
+            postprocessor.postprocess(self.dom, self, self.shared)
+

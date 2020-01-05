@@ -32,6 +32,9 @@ class AddTwitterShareButton(Postprocessor):
    href="https://twitter.com/intent/tweet?via=Bystroushaak">Tweet</a>
         """
 
+        if page.is_index:
+            return
+
         head = dom.find("head")[0]
         head.childs.append(dhtmlparser.parseString(twitter_load_script))
 
