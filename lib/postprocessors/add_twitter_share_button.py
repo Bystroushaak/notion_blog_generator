@@ -12,7 +12,7 @@ class AddTwitterShareButton(Postprocessor):
 <a class="twitter-share-button" id="twitter_button" href="#"><img src="/tweet_button.png" /></a>
         """
 
-        if page.is_index:
+        if page.is_index and len(dom.__str__()) < 15000:
             return
 
         head = dom.find("head")[0]
