@@ -35,6 +35,8 @@ def generate_blog(zipfile, blog_root):
     shared_resources.save()
 
     shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), real_blog_root)
+    shutil.copy(os.path.join(os.path.dirname(__file__), "tweet_button.png"), real_blog_root)
+    shutil.copy(os.path.join(os.path.dirname(__file__), "twitter_script.js"), real_blog_root)
 
     fix_filenames_and_generate_new_structure(blog_root, real_blog_root)
 

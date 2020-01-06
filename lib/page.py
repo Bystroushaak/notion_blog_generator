@@ -96,7 +96,6 @@ class Page:
             postprocessors.AddBreadcrumb,
             postprocessors.AddPatreonButton,
             postprocessors.AddTwitterCard,
-            postprocessors.AddTwitterShareButton,
             postprocessors.FixNotionLinks,
             postprocessors.FixYoutubeEmbeds,
             postprocessors.AddAnalyticsTag,
@@ -106,6 +105,7 @@ class Page:
             postprocessors.PostprocessChangelog,
             postprocessors.PostprocessIndex,
             postprocessors.AddSidebar,
+            postprocessors.AddTwitterShareButton,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
