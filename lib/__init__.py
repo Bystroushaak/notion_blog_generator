@@ -93,6 +93,7 @@ figure iframe {
 
 .twitter-share-button {
     float: right;
+    visibility: hidden;
 }
 """
 
