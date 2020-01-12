@@ -165,24 +165,6 @@ figure.image img:hover {opacity: 0.7;}
   height: 150px;
 }
 
-/* Add Animation */
-.modal-content, #caption {  
-  -webkit-animation-name: zoom;
-  -webkit-animation-duration: 0.3s;
-  animation-name: zoom;
-  animation-duration: 0.3s;
-}
-
-@-webkit-keyframes zoom {
-  from {-webkit-transform:scale(0)} 
-  to {-webkit-transform:scale(1)}
-}
-
-@keyframes zoom {
-  from {transform:scale(0)} 
-  to {transform:scale(1)}
-}
-
 /* The Close Button */
 .close {
   position: absolute;
