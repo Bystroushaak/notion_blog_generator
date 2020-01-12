@@ -6,7 +6,7 @@ from .postprocessor_base import Postprocessor
 class AddScriptsAndButtons(Postprocessor):
     @classmethod
     def postprocess(cls, dom, page, shared):
-        twitter_load_script = """<script src="/scripts.js"></script>"""
+        load_script = """<script src="/scripts.js"></script>"""
 
         twitter_share_button = """
 <a class="twitter-share-button" id="twitter_button" href="#">
@@ -17,7 +17,7 @@ class AddScriptsAndButtons(Postprocessor):
             return
 
         head = dom.find("head")[0]
-        head.childs.append(dhtmlparser.parseString(twitter_load_script))
+        head.childs.append(dhtmlparser.parseString(load_script))
 
         body_tag = dom.find("body")[0]
         body_tag.childs.append(dhtmlparser.parseString(twitter_share_button))
