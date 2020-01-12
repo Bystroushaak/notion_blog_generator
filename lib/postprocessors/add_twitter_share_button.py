@@ -9,8 +9,9 @@ class AddTwitterShareButton(Postprocessor):
         twitter_load_script = """<script src="/twitter_script.js"></script>"""
 
         twitter_share_button = """
-<a class="twitter-share-button" id="twitter_button" href="#"><img src="/tweet_button.png" /></a>
-        """
+<a class="twitter-share-button" id="twitter_button" href="#">
+  <img src="/tweet_button.svg" />
+</a>""".strip() + "\n"
 
         if page.is_index and len(dom.__str__()) < 15000:
             return
