@@ -32,6 +32,8 @@ def generate_blog(zipfile, blog_root):
     shared_resources.generate_title_map()
 
     postprocess_all_html_pages(shared_resources, blog_root)
+
+    print("Saving all pages..")
     shared_resources.save()
 
     shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), real_blog_root)

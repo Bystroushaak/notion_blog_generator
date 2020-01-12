@@ -1,6 +1,7 @@
 import os
 import copy
 
+import sh
 import dhtmlparser
 
 from lib import postprocessors
@@ -30,7 +31,12 @@ class Page:
             os.makedirs(dirname, exist_ok=True)
 
         with open(path, "w") as f:
-            f.write(self.dom.prettify())
+            f.write(self.dom.__str__())
+
+        try:
+            sh.tidy("-m", "-w", "0", "-i", path)
+        except:
+            pass
 
         if self.is_index:
             self._save_also_index_page(path)
