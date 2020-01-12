@@ -18,6 +18,16 @@ function add_image_overlays() {
         if (imgs.length === 0)
             return;
 
+        var links = figure.getElementsByTagName("a");
+        if (links.length > 0) {
+            var href = links[0].href.toLowerCase();
+
+            if (! (href.endsWith(".jpg") || href.endsWith(".jpeg") || href.endsWith(".png") ||
+                   href.endsWith(".svg"))){
+                return;
+            }
+        }
+
         imgs[0].onclick = function (event) {
             if (event.stopPropagation)
                 event.stopPropagation();
@@ -36,7 +46,6 @@ function add_image_overlays() {
 
             modal_element.style.display = "block";
 
-            var links = figure.getElementsByTagName("a");
             if (links.length > 0) {
                 modal_image.src = links[0].href;
             } else {
@@ -71,6 +80,6 @@ function add_image_overlays() {
 }
 
 function on_body_load() {
-    add_image_overlays();
     add_twitter_link();
+    add_image_overlays();
 }
