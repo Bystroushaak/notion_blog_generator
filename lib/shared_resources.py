@@ -127,7 +127,7 @@ figure.image img {
   transition: 0.3s;
 }
 
-figure.image img:hover {opacity: 0.5;}
+figure.image img:hover {opacity: 0.7;}
 
 
 /* The Modal (background) */

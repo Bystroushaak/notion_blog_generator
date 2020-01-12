@@ -28,6 +28,17 @@ function add_image_overlays() {
             }
         }
 
+        if (!imgs[0].src.includes("_thumb.") && imgs[0].naturalWidth == imgs[0].clientWidth) {
+            if (links.length > 0) {
+                links[0].outerHTML = links[0].innerHTML;
+            }
+
+            imgs[0].style.opacity = "1.0";
+            imgs[0].style.cursor = "default";
+
+            return;
+        }
+
         imgs[0].onclick = function (event) {
             if (event.stopPropagation)
                 event.stopPropagation();
