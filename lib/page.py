@@ -117,6 +117,7 @@ class Page:
             postprocessors.PostprocessIndex,
             postprocessors.AddSidebar,
             postprocessors.AddScriptsAndButtons,
+            postprocessors.AddSyntaxHighlighting,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
