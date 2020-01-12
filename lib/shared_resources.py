@@ -124,7 +124,6 @@ figure iframe {
 figure.image img {
   border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 figure.image img:hover {opacity: 0.7;}
@@ -173,7 +172,6 @@ figure.image img:hover {opacity: 0.7;}
   color: #f1f1f1;
   font-size: 40px;
   font-weight: bold;
-  transition: 0.3s;
 }
 
 .close:hover,
