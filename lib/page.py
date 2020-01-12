@@ -43,8 +43,28 @@ class Page:
         if not os.path.exists(full_path_without_filetype):
             os.makedirs(full_path_without_filetype, exist_ok=True)
 
-        # fix all local links
         dom = copy.copy(self.dom)
+
+        self._fix_all_local_links(dirname)
+
+        is_root_index = os.path.abspath(full_path_without_filetype) == os.path.abspath(self.shared._real_blog_root)
+
+        self._fix_breadcrumb_links(dom, is_root_index)
+
+        # fix also style link
+        if not is_root_index:
+            style = dom.find("link", {"rel": "stylesheet"})[0]
+            style.params["href"] = "../" + style.params["href"]
+
+        # oh, and also images
+        for img in dom.find("img"):
+            if not img.params["src"].startswith("http"):
+                img.params["src"] = "../" + img.params["src"]
+
+        with open(index_path, "w") as f:
+            f.write(dom.prettify())
+
+    def _fix_all_local_links(self, dom, dirname):
         for a in dom.find("a"):
             if not "href" in a.params:
                 continue
@@ -57,9 +77,7 @@ class Page:
             if href.startswith(dirname):
                 a.params["href"] = href.split("/", 1)[-1]
 
-        is_root_index = os.path.abspath(full_path_without_filetype) == os.path.abspath(self.shared._real_blog_root)
-
-        # fix breadcrumb links
+    def _fix_breadcrumb_links(self, dom, is_root_index):
         for a in dom.find("a"):
             if "href" not in a.params:
                 continue
@@ -74,19 +92,6 @@ class Page:
                 href = "../" + href
 
             a.params["href"] = href
-
-        # fix also style link
-        if not is_root_index:
-            style = dom.find("link", {"rel": "stylesheet"})[0]
-            style.params["href"] = "../" + style.params["href"]
-
-        # oh, and also images
-        for img in dom.find("img"):
-            if not img.params["src"].startswith("http"):
-                img.params["src"] = "../" + img.params["src"]
-
-        with open(index_path, "w") as f:
-            f.write(dom.prettify())
 
     def postprocess(self):
         postprocessors_classes = [
