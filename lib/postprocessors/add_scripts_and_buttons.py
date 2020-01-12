@@ -3,10 +3,10 @@ import dhtmlparser
 from .postprocessor_base import Postprocessor
 
 
-class AddTwitterShareButton(Postprocessor):
+class AddScriptsAndButtons(Postprocessor):
     @classmethod
     def postprocess(cls, dom, page, shared):
-        twitter_load_script = """<script src="/twitter_script.js"></script>"""
+        twitter_load_script = """<script src="/scripts.js"></script>"""
 
         twitter_share_button = """
 <a class="twitter-share-button" id="twitter_button" href="#">
@@ -22,4 +22,4 @@ class AddTwitterShareButton(Postprocessor):
         body_tag = dom.find("body")[0]
         body_tag.childs.append(dhtmlparser.parseString(twitter_share_button))
 
-        body_tag.params["onload"] = "add_twitter_link();"
+        body_tag.params["onload"] = "on_body_load();"

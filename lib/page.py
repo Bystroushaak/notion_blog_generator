@@ -110,7 +110,7 @@ class Page:
             postprocessors.PostprocessChangelog,
             postprocessors.PostprocessIndex,
             postprocessors.AddSidebar,
-            postprocessors.AddTwitterShareButton,
+            postprocessors.AddScriptsAndButtons,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]

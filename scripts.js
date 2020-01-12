@@ -7,3 +7,7 @@ function add_twitter_link() {
     twitter_link.href = url;
     twitter_link.style.visibility = "visible";
 }
+
+function on_body_load() {
+    add_twitter_link();
+}
