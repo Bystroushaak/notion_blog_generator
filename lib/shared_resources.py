@@ -65,8 +65,9 @@ figure iframe {
     height: 0;
 }
 #sidebar_bottom {
-    margin-top: 2em;
+    margin-top: 7em;
     width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
 }
 @media only screen and (min-width: 1800px) {
     #sidebar_top {
@@ -93,6 +94,31 @@ figure iframe {
 .twitter-share-button {
     float: right;
     visibility: hidden;
+}
+
+.twitter-share-button img {
+    width: 5em;
+}
+
+@media screen and (max-width: 1000px) {
+    body {
+        font-size: 40px;
+    }
+    h1 {
+        font-size: 1.875em;
+    }
+    h2 {
+        font-size: 1.5em;
+    }
+    h3 {
+        font-size: 1.25em;
+    }
+    .twitter-share-button img {
+        width: 3.5em;
+    }
+    .corner-ribbon, .corner-ribbon.top-right{
+      font-size: 25px;
+    }
 }
 """
 
