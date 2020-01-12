@@ -15,6 +15,7 @@ class AddSyntaxHighlighting(Postprocessor):
         dhtmlparser.makeDoubleLinked(dom)
 
         formatter = HtmlFormatter(wrapcode=False)
+        add_style_to_the_header = False
         for code in dom.match(["pre", {"class": "code"}], "code"):
             code_content = code.getContent()
             code_content = code_content.replace("&#x27;", '"')
@@ -35,7 +36,9 @@ class AddSyntaxHighlighting(Postprocessor):
                 pre_tag.params["class"] = "code"
 
                 code.parent.replaceWith(pre_tag)
+                add_style_to_the_header = True
 
-        style = HtmlFormatter().get_style_defs()
-        style_html = "<style>\n%s\n</style>" % style
-        dom.find("head")[0].childs.append(dhtmlparser.parseString(style_html))
+        if add_style_to_the_header:
+            style = HtmlFormatter().get_style_defs()
+            style_html = "<style>\n%s\n</style>" % style
+            dom.find("head")[0].childs.append(dhtmlparser.parseString(style_html))
