@@ -4,7 +4,7 @@ import copy
 import dhtmlparser
 
 from lib import postprocessors
-from lib import SharedResources
+from lib.shared_resources import SharedResources
 
 
 class Page:

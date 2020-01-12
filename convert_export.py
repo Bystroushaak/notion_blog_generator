@@ -7,7 +7,7 @@ import argparse
 
 import dhtmlparser
 
-from lib import SharedResources
+from lib.shared_resources import SharedResources
 from lib.page import Page
 from lib.postprocessors import AddSidebar
 
