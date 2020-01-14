@@ -21,7 +21,7 @@ class AddTwitterCard(Postprocessor):
         <meta name="twitter:creator" content="@Bystroushaak" />
         <meta name="twitter:title" content="{title}" />
         <meta name="twitter:description" content="{description}" />
-        <meta name="twitter:image" content="http://blog.rfox.eu/{image}" />
+        <meta name="twitter:image" content="{image}" />
         """
 
         dhtmlparser.makeDoubleLinked(dom)
@@ -45,12 +45,17 @@ class AddTwitterCard(Postprocessor):
 
         if dom.find("img"):
             first_image_path = dom.find("img")[0].params["src"]
-            full_img_path = os.path.join(os.path.dirname(page.path), first_image_path)
+
+            if first_image_path.startswith("http://") or first_image_path.startswith("https://"):
+                full_img_path = first_image_path
+            else:  # local path
+                full_img_path = os.path.join(os.path.dirname(page.path), first_image_path)
+                full_img_path = "http://blog.rfox.eu/" + full_img_path.replace(" ", "%20")
 
             meta_html = large_image_card_html.format(
                 title=page.title,
                 description=description,
-                image=full_img_path.replace(" ", "%20")
+                image=full_img_path
             )
         else:
             meta_html = summary_card.format(
