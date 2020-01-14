@@ -1,4 +1,4 @@
-PIL
+pillow
 pygments
 pyDHTMLParser
 prog_lang_detector
