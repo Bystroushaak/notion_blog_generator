@@ -36,9 +36,10 @@ def generate_blog(zipfile, blog_root):
     print("Saving all pages..")
     shared_resources.save()
 
-    shutil.copy(os.path.join(os.path.dirname(__file__), "favicon.ico"), real_blog_root)
+    shutil.copy(os.path.join(os.path.dirname(__file__), "icons/favicon.ico"), real_blog_root)
     shutil.copy(os.path.join(os.path.dirname(__file__), "tweet_button.svg"), real_blog_root)
     shutil.copy(os.path.join(os.path.dirname(__file__), "scripts.js"), real_blog_root)
+    shutil.copytree(os.path.join(os.path.dirname(__file__), "icons"), real_blog_root + "/icons")
 
     fix_filenames_and_generate_new_structure(blog_root, real_blog_root)
 
