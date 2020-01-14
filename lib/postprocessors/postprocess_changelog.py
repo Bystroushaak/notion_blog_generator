@@ -50,14 +50,14 @@ class PostprocessChangelog(Postprocessor):
 
     @classmethod
     def get_last_five_as_html_for_mainpage(cls):
-        output = "<h2>New posts</h2>\n<div>\n"
-        template = "  <p><span class=\"changelog_short\">%s</span> (%s)</p>\n%s"
+        output = "<h1>Recent posts</h1>\n<div class=\"recent_posts\">\n"
+        template = "  <h4 class=\"changelog_short\">%s (%s)</h4>\n<p>%s</p>"
 
         updates = []
         for post in cls.last_five:
             updates.append(template % (post.title, post.timestamp, post.description))
 
-        output += "\n<hr />\n".join(updates)
+        output += "\n".join(updates)
 
         output += "</div>\n"
 
