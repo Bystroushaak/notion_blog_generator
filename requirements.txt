@@ -1,4 +1,4 @@
 pillow
-pygments
+pygments==2.5.2
 pyDHTMLParser
 prog_lang_detector
