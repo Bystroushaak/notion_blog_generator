@@ -118,6 +118,7 @@ class Page:
             postprocessors.AddSidebar,
             postprocessors.AddScriptsAndButtons,
             postprocessors.AddSyntaxHighlighting,
+            postprocessors.BlockquoteNewlinePostprocessor,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]

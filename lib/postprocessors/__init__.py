@@ -15,3 +15,4 @@ from .postprocess_inlined_styles import PostprocessInlinedStyles
 from .postprocess_changelog import PostprocessChangelog
 from .postprocess_index import PostprocessIndex
 from .add_syntax_highlighting import AddSyntaxHighlighting
+from .blocquote_newlines_postprocessor import BlockquoteNewlinePostprocessor
