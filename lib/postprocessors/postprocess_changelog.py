@@ -25,11 +25,13 @@ class PostprocessChangelog(Postprocessor):
 
         tbody = article[0].find("tbody")[0]
         for cnt, tr in enumerate(reversed(tbody.find("tr"))):
-            td_content, td_date, td_title = tr.find("td")
+            td_date, td_title, td_content = tr.find("td")
 
             content = td_content.find("a")
             if content and content[0].getContent() == "Untitled":
                 content = ""
+            elif not content:
+                raise ValueError("Changelog doesn't contain link. Please add it.")
             else:
                 content = "<p class=\"changelog_description\"><em>%s</em></p>\n" % content[0].getContent()
 
