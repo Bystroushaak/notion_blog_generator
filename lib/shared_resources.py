@@ -7,6 +7,7 @@ class SharedResources:
         self._blog_root = blog_root
         self.all_pages = {}
         self.title_map = None
+        self.thumb_cache = None
 
         # sigh, notion uses index page as sort of fake root, this is the real one
         self._real_blog_root = None

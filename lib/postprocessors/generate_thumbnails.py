@@ -45,8 +45,12 @@ class GenerateThumbnails(Postprocessor):
             abs_thumb_path = os.path.join(path_that_handles_percents_and_spaces(), rel_thumb_path)
 
             try:
-                cls.create_thumbnail(page, abs_image_path, abs_thumb_path, width)
-                print("Generated thumbnail %s." % rel_thumb_path)
+                thumb = shared.thumb_cache.try_restore(abs_image_path)
+                if thumb is not None:
+                    print("Thumbnail %s restored from cache." % thumb)
+                else:
+                    cls.create_thumbnail(page, abs_image_path, abs_thumb_path, width)
+                    print("Generated thumbnail %s." % rel_thumb_path)
             except OSError as e:
                 print("Can't convert %s: %s" % (abs_image_path, str(e)))
                 continue

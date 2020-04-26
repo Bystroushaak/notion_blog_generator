@@ -10,9 +10,11 @@ import dhtmlparser
 from lib.shared_resources import SharedResources
 from lib.page import Page
 from lib.postprocessors import AddSidebar
+from lib.thumb_cache import ThumbCache
 
 
 def generate_blog(zipfile, blog_root):
+    thumb_cache = ThumbCache.create_thumb_cache(blog_root)
     empty_directory(blog_root)
 
     shared_resources = SharedResources(blog_root)
@@ -30,6 +32,7 @@ def generate_blog(zipfile, blog_root):
     real_blog_root = _get_real_blog_root(blog_root)
     shared_resources._real_blog_root = real_blog_root
     shared_resources.generate_title_map()
+    shared_resources.thumb_cache = thumb_cache
 
     postprocess_all_html_pages(shared_resources, blog_root)
 
