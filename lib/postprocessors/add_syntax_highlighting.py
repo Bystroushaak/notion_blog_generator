@@ -1,4 +1,4 @@
-from html.parser import HTMLParser
+import html
 
 import dhtmlparser
 from prog_lang_detector.classify import classify
@@ -16,14 +16,18 @@ class AddSyntaxHighlighting(Postprocessor):
     def postprocess(cls, dom, page, shared):
         dhtmlparser.makeDoubleLinked(dom)
 
-        unescaper = HTMLParser()
         formatter = HtmlFormatter(wrapcode=False)
         add_style_to_the_header = False
         for code in dom.match(["pre", {"class": "code"}], "code"):
-            code_content = unescaper.unescape(code.getContent())
-            lang = classify(code_content, print_details=False)
+            code_content = html.unescape(code.getContent())
+            code_content_lines = code_content.splitlines()
+            if "lang:" in code_content_lines[0]:
+                lang = code_content_lines[0].split("lang:", 1)[-1].strip()
+                code_content = "\n".join(code_content_lines[1:])
+            else:
+                lang = classify(code_content, print_details=False)
 
-            if lang == "python":
+            if lang == "python" or lang == "python3":
                 colored_text = highlight(code_content, PythonLexer(), formatter)
                 pre_tag = dhtmlparser.parseString(colored_text).find("pre")[0]
 
