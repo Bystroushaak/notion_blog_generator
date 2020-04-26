@@ -51,7 +51,7 @@ class Page:
 
         dom = copy.copy(self.dom)
 
-        self._fix_all_local_links(dom, dirname)
+        # self._fix_all_local_links(dom, dirname)
 
         is_root_index = os.path.abspath(full_path_without_filetype) == os.path.abspath(self.shared._real_blog_root)
 
