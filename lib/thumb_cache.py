@@ -6,6 +6,8 @@ import tempfile
 
 class ThumbCache:
     allowed_types = {"jpg", "jpeg", "svg", "png"}
+    name_randomizer = 0
+
     def __init__(self):
         self.tmp_dir = tempfile.mkdtemp()
         self.thumbs = {}
@@ -65,10 +67,19 @@ class ThumbCache:
             return hashlib.md5(f.read()).hexdigest()
 
     def _copy_to_tmp(self, path):
-        tmp_name = os.path.join(self.tmp_dir, os.path.basename(path))
+        subdir = self._make_subdir()
+
+        tmp_name = os.path.join(self.tmp_dir, subdir, os.path.basename(path))
         shutil.copyfile(path, tmp_name)
 
         return tmp_name
+
+    def _make_subdir(self):
+        subdir = str(self.name_randomizer)
+        self.name_randomizer += 1
+        os.makedirs(os.path.join(self.tmp_dir, subdir), exist_ok=True)
+
+        return subdir
 
     def _copy_from_tmp(self, tmp_name, image_path):
         fn = os.path.basename(tmp_name)
