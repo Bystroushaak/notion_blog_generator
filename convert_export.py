@@ -52,12 +52,20 @@ def generate_blog(zipfile, blog_root):
     settings.logger.info("Saving all pages..")
     shared_resources.save()
 
-    shutil.copy(os.path.join(os.path.dirname(__file__), "icons/favicon.ico"), real_blog_root)
-    shutil.copy(os.path.join(os.path.dirname(__file__), "tweet_button.svg"), real_blog_root)
-    shutil.copy(os.path.join(os.path.dirname(__file__), "scripts.js"), real_blog_root)
-    shutil.copytree(os.path.join(os.path.dirname(__file__), "icons"), real_blog_root + "/icons")
+    _copy_to("scripts.js", real_blog_root)
+    _copy_to("tweet_button.svg", real_blog_root)
+    _copy_to("icons/favicon.ico", real_blog_root)
+    _copy_to("nginx_redirects.txt", real_blog_root)
+    _copy_to("icons", os.path.join(real_blog_root, "icons"))  # TODO: is the second parameter really necessary?
 
     fix_filenames_and_generate_new_structure(blog_root, real_blog_root)
+
+
+def _copy_to(copy_from, copy_to):
+    if os.path.isdir(copy_from):
+        shutil.copytree(os.path.join(os.path.dirname(__file__), copy_from), copy_to)
+    else:
+        shutil.copy(os.path.join(os.path.dirname(__file__), copy_from), copy_to)
 
 
 def _save_unpacked_data(blog_root, filename, data):
