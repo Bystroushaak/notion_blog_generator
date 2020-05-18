@@ -22,17 +22,34 @@ class HtmlPage:
 
         self.original_fn = original_fn  # TODO: can be used to generate trans table
 
+        self.parent = None
+
         self.is_index = False
+
+    @property
+    def debug_fn(self):
+        return os.path.basename(self.original_fn)
 
     @property
     def title(self):
         return self.dom.find("h1", {"class": "page-title"})[0].getContent()
 
+    def set_parent(self, parent):
+        self.parent = parent
+
 
 class Data:
-    def __init__(self, filename, content):
-        self.filename = filename
+    def __init__(self, path, content):
+        self.path = path
         self.content = content
+        self.parent = None
+
+    @property
+    def debug_fn(self):
+        return os.path.basename(self.path)
+
+    def set_parent(self, parent):
+        self.parent = parent
 
 
 class Directory:
@@ -41,13 +58,23 @@ class Directory:
         self.parent = None
 
         self.subdirs = []
-        self.items = []
+        self.files = []
 
     def __repr__(self):
         return "Directory(%s)" % self.name
 
+    def add_subdir(self, subdir):
+        self.subdirs.append(subdir)
+
+    def add_file(self, file: HtmlPage):
+        self.files.append(file)
+        file.set_parent(self)
+
     def print_tree(self, indent=0):
         print(indent * "  ", self.name + "/")
+
+        for file in self.files:
+            print((indent + 1) * "  ", file.debug_fn)
 
         for directory in self.subdirs:
             directory.print_tree(indent + 1)
@@ -66,13 +93,15 @@ def create_abstract_tree(shared_resources, zipfile):
 
     _map_dirs_to_tree(directory_map)
 
-    for filename, item in lookup_table.items():
+    for filename, file in lookup_table.items():
         dirname = os.path.dirname(filename)
         directory = directory_map[dirname]
-        directory.items.append(item)
+        directory.add_file(file)
 
     root_path = min(path for path in directory_map.keys())
     root = directory_map[root_path]
+
+    root.print_tree()
 
     return root
 
@@ -84,7 +113,7 @@ def _map_dirs_to_tree(directory_map):
 
         if parent_dir and parent_dir != directory:
             directory.parent = parent_dir
-            parent_dir.subdirs.append(directory)
+            parent_dir.add_subdir(directory)
 
 
 def unpack_zipfile(shared_resources, zipfile):
