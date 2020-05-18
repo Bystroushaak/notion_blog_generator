@@ -79,6 +79,27 @@ class Directory:
         for directory in self.subdirs:
             directory.print_tree(indent + 1)
 
+    def walk_dirs(self):
+        yield self
+
+        for dir in self.subdirs:
+            yield from dir.walk_dirs()
+
+    def walk_files(self):
+        for file in self.files:
+            yield file
+
+        for dir in self.subdirs:
+            yield from dir.walk_files()
+
+    def walk_htmls(self):
+        for file in self.files:
+            if isinstance(file, HtmlPage):
+                yield file
+
+        for dir in self.subdirs:
+            yield from dir.walk_htmls()
+
 
 def create_abstract_tree(shared_resources, zipfile):
     lookup_table = {
@@ -131,16 +152,6 @@ def unpack_zipfile(shared_resources, zipfile):
         yield item.filename, object
 
     settings.logger.info("Zipfile unpacked.")
-
-    # for filename, data in create_abstract_tree(zipfile):
-    #     if filename.endswith(".html"):
-    #         page = Page(filename, data, shared_resources)
-    #         shared_resources.add_page(filename, page)
-    #         settings.logger.info("`%s` extracted and stored for postprocessing",
-    #                              filename)
-    #     else:
-    #         _save_unpacked_data(blog_root, filename, data)
-    #         settings.logger.info("`%s` extracted", filename)
 
 
 def iterate_zipfile(zipfile_path):
