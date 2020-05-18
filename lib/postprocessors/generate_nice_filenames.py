@@ -1,4 +1,5 @@
 import os
+import os.path
 import shutil
 
 import dhtmlparser
@@ -8,7 +9,16 @@ from lib.settings import settings
 
 def empty_directory(blog_path):
     if os.path.exists(blog_path):
-        shutil.rmtree(blog_path)
+        for item in os.listdir(blog_path):
+            if item == ".git":
+                continue
+
+            path = os.path.join(blog_path, item)
+
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.unlink(path)
 
     os.makedirs(blog_path, exist_ok=True)
 
