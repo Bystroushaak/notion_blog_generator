@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 import dhtmlparser
 
 from .postprocessor_base import Postprocessor
+from lib.settings import settings
 
 
 class FixYoutubeEmbeds(Postprocessor):
@@ -40,7 +41,8 @@ class FixYoutubeEmbeds(Postprocessor):
 
             else:
                 video_hash = urlparse(video_url).path[0]
-                print("Unparsed alt video %s hash:%s" % (video_url, video_hash))
+                settings.logger.error("Unparsed alt video `%s` hash: `%s`",
+                                      video_url, video_hash)
 
             html = embed_code % video_hash
             tag = dhtmlparser.parseString(html)

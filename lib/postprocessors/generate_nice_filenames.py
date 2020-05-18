@@ -3,6 +3,8 @@ import shutil
 
 import dhtmlparser
 
+from lib.settings import settings
+
 
 def empty_directory(blog_path):
     if os.path.exists(blog_path):
@@ -12,7 +14,7 @@ def empty_directory(blog_path):
 
 
 def fix_filenames_and_generate_new_structure(blog_root, real_blog_root):
-    print("Remapping old structure with spaces to new with underscore..")
+    settings.logger.info("Remapping old structure with spaces to new with underscore..")
 
     new_root = os.path.join(os.path.dirname(blog_root), "generate_nicer_url")
     empty_directory(new_root)
@@ -52,7 +54,7 @@ def fix_filenames_and_generate_new_structure(blog_root, real_blog_root):
 
     _save_remappings(remapped, blog_root, os.path.join(new_root, blog_subdir))
 
-    print("Done.")
+    settings.logger.info("Structure remapped.")
 
 
 def _replace_spaces_and_old_blog_root(old_path, blog_root, new_root):
@@ -116,7 +118,6 @@ def _fix_elements(orig_dirname, new_dirname, dom, element_name, path_param):
         was_on_blog = False
 
         tag.params[path_param] = new_path
-
 
     return remapped
 

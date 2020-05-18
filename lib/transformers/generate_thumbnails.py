@@ -4,6 +4,7 @@ import dhtmlparser
 from PIL import Image
 
 from .postprocessor_base import Postprocessor
+from lib.settings import settings
 
 
 class GenerateThumbnails(Postprocessor):
@@ -21,12 +22,12 @@ class GenerateThumbnails(Postprocessor):
 
         for img in dom.find("img"):
             if not img.params.get("src"):
-                print("Warning: image without src: " % img.tagToString())
+                settings.logger.warning("Image without src: `%s`", img.tagToString())
                 continue
 
             src = img.params["src"]
             if src.startswith("http://") or src.startswith("https://"):
-                print("Warning: remote image: %s " % src)
+                settings.logger.warning("Remote image: `%s`", src)
                 continue
 
             alt_style = img.parent.parent.parent.params.get("style", "")
@@ -47,12 +48,12 @@ class GenerateThumbnails(Postprocessor):
             try:
                 thumb = shared.thumb_cache.try_restore(abs_image_path)
                 if thumb is not None:
-                    print("Thumbnail %s restored from cache." % thumb)
+                    settings.logger.info("Thumbnail `%s` restored from cache.", thumb)
                 else:
                     cls.create_thumbnail(page, abs_image_path, abs_thumb_path, width)
-                    print("Generated thumbnail %s." % rel_thumb_path)
+                    settings.logger.info("Generated thumbnail %s.", rel_thumb_path)
             except OSError as e:
-                print("Can't convert %s: %s" % (abs_image_path, str(e)))
+                settings.logger.exception("Can't convert %s: %s", abs_image_path, str(e))
                 continue
 
             img.params["src"] = rel_thumb_path

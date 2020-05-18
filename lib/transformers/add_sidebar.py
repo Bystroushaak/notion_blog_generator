@@ -3,6 +3,8 @@ import dhtmlparser
 from .postprocessor_base import Postprocessor
 from .postprocess_changelog import PostprocessChangelog
 
+from lib.settings import settings
+
 
 class AddSidebar(Postprocessor):
     all_pages = []
@@ -13,7 +15,7 @@ class AddSidebar(Postprocessor):
 
     @classmethod
     def add_to_all_relevant_pages(cls):
-        print("Adding sidebars..")
+        settings.logger.info("Adding sidebars..")
 
         sidebar_content = PostprocessChangelog.get_last_five_for_sidebars()
 

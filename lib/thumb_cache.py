@@ -3,6 +3,8 @@ import shutil
 import hashlib
 import tempfile
 
+from lib.settings import settings
+
 
 class ThumbCache:
     allowed_types = {"jpg", "jpeg", "svg", "png"}
@@ -72,6 +74,8 @@ class ThumbCache:
         tmp_name = os.path.join(self.tmp_dir, subdir, os.path.basename(path))
         shutil.copyfile(path, tmp_name)
 
+        settings.logger.debug("`%s` stored in thumb cache.", path)
+
         return tmp_name
 
     def _make_subdir(self):
@@ -94,6 +98,6 @@ class ThumbCache:
         self.cleanup()
 
     def cleanup(self):
-        print("Thumb cache deleted.")
+        settings.logger.debug("Thumb cache deleted.")
         if os.path.exists(self.tmp_dir):
             shutil.rmtree(self.tmp_dir)
