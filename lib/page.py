@@ -4,7 +4,7 @@ import copy
 import sh
 import dhtmlparser
 
-from lib import postprocessors
+from lib import transformers
 from lib.shared_resources import SharedResources
 
 
@@ -99,26 +99,26 @@ class Page:
 
             a.params["href"] = href
 
-    def postprocess(self):
-        postprocessors_classes = [
-            postprocessors.RemoveInlinedStyle,
-            postprocessors.AddAtomFeed,
-            postprocessors.AddFileIcons,
-            postprocessors.AddBreadcrumb,
-            postprocessors.AddPatreonButton,
-            postprocessors.AddTwitterCard,
-            postprocessors.FixNotionLinks,
-            postprocessors.FixYoutubeEmbeds,
-            postprocessors.AddAnalyticsTag,
-            postprocessors.GenerateThumbnails,
-            postprocessors.AddFavicon,
-            postprocessors.PostprocessInlinedStyles,
-            postprocessors.PostprocessChangelog,
-            postprocessors.PostprocessIndex,
-            postprocessors.AddSidebar,
-            postprocessors.AddScriptsAndButtons,
-            postprocessors.AddSyntaxHighlighting,
-            postprocessors.BlockquoteNewlinePostprocessor,
+    def transform(self):
+        transformer_classes = [
+            transformers.RemoveInlinedStyle,
+            transformers.AddAtomFeed,
+            transformers.AddFileIcons,
+            transformers.AddBreadcrumb,
+            transformers.AddPatreonButton,
+            transformers.AddTwitterCard,
+            transformers.FixNotionLinks,
+            transformers.FixYoutubeEmbeds,
+            transformers.AddAnalyticsTag,
+            transformers.GenerateThumbnails,
+            transformers.AddFavicon,
+            transformers.PostprocessInlinedStyles,
+            transformers.PostprocessChangelog,
+            transformers.PostprocessIndex,
+            transformers.AddSidebar,
+            transformers.AddScriptsAndButtons,
+            transformers.AddSyntaxHighlighting,
+            transformers.BlockquoteNewlinePostprocessor,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
@@ -127,6 +127,6 @@ class Page:
                 self.is_index = True
                 break
 
-        for postprocessor in postprocessors_classes:
-            postprocessor.postprocess(self.dom, self, self.shared)
+        for transformer in transformer_classes:
+            transformer.postprocess(self.dom, self, self.shared)
 
