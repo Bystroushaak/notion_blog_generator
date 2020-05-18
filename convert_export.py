@@ -2,16 +2,18 @@
 import os
 import shutil
 import os.path
-import zipfile
 import argparse
 
+from lib.preprocessors.unfuck_filenames import unfucked_filenames
 from lib.postprocessors.generate_nice_filenames import empty_directory
 from lib.postprocessors.generate_nice_filenames import fix_filenames_and_generate_new_structure
 
-from lib.shared_resources import SharedResources
 from lib.page import Page
-from lib.transformers import AddSidebar
+from lib.settings import settings
 from lib.thumb_cache import ThumbCache
+from lib.transformers import AddSidebar
+from lib.shared_resources import SharedResources
+
 
 
 def generate_blog(zipfile, blog_root):
@@ -20,15 +22,25 @@ def generate_blog(zipfile, blog_root):
 
     shared_resources = SharedResources(blog_root)
 
-    for zf, item in iterate_zipfile(zipfile):
-        if item.filename.endswith(".html"):
-            page = Page(item.filename, zf.read(item).decode("utf-8"),
-                        shared_resources)
-            shared_resources.add_page(item.filename, page)
-            print(item.filename, "extracted and stored for postprocessing")
+    # for zf, item in iterate_zipfile(zipfile):
+    #     if item.filename.endswith(".html"):
+    #         page = Page(item.filename, zf.read(item).decode("utf-8"),
+    #                     shared_resources)
+    #         shared_resources.add_page(item.filename, page)
+    #         print(item.filename, "extracted and stored for postprocessing")
+    #     else:
+    #         zf.extract(item, path=blog_root)
+    #         print(item.filename, "extracted")
+
+    for filename, data in unfucked_filenames(zipfile):
+        if filename.endswith(".html"):
+            page = Page(filename, data, shared_resources)
+            shared_resources.add_page(filename, page)
+            settings.logger.info("`%s` extracted and stored for postprocessing",
+                                 filename)
         else:
-            zf.extract(item, path=blog_root)
-            print(item.filename, "extracted")
+            _save_unpacked_data(blog_root, filename, data)
+            settings.logger.info("`%s` extracted", filename)
 
     real_blog_root = _get_real_blog_root(blog_root)
     shared_resources._real_blog_root = real_blog_root
@@ -37,7 +49,7 @@ def generate_blog(zipfile, blog_root):
 
     postprocess_all_html_pages(shared_resources, blog_root)
 
-    print("Saving all pages..")
+    settings.logger.info("Saving all pages..")
     shared_resources.save()
 
     shutil.copy(os.path.join(os.path.dirname(__file__), "icons/favicon.ico"), real_blog_root)
@@ -48,6 +60,16 @@ def generate_blog(zipfile, blog_root):
     fix_filenames_and_generate_new_structure(blog_root, real_blog_root)
 
 
+def _save_unpacked_data(blog_root, filename, data):
+    full_path = os.path.join(blog_root, filename)
+    dir_path = os.path.dirname(full_path)
+
+    os.makedirs(dir_path, exist_ok=True)
+
+    with open(full_path, "wb") as f:
+        f.write(data)
+
+
 def _get_real_blog_root(blog_root):
     for path in os.listdir(blog_root):
         full_path = os.path.join(blog_root, path)
@@ -55,15 +77,6 @@ def _get_real_blog_root(blog_root):
             return full_path
 
     raise ValueError("Real blogroot not found!")
-
-
-def iterate_zipfile(zipfile_path):
-    zf = zipfile.ZipFile(zipfile_path)
-
-    for zip_info in zf.infolist():
-        yield zf, zip_info
-
-    zf.close()
 
 
 def postprocess_all_html_pages(shared_resources, blog_root):
