@@ -5,6 +5,7 @@ filenames, which of course fucks everything up beyond recognition.
 import re
 import os.path
 import zipfile
+from typing import Union
 
 import dhtmlparser
 
@@ -29,8 +30,11 @@ class VirtualFS:
         root_path = min(path for path in self.directory_map.keys())
         self.root = self.directory_map[root_path]
 
-        for file in self.root.walk_htmls():
-            print(file)
+        resource_map = {}
+        for html in self.root.walk_htmls():
+            resource_map.update(html.refactor_resource_map(resource_map))
+
+        print(resource_map)
 
     def _build_lookup_table(self, shared_resources, zipfile):
         lookup_table = {
@@ -68,24 +72,54 @@ class VirtualFS:
             parent_dir = directory_map.get(dirname)
 
             if parent_dir and parent_dir != directory:
-                directory.parent = parent_dir
+                directory.set_parent(parent_dir)
                 parent_dir.add_subdir(directory)
 
 
+class FileBase:
+    def __init__(self):
+        self.parent = None
 
-class HtmlPage:
+    @property
+    def filename(self):
+        return "FileBase"
+
+    def set_parent(self, parent):
+        self.parent = parent
+
+    @property
+    def path(self):
+        path = [self.filename]
+        parent = self.parent
+        while parent:
+            path.append(parent.filename)
+            parent = parent.parent
+
+        path.reverse()
+
+        if len(path) > 1:
+            return os.path.join(*path)
+
+        return path[0]
+
+
+class HtmlPage(FileBase):
     DEFAULT_WIDTH = 900  # 900 is the max width on the page
 
     def __init__(self, content, shared: SharedResources, original_fn=None):
+        super().__init__()
+
         self.content = content
         self.shared = shared
         self.dom = dhtmlparser.parseString(self.content)
 
         self.original_fn = original_fn  # TODO: can be used to generate trans table
 
-        self.parent = None
-
         self.is_index = False
+
+    @property
+    def filename(self):
+        return self.original_fn
 
     @property
     def debug_fn(self):
@@ -95,31 +129,53 @@ class HtmlPage:
     def title(self):
         return self.dom.find("h1", {"class": "page-title"})[0].getContent()
 
-    def set_parent(self, parent):
-        self.parent = parent
+    def refactor_resource_map(self, resource_map):
+        links = (a for a in self.dom.find("a")
+                 if "://" not in a.params.get("href", ""))
+
+        images = (img for img in self.dom.find("img")
+                  if "://" not in img.params.get("src", ""))
+
+        meta_links = (link for link in self.dom.find("link")
+                      if "href" in link.params and \
+                         "://" not in link.params.get("href", ""))
+
+        resources = (
+            (links, "href"),
+            (images, "src"),
+            (meta_links, "href"),
+        )
+
+        for resource_generator, src in resources:
+            for resource in resource_generator:
+                path = resource.params[src]
+                abs_path = os.path.abspath(path)
 
 
-class Data:
-    def __init__(self, path, content):
-        self.path = path
+class Data(FileBase):
+    def __init__(self, original_path, content):
+        super().__init__()
+
+        self.original_path = original_path
         self.content = content
-        self.parent = None
 
     @property
     def debug_fn(self):
-        return os.path.basename(self.path)
-
-    def set_parent(self, parent):
-        self.parent = parent
+        return os.path.basename(self.original_path)
 
 
-class Directory:
+class Directory(FileBase):
     def __init__(self, name):
+        super().__init__()
+
         self.name = name
-        self.parent = None
 
         self.subdirs = []
         self.files = []
+
+    @property
+    def filename(self):
+        return self.name
 
     def __repr__(self):
         return "Directory(%s)" % self.name
@@ -127,7 +183,7 @@ class Directory:
     def add_subdir(self, subdir):
         self.subdirs.append(subdir)
 
-    def add_file(self, file: HtmlPage):
+    def add_file(self, file: Union[HtmlPage, Data]):
         self.files.append(file)
         file.set_parent(self)
 
