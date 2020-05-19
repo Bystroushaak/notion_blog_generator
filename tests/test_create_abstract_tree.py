@@ -4,31 +4,29 @@ import os.path
 from pytest import fixture
 
 from lib.preprocessors.create_abstract_tree import ResourceRegistry
+from lib.preprocessors.create_abstract_tree import VirtualFS
 from lib.preprocessors.create_abstract_tree import _patch_filename
 
 from lib.preprocessors.create_abstract_tree import Data
 from lib.preprocessors.create_abstract_tree import HtmlPage
 from lib.preprocessors.create_abstract_tree import Directory
-from lib.preprocessors.create_abstract_tree import SharedResources
-from lib.preprocessors.create_abstract_tree import create_abstract_tree
 
 
 @fixture()
 def tree():
-    sr = SharedResources("blog_root")
     root = Directory("root")
 
     subdir = Directory("subdir")
     root.add_subdir(subdir)
     subdir.parent = root
 
-    file_in_root = HtmlPage("<body><img src='subdir/img.jpg' /></body>", sr,
+    file_in_root = HtmlPage("<body><img src='subdir/img.jpg' /></body>",
                             "file_in_root.html")
     root.add_file(file_in_root)
     file_in_root.parent = root
 
     file_in_subdir = HtmlPage("<body><a href='../file_in_root.html'>asd</a></body>",
-                              sr, 'file_in_subdir.html')
+                              'file_in_subdir.html')
     subdir.add_file(file_in_subdir)
     file_in_subdir.parent = subdir
 
@@ -59,8 +57,8 @@ def test_path_property(tree):
     subdir = tree.subdirs[0]
     file_in_subdir = subdir.files[0]
 
-    assert subdir.path == "root/subdir"
-    assert file_in_subdir.path == "root/subdir/file_in_subdir.html"
+    assert subdir.path == "/root/subdir"
+    assert file_in_subdir.path == "/root/subdir/file_in_subdir.html"
 
 
 def test_resource_registry():

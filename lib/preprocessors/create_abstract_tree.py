@@ -9,15 +9,12 @@ from typing import Union
 
 import dhtmlparser
 
-from lib import SharedResources
 from lib.settings import settings
 
 
 class VirtualFS:
-    def __init__(self, shared_resources, zipfile):
-        self.shared_resources = shared_resources
-
-        self.lookup_table = self._build_lookup_table(shared_resources, zipfile)
+    def __init__(self, zipfile):
+        self.lookup_table = self._build_lookup_table(zipfile)
         self.directory_map = self._build_directory_map(self.lookup_table)
 
         self._map_dirs_to_tree(self.directory_map)
@@ -36,7 +33,7 @@ class VirtualFS:
 
         print(resource_map)
 
-    def _build_lookup_table(self, shared_resources, zipfile):
+    def _build_lookup_table(self, zipfile):
         lookup_table = {
             filename: data
             for filename, data in self._unpack_zipfile(zipfile)
@@ -49,7 +46,6 @@ class VirtualFS:
         for zf, item in iterate_zipfile(zipfile):
             if item.filename.endswith(".html"):
                 object = HtmlPage(zf.read(item).decode("utf-8"),
-                                  self.shared_resources,
                                   original_fn=item.filename)
             else:
                 object = Data(item.filename, zf.read(item))
@@ -148,11 +144,10 @@ class FileBase:
 class HtmlPage(FileBase):
     DEFAULT_WIDTH = 900  # 900 is the max width on the page
 
-    def __init__(self, content, shared: SharedResources, original_fn=None):
+    def __init__(self, content, original_fn=None):
         super().__init__()
 
         self.content = content
-        self.shared = shared
         self.dom = dhtmlparser.parseString(self.content)
 
         self.original_fn = original_fn  # TODO: can be used to generate trans table
@@ -258,11 +253,6 @@ class Directory(FileBase):
 
         for dir in self.subdirs:
             yield from dir.walk_htmls()
-
-
-def create_abstract_tree(shared_resources, zipfile):
-    return VirtualFS(shared_resources, zipfile)
-
 
 
 def iterate_zipfile(zipfile_path):
