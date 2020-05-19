@@ -27,11 +27,11 @@ class VirtualFS:
         root_path = min(path for path in self.directory_map.keys())
         self.root = self.directory_map[root_path]
 
-        resource_map = {}
+        self.resource_registry = ResourceRegistry(self.root)
         for html in self.root.walk_htmls():
-            resource_map.update(html.refactor_resource_map(resource_map))
+            html.refactor_resource_map(self.resource_registry)
 
-        print(resource_map)
+        print(self.resource_registry)
 
     def _build_lookup_table(self, zipfile):
         lookup_table = {
@@ -47,6 +47,8 @@ class VirtualFS:
             if item.filename.endswith(".html"):
                 object = HtmlPage(zf.read(item).decode("utf-8"),
                                   original_fn=item.filename)
+            elif item.filename.endswith("/"):
+                continue  # dirs are created later
             else:
                 object = Data(item.filename, zf.read(item))
 
@@ -58,7 +60,7 @@ class VirtualFS:
     def _build_directory_map(self, lookup_table):
         directory_map = {
             os.path.dirname(path): Directory(os.path.basename(os.path.dirname(path)))
-            for path in set(lookup_table.keys())
+            for path in lookup_table.keys()
         }
         return directory_map
 
@@ -73,7 +75,7 @@ class VirtualFS:
 
 
 class ResourceRegistry:
-    def __init__(self):
+    def __init__(self, root):
         self._id_counter = 0
 
         self._path_to_item = {}
@@ -81,15 +83,22 @@ class ResourceRegistry:
         self._id_to_item = {}
         self._id_to_path = {}
 
-    def add_item(self, path, resource):
+        self._full_path_lookup_table = {item.path: item
+                                        for item in root.walk_all()}
+
+        for key in self._full_path_lookup_table.keys():
+            self.add_item(key)
+
+    def add_item(self, path):
         id = self._path_to_id.get(path)
         if id:
             return id
 
+        resource = self._full_path_lookup_table[path]
+
         self._path_to_item[path] = resource
 
         id = self._inc_id()
-
         self._path_to_id[path] = id
         self._id_to_item[id] = resource
         self._id_to_path[id] = path
@@ -136,9 +145,14 @@ class FileBase:
         path.reverse()
 
         if len(path) > 1:
-            return os.path.join(*path)
+            full_path = os.path.join(*path)
+        else:
+            full_path = path[0]
 
-        return path[0]
+        if not full_path.startswith("/"):
+            full_path = "/" + full_path
+
+        return full_path
 
 
 class HtmlPage(FileBase):
@@ -150,7 +164,8 @@ class HtmlPage(FileBase):
         self.content = content
         self.dom = dhtmlparser.parseString(self.content)
 
-        self.original_fn = original_fn  # TODO: can be used to generate trans table
+        # TODO: can be used to generate trans table
+        self.original_fn = os.path.basename(original_fn)
 
         self.is_index = False
 
@@ -166,7 +181,7 @@ class HtmlPage(FileBase):
     def title(self):
         return self.dom.find("h1", {"class": "page-title"})[0].getContent()
 
-    def refactor_resource_map(self, resource_map):
+    def refactor_resource_map(self, resource_registry: ResourceRegistry):
         links = (a for a in self.dom.find("a")
                  if "://" not in a.params.get("href", ""))
 
@@ -184,17 +199,27 @@ class HtmlPage(FileBase):
         )
 
         for resource_generator, src in resources:
-            for resource in resource_generator:
-                path = resource.params[src]
-                abs_path = os.path.abspath(path)
+            for resource_el in resource_generator:
+                resource_path = resource_el.params[src]
+                dirname = os.path.dirname(self.path)
+                full_resource_path = os.path.join(dirname, resource_path)
+                abs_path = os.path.abspath(full_resource_path)
+
+                resource_id = resource_registry.add_item(abs_path)
+                resource_el.params[src] = "resource:%d" % resource_id
 
 
 class Data(FileBase):
     def __init__(self, original_path, content):
         super().__init__()
 
+        self._filename = os.path.basename(original_path)
         self.original_path = original_path
         self.content = content
+
+    @property
+    def filename(self):
+        return self._filename
 
     @property
     def debug_fn(self):
@@ -232,6 +257,15 @@ class Directory(FileBase):
 
         for directory in self.subdirs:
             directory.print_tree(indent + 1)
+
+    def walk_all(self):
+        yield self
+
+        for file in self.files:
+            yield file
+
+        for dir in self.subdirs:
+            yield from dir.walk_all()
 
     def walk_dirs(self):
         yield self

@@ -14,7 +14,7 @@ from lib.preprocessors.create_abstract_tree import Directory
 
 @fixture()
 def tree():
-    root = Directory("root")
+    root = Directory("/")
 
     subdir = Directory("subdir")
     root.add_subdir(subdir)
@@ -30,7 +30,7 @@ def tree():
     subdir.add_file(file_in_subdir)
     file_in_subdir.parent = subdir
 
-    image_in_subdir = Data('root/subdir/img.jpg', 'IMG_CONTENT')
+    image_in_subdir = Data('/subdir/img.jpg', 'IMG_CONTENT')
     subdir.add_file(image_in_subdir)
     image_in_subdir.parent = subdir
 
@@ -57,27 +57,42 @@ def test_path_property(tree):
     subdir = tree.subdirs[0]
     file_in_subdir = subdir.files[0]
 
-    assert subdir.path == "/root/subdir"
-    assert file_in_subdir.path == "/root/subdir/file_in_subdir.html"
+    assert subdir.path == "/subdir"
+    assert file_in_subdir.path == "/subdir/file_in_subdir.html"
 
 
-def test_resource_registry():
-    rr = ResourceRegistry()
+def test_resource_registry(tree):
+    rr = ResourceRegistry(tree)
 
-    root_id = rr.add_item("/", "root")
-    other_id = rr.add_item("/other", "root/other")
+    root_id = rr.add_item("/")
+    subdir_id = rr.add_item("/subdir")
 
     assert root_id is not None
-    assert other_id is not None
+    assert subdir_id is not None
 
-    assert rr.item_by_id(root_id) == "root"
-    assert rr.item_by_id(other_id) == "root/other"
+    assert rr.item_by_id(root_id)
+    assert rr.item_by_id(subdir_id)
 
-    assert rr.item_by_path("/") == "root"
-    assert rr.item_by_path("/other") == "root/other"
+    assert rr.item_by_path("/")
+    assert rr.item_by_path("/subdir")
 
     assert rr.path_by_id(root_id) == "/"
-    assert rr.path_by_id(other_id) == "/other"
+    assert rr.path_by_id(subdir_id) == "/subdir"
 
     assert rr.id_by_path("/") == root_id
-    assert rr.id_by_path("/other") == other_id
+    assert rr.id_by_path("/subdir") == subdir_id
+
+
+def test_create_abstract_tree():
+    dirname = os.path.dirname(__file__)
+    zipfile = os.path.join(dirname, "structure.zip")
+
+    virtual_fs = VirtualFS(zipfile)
+
+    assert virtual_fs
+
+    index_id = virtual_fs.resource_registry.id_by_path("/index.html")
+    assert index_id > 0
+
+    index = virtual_fs.resource_registry.item_by_id(index_id)
+    assert "resource:4" in index.dom.__str__()
