@@ -1,12 +1,16 @@
 #! /usr/bin/env python3
+import os.path
+
 from pytest import fixture
 
+from lib.preprocessors.create_abstract_tree import ResourceRegistry
 from lib.preprocessors.create_abstract_tree import _patch_filename
 
 from lib.preprocessors.create_abstract_tree import Data
 from lib.preprocessors.create_abstract_tree import HtmlPage
 from lib.preprocessors.create_abstract_tree import Directory
 from lib.preprocessors.create_abstract_tree import SharedResources
+from lib.preprocessors.create_abstract_tree import create_abstract_tree
 
 
 @fixture()
@@ -57,3 +61,25 @@ def test_path_property(tree):
 
     assert subdir.path == "root/subdir"
     assert file_in_subdir.path == "root/subdir/file_in_subdir.html"
+
+
+def test_resource_registry():
+    rr = ResourceRegistry()
+
+    root_id = rr.add_item("/", "root")
+    other_id = rr.add_item("/other", "root/other")
+
+    assert root_id is not None
+    assert other_id is not None
+
+    assert rr.item_by_id(root_id) == "root"
+    assert rr.item_by_id(other_id) == "root/other"
+
+    assert rr.item_by_path("/") == "root"
+    assert rr.item_by_path("/other") == "root/other"
+
+    assert rr.path_by_id(root_id) == "/"
+    assert rr.path_by_id(other_id) == "/other"
+
+    assert rr.id_by_path("/") == root_id
+    assert rr.id_by_path("/other") == other_id

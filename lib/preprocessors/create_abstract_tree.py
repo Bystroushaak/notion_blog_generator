@@ -76,6 +76,48 @@ class VirtualFS:
                 parent_dir.add_subdir(directory)
 
 
+class ResourceRegistry:
+    def __init__(self):
+        self._id_counter = 0
+
+        self._path_to_item = {}
+        self._path_to_id = {}
+        self._id_to_item = {}
+        self._id_to_path = {}
+
+    def add_item(self, path, resource):
+        id = self._path_to_id.get(path)
+        if id:
+            return id
+
+        self._path_to_item[path] = resource
+
+        id = self._inc_id()
+
+        self._path_to_id[path] = id
+        self._id_to_item[id] = resource
+        self._id_to_path[id] = path
+
+        return id
+
+    def item_by_path(self, path):
+        return self._path_to_item.get(path)
+
+    def item_by_id(self, id):
+        return self._id_to_item.get(id)
+
+    def path_by_id(self, id):
+        return self._id_to_path.get(id)
+
+    def id_by_path(self, path):
+        return self._path_to_id.get(path)
+
+    def _inc_id(self):
+        id = self._id_counter
+        self._id_counter += 1
+        return id
+
+
 class FileBase:
     def __init__(self):
         self.parent = None
