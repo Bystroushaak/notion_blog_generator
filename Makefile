@@ -1,4 +1,4 @@
-.PHONY: help build
+.PHONY: help build test
 
 .DEFAULT: build
 build:
@@ -7,7 +7,9 @@ build:
 
 help:
 	@echo "make"
-	@echo "       Build the blog"
+	@echo "       Build the blog."
 	@echo "make test"
-	@echo "       run tests"
+	@echo "       Run tests."
 
+test:
+	python3 -m pytest
