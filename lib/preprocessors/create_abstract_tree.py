@@ -12,6 +12,67 @@ from lib import SharedResources
 from lib.settings import settings
 
 
+class VirtualFS:
+    def __init__(self, shared_resources, zipfile):
+        self.shared_resources = shared_resources
+
+        self.lookup_table = self._build_lookup_table(shared_resources, zipfile)
+        self.directory_map = self._build_directory_map(self.lookup_table)
+
+        self._map_dirs_to_tree(self.directory_map)
+
+        for filename, file in self.lookup_table.items():
+            dirname = os.path.dirname(filename)
+            directory = self.directory_map[dirname]
+            directory.add_file(file)
+
+        root_path = min(path for path in self.directory_map.keys())
+        self.root = self.directory_map[root_path]
+
+        for file in self.root.walk_htmls():
+            print(file)
+
+    def _build_lookup_table(self, shared_resources, zipfile):
+        lookup_table = {
+            filename: data
+            for filename, data in self._unpack_zipfile(zipfile)
+        }
+        return lookup_table
+
+    def _unpack_zipfile(self, zipfile):
+        settings.logger.info("Unpacking zipfile tree..")
+
+        for zf, item in iterate_zipfile(zipfile):
+            if item.filename.endswith(".html"):
+                object = HtmlPage(zf.read(item).decode("utf-8"),
+                                  self.shared_resources,
+                                  original_fn=item.filename)
+            else:
+                object = Data(item.filename, zf.read(item))
+
+            # settings.logger.debug("Unpacked `%s`", item.filename)
+            yield item.filename, object
+
+        settings.logger.info("Zipfile unpacked.")
+
+    def _build_directory_map(self, lookup_table):
+        directory_map = {
+            os.path.dirname(path): Directory(os.path.basename(os.path.dirname(path)))
+            for path in set(lookup_table.keys())
+        }
+        return directory_map
+
+    def _map_dirs_to_tree(self, directory_map):
+        for path, directory in directory_map.items():
+            dirname = os.path.dirname(path)
+            parent_dir = directory_map.get(dirname)
+
+            if parent_dir and parent_dir != directory:
+                directory.parent = parent_dir
+                parent_dir.add_subdir(directory)
+
+
+
 class HtmlPage:
     DEFAULT_WIDTH = 900  # 900 is the max width on the page
 
@@ -102,56 +163,8 @@ class Directory:
 
 
 def create_abstract_tree(shared_resources, zipfile):
-    lookup_table = {
-        filename: data
-        for filename, data in unpack_zipfile(shared_resources, zipfile)
-    }
+    return VirtualFS(shared_resources, zipfile)
 
-    directory_map = {
-        os.path.dirname(path): Directory(os.path.basename(os.path.dirname(path)))
-        for path in set(lookup_table.keys())
-    }
-
-    _map_dirs_to_tree(directory_map)
-
-    for filename, file in lookup_table.items():
-        dirname = os.path.dirname(filename)
-        directory = directory_map[dirname]
-        directory.add_file(file)
-
-    root_path = min(path for path in directory_map.keys())
-    root = directory_map[root_path]
-
-    root.print_tree()
-
-    return root
-
-
-def _map_dirs_to_tree(directory_map):
-    for path, directory in directory_map.items():
-        dirname = os.path.dirname(path)
-        parent_dir = directory_map.get(dirname)
-
-        if parent_dir and parent_dir != directory:
-            directory.parent = parent_dir
-            parent_dir.add_subdir(directory)
-
-
-def unpack_zipfile(shared_resources, zipfile):
-    settings.logger.info("Unpacking zipfile tree..")
-
-    for zf, item in iterate_zipfile(zipfile):
-        if item.filename.endswith(".html"):
-            object = HtmlPage(zf.read(item).decode("utf-8"),
-                              shared_resources,
-                              original_fn=item.filename)
-        else:
-            object = Data(item.filename, zf.read(item))
-
-        # settings.logger.debug("Unpacked `%s`", item.filename)
-        yield item.filename, object
-
-    settings.logger.info("Zipfile unpacked.")
 
 
 def iterate_zipfile(zipfile_path):
