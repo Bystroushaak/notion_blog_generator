@@ -1,7 +1,7 @@
-from .more_sane_blog_structure import CreateMoreSaneBlogStructure
+from .squash_toplevel_directory import SquashToplevelDirectory
 
 
 def get_preprocessors():
     return (
-        CreateMoreSaneBlogStructure,
+        SquashToplevelDirectory,
     )

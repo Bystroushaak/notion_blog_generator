@@ -130,6 +130,8 @@ class VirtualFS:
 
             file.save_as(full_file_path)
 
+        settings.logger.info("Files stored on disc.")
+
     def resolve_by_path(self, path):
         pass
 
@@ -356,6 +358,13 @@ class Directory(FileBase):
 
         for dir in self.subdirs:
             yield from dir.walk_htmls()
+
+    def reindex_parents(self):
+        for file in self.files:
+            file.parent = self
+
+        for dir in self.subdirs:
+            dir.parent = self
 
 
 def iterate_zipfile(zipfile_path):

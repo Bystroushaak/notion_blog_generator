@@ -6,14 +6,6 @@ from lib.create_abstract_tree import VirtualFS
 from lib.preprocessors import get_preprocessors
 
 from lib.postprocessors.generate_nice_filenames import empty_directory
-from lib.postprocessors.generate_nice_filenames import fix_filenames_and_generate_new_structure
-
-from lib.page import Page
-from lib.settings import settings
-from lib.thumb_cache import ThumbCache
-from lib.transformers import AddSidebar
-from lib.shared_resources import SharedResources
-
 
 
 def generate_blog(zipfile, blog_root):
