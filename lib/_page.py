@@ -4,8 +4,8 @@ import copy
 import sh
 import dhtmlparser
 
-from lib import transformers
-from lib.shared_resources import SharedResources
+from lib import _old_transformers
+from lib._shared_resources import SharedResources
 
 
 class Page:
@@ -101,24 +101,24 @@ class Page:
 
     def transform(self):
         transformer_classes = [
-            transformers.RemoveInlinedStyle,
-            transformers.AddAtomFeed,
-            transformers.AddFileIcons,
-            transformers.AddBreadcrumb,
-            transformers.AddPatreonButton,
-            transformers.AddTwitterCard,
-            transformers.FixNotionLinks,
-            transformers.FixYoutubeEmbeds,
-            transformers.AddAnalyticsTag,
-            transformers.GenerateThumbnails,
-            transformers.AddFavicon,
-            transformers.PostprocessInlinedStyles,
-            transformers.PostprocessChangelog,
-            transformers.PostprocessIndex,
-            transformers.AddSidebar,
-            transformers.AddScriptsAndButtons,
-            transformers.AddSyntaxHighlighting,
-            transformers.BlockquoteNewlinePostprocessor,
+            _old_transformers.RemoveInlinedStyle,
+            _old_transformers.AddAtomFeed,
+            _old_transformers.AddFileIcons,
+            _old_transformers.AddBreadcrumb,
+            _old_transformers.AddPatreonButton,
+            _old_transformers.AddTwitterCard,
+            _old_transformers.FixNotionLinks,
+            _old_transformers.FixYoutubeEmbeds,
+            _old_transformers.AddAnalyticsTag,
+            _old_transformers.GenerateThumbnails,
+            _old_transformers.AddFavicon,
+            _old_transformers.PostprocessInlinedStyles,
+            _old_transformers.PostprocessChangelog,
+            _old_transformers.PostprocessIndex,
+            _old_transformers.AddSidebar,
+            _old_transformers.AddScriptsAndButtons,
+            _old_transformers.AddSyntaxHighlighting,
+            _old_transformers.BlockquoteNewlinePostprocessor,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]

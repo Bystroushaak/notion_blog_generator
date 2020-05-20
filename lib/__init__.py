@@ -1,2 +1,2 @@
-from .page import Page
-from .shared_resources import SharedResources
+from ._page import Page
+from ._shared_resources import SharedResources
