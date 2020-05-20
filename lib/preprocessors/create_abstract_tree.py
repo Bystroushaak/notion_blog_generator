@@ -81,7 +81,6 @@ class VirtualFS:
             try:
                 item_id = resource_registry.register_item(item)
                 path_id_map[path] = item_id
-                path_id_map[path.replace("%20", " ")] = item_id
             except KeyError:
                 pass
 
@@ -204,9 +203,13 @@ class HtmlPage(FileBase):
                     resource_id = path_id_map[abs_path]
                     resource_el.params[src] = "resource:%d" % resource_id
                 except KeyError:
-                    settings.logger.error("Link not found, skipping: %s",
-                                          resource_path)
-                    continue
+                    try:
+                        resource_id = path_id_map[abs_path.replace("%20", " ")]
+                        resource_el.params[src] = "resource:%d" % resource_id
+                    except KeyError:
+                        settings.logger.error("Link not found, skipping: %s",
+                                              abs_path)
+                        continue
 
     def convert_resources_to_paths(self, resource_registry: ResourceRegistry):
         resources = self._collect_resources()
