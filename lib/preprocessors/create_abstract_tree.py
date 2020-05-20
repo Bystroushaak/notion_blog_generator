@@ -27,9 +27,7 @@ class VirtualFS:
         root_path = min(path for path in directory_map.keys())
         self.root = directory_map[root_path]
 
-        self.resource_registry = ResourceRegistry(self.root)
-        for html in self.root.walk_htmls():
-            html.convert_resources_to_ids(self.resource_registry)
+        self.resource_registry = self._build_resource_registry()
 
     def _build_lookup_table(self, zipfile):
         lookup_table = {
@@ -71,6 +69,27 @@ class VirtualFS:
                 directory.set_parent(parent_dir)
                 parent_dir.add_subdir(directory)
 
+    def _build_resource_registry(self):
+
+        full_path_lookup_table = {item.path: item
+                                  for item in self.root.walk_all()}
+
+        # register all items to the registry
+        path_id_map = {}
+        resource_registry = ResourceRegistry()
+        for path, item in full_path_lookup_table.items():
+            try:
+                item_id = resource_registry.register_item(item)
+                path_id_map[path] = item_id
+                path_id_map[path.replace("%20", " ")] = item_id
+            except KeyError:
+                pass
+
+        for html in self.root.walk_htmls():
+            html.convert_resources_to_ids(path_id_map)
+
+        return resource_registry
+
     def convert_resources_to_paths(self):
         for html in self.root.walk_htmls():
             html.convert_resources_to_paths(self.resource_registry)
@@ -80,58 +99,29 @@ class VirtualFS:
 
 
 class ResourceRegistry:
-    def __init__(self, root):
+    def __init__(self):
         self._id_counter = 0
 
-        self._path_to_item = {}
-        self._path_to_id = {}
+        self._item_to_id = {}
         self._id_to_item = {}
-        self._id_to_path = {}
 
-        self._full_path_lookup_table = {item.path: item
-                                        for item in root.walk_all()}
+    def register_item(self, item):
+        item_id = self._item_to_id.get(item)
+        if item_id:
+            return item_id
 
-        for key in self._full_path_lookup_table.keys():
-            try:
-                self.add_item(key)
-            except KeyError:
-                pass
+        item_id = self._inc_id()
 
-    def add_item(self, path):
-        id = self._path_to_id.get(path)
-        if id:
-            return id
+        self._item_to_id[item] = item_id
+        self._id_to_item[item_id] = item
 
-        try:
-            resource = self._full_path_lookup_table[path]
-        except KeyError:
-            try:
-                path = path.replace("%20", " ")
-                resource = self._full_path_lookup_table[path]
-            except KeyError:
-                settings.logger.error("Link not found, skipping: %s", path)
-                raise
-
-        self._path_to_item[path] = resource
-
-        id = self._inc_id()
-        self._path_to_id[path] = id
-        self._id_to_item[id] = resource
-        self._id_to_path[id] = path
-
-        return id
-
-    def item_by_path(self, path):
-        return self._path_to_item.get(path)
+        return item_id
 
     def item_by_id(self, id):
         return self._id_to_item.get(id)
 
-    def path_by_id(self, id):
-        return self._id_to_path.get(id)
-
-    def id_by_path(self, path):
-        return self._path_to_id.get(path)
+    def id_by_item(self, item):
+        return self._item_to_id.get(item)
 
     def _inc_id(self):
         id = self._id_counter
@@ -197,7 +187,7 @@ class HtmlPage(FileBase):
     def title(self):
         return self.dom.find("h1", {"class": "page-title"})[0].getContent()
 
-    def convert_resources_to_ids(self, resource_registry: ResourceRegistry):
+    def convert_resources_to_ids(self, path_id_map):
         resources = self._collect_resources()
 
         for resource_generator, src in resources:
@@ -211,9 +201,11 @@ class HtmlPage(FileBase):
                 abs_path = os.path.abspath(full_resource_path)
 
                 try:
-                    resource_id = resource_registry.add_item(abs_path)
+                    resource_id = path_id_map[abs_path]
                     resource_el.params[src] = "resource:%d" % resource_id
                 except KeyError:
+                    settings.logger.error("Link not found, skipping: %s",
+                                          resource_path)
                     continue
 
     def convert_resources_to_paths(self, resource_registry: ResourceRegistry):

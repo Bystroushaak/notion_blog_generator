@@ -62,10 +62,10 @@ def test_path_property(tree):
 
 
 def test_resource_registry(tree):
-    rr = ResourceRegistry(tree)
+    rr = ResourceRegistry()
 
-    root_id = rr.add_item("/")
-    subdir_id = rr.add_item("/subdir")
+    root_id = rr.register_item("/")
+    subdir_id = rr.register_item("/subdir")
 
     assert root_id is not None
     assert subdir_id is not None
@@ -73,14 +73,8 @@ def test_resource_registry(tree):
     assert rr.item_by_id(root_id)
     assert rr.item_by_id(subdir_id)
 
-    assert rr.item_by_path("/")
-    assert rr.item_by_path("/subdir")
-
-    assert rr.path_by_id(root_id) == "/"
-    assert rr.path_by_id(subdir_id) == "/subdir"
-
-    assert rr.id_by_path("/") == root_id
-    assert rr.id_by_path("/subdir") == subdir_id
+    assert rr.id_by_item("/") == root_id
+    assert rr.id_by_item("/subdir") == subdir_id
 
 
 def test_create_abstract_tree():
@@ -91,8 +85,9 @@ def test_create_abstract_tree():
 
     assert virtual_fs
 
-    index_id = virtual_fs.resource_registry.id_by_path("/index.html")
-    assert index_id > 0
+    index = virtual_fs.root.files[0]
+    index_id = virtual_fs.resource_registry.id_by_item(index)
+    assert index_id >= 0
 
     index = virtual_fs.resource_registry.item_by_id(index_id)
     assert "resource:4" in index.dom.__str__()
