@@ -14,24 +14,22 @@ from lib.settings import settings
 
 class VirtualFS:
     def __init__(self, zipfile):
-        self.lookup_table = self._build_lookup_table(zipfile)
-        self.directory_map = self._build_directory_map(self.lookup_table)
+        lookup_table = self._build_lookup_table(zipfile)
+        directory_map = self._build_directory_map(lookup_table)
 
-        self._map_dirs_to_tree(self.directory_map)
+        self._map_dirs_to_tree(directory_map)
 
-        for filename, file in self.lookup_table.items():
+        for filename, file in lookup_table.items():
             dirname = os.path.dirname(filename)
-            directory = self.directory_map[dirname]
+            directory = directory_map[dirname]
             directory.add_file(file)
 
-        root_path = min(path for path in self.directory_map.keys())
-        self.root = self.directory_map[root_path]
+        root_path = min(path for path in directory_map.keys())
+        self.root = directory_map[root_path]
 
         self.resource_registry = ResourceRegistry(self.root)
         for html in self.root.walk_htmls():
             html.convert_resources_to_ids(self.resource_registry)
-
-        print(self.resource_registry)
 
     def _build_lookup_table(self, zipfile):
         lookup_table = {
@@ -73,6 +71,13 @@ class VirtualFS:
                 directory.set_parent(parent_dir)
                 parent_dir.add_subdir(directory)
 
+    def convert_resources_to_paths(self):
+        for html in self.root.walk_htmls():
+            html.convert_resources_to_paths(self.resource_registry)
+
+    def store_on_disc(self):
+        pass
+
 
 class ResourceRegistry:
     def __init__(self, root):
@@ -87,14 +92,25 @@ class ResourceRegistry:
                                         for item in root.walk_all()}
 
         for key in self._full_path_lookup_table.keys():
-            self.add_item(key)
+            try:
+                self.add_item(key)
+            except KeyError:
+                pass
 
     def add_item(self, path):
         id = self._path_to_id.get(path)
         if id:
             return id
 
-        resource = self._full_path_lookup_table[path]
+        try:
+            resource = self._full_path_lookup_table[path]
+        except KeyError:
+            try:
+                path = path.replace("%20", " ")
+                resource = self._full_path_lookup_table[path]
+            except KeyError:
+                settings.logger.error("Link not found, skipping: %s", path)
+                raise
 
         self._path_to_item[path] = resource
 
@@ -186,13 +202,19 @@ class HtmlPage(FileBase):
 
         for resource_generator, src in resources:
             for resource_el in resource_generator:
+                if not resource_el.isTag():
+                    continue
+
                 resource_path = resource_el.params[src]
                 dirname = os.path.dirname(self.path)
                 full_resource_path = os.path.join(dirname, resource_path)
                 abs_path = os.path.abspath(full_resource_path)
 
-                resource_id = resource_registry.add_item(abs_path)
-                resource_el.params[src] = "resource:%d" % resource_id
+                try:
+                    resource_id = resource_registry.add_item(abs_path)
+                    resource_el.params[src] = "resource:%d" % resource_id
+                except KeyError:
+                    continue
 
     def convert_resources_to_paths(self, resource_registry: ResourceRegistry):
         resources = self._collect_resources()
@@ -201,6 +223,9 @@ class HtmlPage(FileBase):
 
         for resource_generator, src in resources:
             for resource_el in resource_generator:
+                if not resource_el.isTag():
+                    continue
+
                 resource_id_token = resource_el.params[src]
                 if not resource_id_token.startswith("resource"):
                     continue
