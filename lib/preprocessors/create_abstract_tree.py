@@ -29,7 +29,7 @@ class VirtualFS:
 
         self.resource_registry = ResourceRegistry(self.root)
         for html in self.root.walk_htmls():
-            html.refactor_resource_map(self.resource_registry)
+            html.convert_resources_to_ids(self.resource_registry)
 
         print(self.resource_registry)
 
@@ -181,7 +181,37 @@ class HtmlPage(FileBase):
     def title(self):
         return self.dom.find("h1", {"class": "page-title"})[0].getContent()
 
-    def refactor_resource_map(self, resource_registry: ResourceRegistry):
+    def convert_resources_to_ids(self, resource_registry: ResourceRegistry):
+        resources = self._collect_resources()
+
+        for resource_generator, src in resources:
+            for resource_el in resource_generator:
+                resource_path = resource_el.params[src]
+                dirname = os.path.dirname(self.path)
+                full_resource_path = os.path.join(dirname, resource_path)
+                abs_path = os.path.abspath(full_resource_path)
+
+                resource_id = resource_registry.add_item(abs_path)
+                resource_el.params[src] = "resource:%d" % resource_id
+
+    def convert_resources_to_paths(self, resource_registry: ResourceRegistry):
+        resources = self._collect_resources()
+
+        html_dir = os.path.dirname(self.path)
+
+        for resource_generator, src in resources:
+            for resource_el in resource_generator:
+                resource_id_token = resource_el.params[src]
+                if not resource_id_token.startswith("resource"):
+                    continue
+
+                resource_id = int(resource_id_token.split(":")[-1])
+                resource = resource_registry.item_by_id(resource_id)
+                resource_relpath = os.path.relpath(resource.path, html_dir)
+
+                resource_el.params[src] = resource_relpath
+
+    def _collect_resources(self):
         links = (a for a in self.dom.find("a")
                  if "://" not in a.params.get("href", ""))
 
@@ -198,15 +228,7 @@ class HtmlPage(FileBase):
             (meta_links, "href"),
         )
 
-        for resource_generator, src in resources:
-            for resource_el in resource_generator:
-                resource_path = resource_el.params[src]
-                dirname = os.path.dirname(self.path)
-                full_resource_path = os.path.join(dirname, resource_path)
-                abs_path = os.path.abspath(full_resource_path)
-
-                resource_id = resource_registry.add_item(abs_path)
-                resource_el.params[src] = "resource:%d" % resource_id
+        return resources
 
 
 class Data(FileBase):
