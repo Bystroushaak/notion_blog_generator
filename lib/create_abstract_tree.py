@@ -96,6 +96,10 @@ class VirtualFS:
     def store_on_disc(self):
         pass
 
+    def resolve_by_path(self, path):
+        pass
+
+
 
 class ResourceRegistry:
     def __init__(self):
