@@ -169,10 +169,7 @@ class ResourceRegistry:
 class FileBase:
     def __init__(self):
         self.parent = None
-
-    @property
-    def filename(self):
-        return "FileBase"
+        self.filename = "FileBase"
 
     def set_parent(self, parent):
         self.parent = parent
@@ -212,16 +209,9 @@ class HtmlPage(FileBase):
 
         # TODO: can be used to generate trans table
         self.original_fn = os.path.basename(original_fn)
+        self.filename = self.original_fn
 
         self.is_index = False
-
-    @property
-    def filename(self):
-        return self.original_fn
-
-    @property
-    def debug_fn(self):
-        return os.path.basename(self.original_fn)
 
     @property
     def title(self):
@@ -300,17 +290,9 @@ class Data(FileBase):
     def __init__(self, original_path, content):
         super().__init__()
 
-        self._filename = os.path.basename(original_path)
+        self.filename = os.path.basename(original_path)
         self.original_path = original_path
         self.content = content
-
-    @property
-    def filename(self):
-        return self._filename
-
-    @property
-    def debug_fn(self):
-        return os.path.basename(self.original_path)
 
     def save_as(self, file_path):
         with open(file_path, "wb") as f:
@@ -318,20 +300,16 @@ class Data(FileBase):
 
 
 class Directory(FileBase):
-    def __init__(self, name):
+    def __init__(self, filename):
         super().__init__()
 
-        self.name = name
+        self.filename = filename
 
         self.subdirs = []
         self.files = []
 
-    @property
-    def filename(self):
-        return self.name
-
     def __repr__(self):
-        return "Directory(%s)" % self.name
+        return "Directory(%s)" % self.filename
 
     def add_subdir(self, subdir):
         self.subdirs.append(subdir)
@@ -341,10 +319,10 @@ class Directory(FileBase):
         file.set_parent(self)
 
     def print_tree(self, indent=0):
-        print(indent * "  ", self.name + "/")
+        print(indent * "  ", self.filename + "/")
 
         for file in self.files:
-            print((indent + 1) * "  ", file.debug_fn)
+            print((indent + 1) * "  ", file.filename)
 
         for directory in self.subdirs:
             directory.print_tree(indent + 1)
