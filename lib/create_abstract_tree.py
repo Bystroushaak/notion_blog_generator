@@ -14,6 +14,8 @@ from lib.settings import settings
 
 class VirtualFS:
     def __init__(self, zipfile):
+        settings.logger.info("Generating virtual filesystem..")
+
         lookup_table = self._build_lookup_table(zipfile)
         directory_map = self._build_directory_map(lookup_table)
 
@@ -28,6 +30,8 @@ class VirtualFS:
         self.root = directory_map[root_path]
 
         self.resource_registry = self._build_resource_registry()
+
+        settings.logger.info("Virtual filesystem is ready.")
 
     def _build_lookup_table(self, zipfile):
         lookup_table = {
@@ -90,11 +94,41 @@ class VirtualFS:
         return resource_registry
 
     def convert_resources_to_paths(self):
+        settings.logger.info("Converting resource to paths..")
+
         for html in self.root.walk_htmls():
             html.convert_resources_to_paths(self.resource_registry)
 
-    def store_on_disc(self):
-        pass
+        settings.logger.info("Conversion of resources to paths done.")
+
+    def store_on_disc(self, blog_root_path):
+        self.convert_resources_to_paths()
+
+        for directory in self.root.walk_dirs():
+            directory_path = directory.path
+
+            if directory_path == "/":
+                continue
+
+            # because os.path.join() doesn't work with second argument starting
+            # with /
+            if directory_path.startswith("/"):
+                directory_path = directory_path[1:]
+
+            full_directory_path = os.path.join(blog_root_path, directory_path)
+            os.makedirs(full_directory_path, exist_ok=True)
+
+        for file in self.root.walk_files():
+            file_path = file.path
+
+            # because os.path.join() doesn't work with second argument starting
+            # with /
+            if file_path.startswith("/"):
+                file_path = file_path[1:]
+
+            full_file_path = os.path.join(blog_root_path, file_path)
+
+            file.save_as(full_file_path)
 
     def resolve_by_path(self, path):
         pass
@@ -162,6 +196,9 @@ class FileBase:
             full_path = "/" + full_path
 
         return full_path
+
+    def save_as(self, file_path):
+        raise NotImplementedError()
 
 
 class HtmlPage(FileBase):
@@ -254,6 +291,10 @@ class HtmlPage(FileBase):
 
         return resources
 
+    def save_as(self, file_path):
+        with open(file_path, "wt") as f:
+            f.write(self.dom.__str__())
+
 
 class Data(FileBase):
     def __init__(self, original_path, content):
@@ -270,6 +311,10 @@ class Data(FileBase):
     @property
     def debug_fn(self):
         return os.path.basename(self.original_path)
+
+    def save_as(self, file_path):
+        with open(file_path, "wb") as f:
+            f.write(self.content)
 
 
 class Directory(FileBase):
