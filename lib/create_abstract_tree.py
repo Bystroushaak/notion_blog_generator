@@ -213,8 +213,6 @@ class HtmlPage(FileBase):
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
 
-        self.is_index = False
-
     @property
     def title(self):
         return self.dom.find("h1", {"class": "page-title"})[0].getContent()
@@ -286,6 +284,15 @@ class HtmlPage(FileBase):
     def save_as(self, file_path):
         with open(file_path, "wt") as f:
             f.write(self.dom.__str__())
+
+    def create_copy(self):
+        copy = HtmlPage(
+            self.dom.__str__(),
+            self.original_fn,
+        )
+        copy.filename = self.filename
+
+        return copy
 
 
 class Data(FileBase):
