@@ -1,3 +1,5 @@
+from lib.settings import settings
+
 from .preprocessor_base import PreprocessorBase
 
 
@@ -13,3 +15,5 @@ class SquashToplevelDirectory(PreprocessorBase):
         root.files = blog_subdir.files
         root.files.append(root_index)
         root.reindex_parents()
+
+        settings.logger.info("Toplevel directory squashed.")
