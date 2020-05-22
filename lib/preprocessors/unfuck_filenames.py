@@ -1,5 +1,4 @@
 import re
-import os.path
 import unicodedata
 from functools import lru_cache
 
@@ -16,51 +15,86 @@ class UnfuckFilenames(PreprocessorBase):
         settings.logger.info("Unfucking filenames..")
 
         for item in root.walk_htmls():
-            title = item.title
+            if item.filename == "index.html":
+                continue
 
+            title = item.title
             if "://" in title:
                 continue
 
             new_filename = cls._normalize_fn(title)
-
-            if len(new_filename) > 60:
-                new_filename = new_filename[:60]
-
-                if "_" in new_filename:
-                    new_filename = new_filename.rsplit("_", 1)[0]
-
+            new_filename = cls._trim_long_filenames(new_filename)
             new_filename = cls._make_sure_filename_is_unique(item, new_filename)
 
-            section_dir = cls._dir_in_parent_with_same_name_as(item)
-            if section_dir:
-                section_dir.filename = new_filename
-
-            item.filename = new_filename + ".html"
+            if new_filename:
+                cls._rename_also_section_dirs(item, new_filename)
+                item.filename = new_filename + ".html"
 
         for item in root.walk_dirs():
-            new_filename = cls._patch_filename(item.filename)
-            settings.logger.debug("Walking %s, new %s", item.filename, new_filename)
-            settings.logger.debug("parent: %s", item.parent)
-
+            new_filename = cls._unfuck_filename(item.filename)
             item.filename = cls._make_sure_filename_is_unique(item, new_filename)
+
+    @classmethod
+    def _rename_also_section_dirs(cls, item, new_filename):
+        section_dir = cls._dir_in_parent_with_same_name_as(item)
+        if section_dir:
+            section_dir.filename = new_filename
+
+    @classmethod
+    def _trim_long_filenames(cls, new_filename):
+        if len(new_filename) > 70:
+            new_filename = new_filename[:70]
+
+            if "_" in new_filename:
+                new_filename = new_filename.rsplit("_", 1)[0]
+            elif " " in new_filename:
+                new_filename = new_filename.rsplit(" ", 1)[0]
+        return new_filename
 
     @classmethod
     def _normalize_fn(cls, filename):
         filename_dom = dhtmlparser.parseString(filename)
         new_filename = dhtmlparser.removeTags(filename_dom).strip()
 
-        new_filename = cls.normalize(filename)
-
-        new_filename = new_filename.replace('"', '')
-        new_filename = new_filename.replace("'", "")
+        new_filename = cls.normalize(new_filename)
         new_filename = cls._remove_html_entities(new_filename)
-
-        translation = new_filename.maketrans(" /;:,?()$§",
-                                             "_---_-____")
-
-        new_filename = new_filename.translate(translation)
+        new_filename = cls._only_alnum_chars(new_filename)
+        new_filename = cls._remove_dup_underscores(new_filename)
 
         return new_filename
+
+    @staticmethod
+    def _only_alnum_chars(input_str):
+        output = ""
+        for c in input_str:
+            if c.isalnum():
+                output += c
+            elif c == "-" or c == "_" or c == " ":
+                output += c
+            elif c == "/":
+                output += "-"
+            else:
+                c += "_"
+
+        return output
+
+    @staticmethod
+    def _remove_dup_underscores(input_str):
+        last = ""
+        output = ""
+        for c in input_str:
+            if c == "_" and last == "_":
+                continue
+
+            output += c
+            last = c
+
+        if output.startswith("_"):
+            output = output[1:]
+        if output.endswith("_"):
+            output = output[:-1]
+
+        return output
 
     @staticmethod
     def _remove_html_entities(s):
@@ -124,29 +158,16 @@ class UnfuckFilenames(PreprocessorBase):
         filename = item.filename.rsplit(".", 1)[0]  # remove .html
 
         for subdir in item.parent.subdirs:
-            settings.logger.debug("subdir.filename == filename (%s == %s)", subdir.filename, filename)
             if subdir.filename == filename:
                 return subdir
 
         return None
 
     @classmethod
-    def _patch_filename(cls, filename):
+    def _unfuck_filename(cls, filename):
         # "English section 8f6665fa0621410daa32502748e3cc5d.html"
         # -> "English section"
         return re.sub(' [a-z0-9]{32}|%20[a-z0-9]{32}', '', filename)
-
-    @classmethod
-    def _patch_html_filename(cls, original_fn, data):
-        dom = dhtmlparser.parseString(data)
-
-        h1 = dom.find("h1")
-
-        if not h1:
-            return cls._patch_filename(original_fn)
-
-        return os.path.join(os.path.dirname(original_fn),
-                            cls._normalize_unicode(h1[0].getContent()) + ".html")
 
     @classmethod
     def _normalize_unicode(cls, unicode_name):
