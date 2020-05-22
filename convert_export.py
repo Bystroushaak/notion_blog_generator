@@ -1,19 +1,16 @@
 #! /usr/bin/env python3
+import os
+import shutil
 import argparse
 
 from lib.create_abstract_tree import VirtualFS
 
 from lib.preprocessors import get_preprocessors
 
-from lib.postprocessors._generate_nice_filenames import empty_directory
-
 
 def generate_blog(zipfile, blog_root):
     # thumb_cache = ThumbCache.create_thumb_cache(blog_root)
     empty_directory(blog_root)
-
-
-    # shared_resources = SharedResources(blog_root)
 
     blog_tree = VirtualFS(zipfile)
 
@@ -23,23 +20,27 @@ def generate_blog(zipfile, blog_root):
 
     blog_tree.store_on_disc(blog_root)
 
-    # real_blog_root = _get_real_blog_root(blog_root)
-    # shared_resources._real_blog_root = real_blog_root
-    # shared_resources.generate_title_map()
-    # shared_resources.thumb_cache = thumb_cache
-    #
-    # postprocess_all_html_pages(shared_resources, blog_root)
-    #
-    # settings.logger.info("Saving all pages..")
-    # shared_resources.save()
-    #
     # _copy_to("scripts.js", real_blog_root)
     # _copy_to("tweet_button.svg", real_blog_root)
     # _copy_to("icons/favicon.ico", real_blog_root)
     # _copy_to("nginx_redirects.txt", real_blog_root)
     # _copy_to("icons", os.path.join(real_blog_root, "icons"))  # TODO: is the second parameter really necessary?
-    #
-    # fix_filenames_and_generate_new_structure(blog_root, real_blog_root)
+
+
+def empty_directory(blog_path):
+    if os.path.exists(blog_path):
+        for item in os.listdir(blog_path):
+            if item == ".git":
+                continue
+
+            path = os.path.join(blog_path, item)
+
+            if os.path.isdir(path):
+                shutil.rmtree(path)
+            else:
+                os.unlink(path)
+
+    os.makedirs(blog_path, exist_ok=True)
 
 
 # def _copy_to(copy_from, copy_to):
