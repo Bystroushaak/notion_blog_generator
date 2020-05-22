@@ -163,11 +163,31 @@ class ResourceRegistry:
 
         return item_id
 
+    def register_item_as_ref_str(self, item):
+        id = self.register_item(item)
+        return self.as_ref_str(id)
+
     def item_by_id(self, id):
         return self._id_to_item.get(id)
 
     def id_by_item(self, item):
         return self._item_to_id.get(item)
+
+    def item_by_ref_str(self, ref_str):
+        id = self.parse_ref_str(ref_str)
+        return self.item_by_id(id)
+
+    @staticmethod
+    def as_ref_str(id):
+        return "resource:%d" % id
+
+    @staticmethod
+    def is_ref_str(ref_str):
+        return ref_str.startswith("resource:")
+
+    @staticmethod
+    def parse_ref_str(ref_str):
+        return int(ref_str.split(":")[-1])
 
     def _inc_id(self):
         id = self._id_counter
@@ -254,12 +274,12 @@ class HtmlPage(FileBase):
                 abs_path = os.path.abspath(full_resource_path)
 
                 try:
-                    resource_id = path_id_map[abs_path]
-                    resource_el.params[src] = "resource:%d" % resource_id
+                    id = path_id_map[abs_path]
+                    resource_el.params[src] = ResourceRegistry.as_ref_str(id)
                 except KeyError:
                     try:
-                        resource_id = path_id_map[abs_path.replace("%20", " ")]
-                        resource_el.params[src] = "resource:%d" % resource_id
+                        id = path_id_map[abs_path.replace("%20", " ")]
+                        resource_el.params[src] = ResourceRegistry.as_ref_str(id)
                     except KeyError:
                         settings.logger.error("Link not found, skipping: %s",
                                               abs_path)
@@ -276,11 +296,10 @@ class HtmlPage(FileBase):
                     continue
 
                 resource_id_token = resource_el.params[src]
-                if not resource_id_token.startswith("resource"):
+                if not ResourceRegistry.is_ref_str(resource_id_token):
                     continue
 
-                resource_id = int(resource_id_token.split(":")[-1])
-                resource = resource_registry.item_by_id(resource_id)
+                resource = resource_registry.item_by_ref_str(resource_id_token)
                 resource_relpath = os.path.relpath(resource.path, html_dir)
 
                 resource_el.params[src] = resource_relpath
