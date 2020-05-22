@@ -2,7 +2,6 @@
 Sigh. Notion just out of random inserted some kind of hashes or UUID's into all
 filenames, which of course fucks everything up beyond recognition.
 """
-import re
 import os.path
 import zipfile
 from typing import Union
@@ -10,6 +9,15 @@ from typing import Union
 import dhtmlparser
 
 from lib.settings import settings
+
+
+def iterate_zipfile(zipfile_path):
+    zf = zipfile.ZipFile(zipfile_path)
+
+    for zip_info in zf.infolist():
+        yield zf, zip_info
+
+    zf.close()
 
 
 class VirtualFS:
@@ -136,7 +144,6 @@ class VirtualFS:
         pass
 
 
-
 class ResourceRegistry:
     def __init__(self):
         self._id_counter = 0
@@ -177,6 +184,18 @@ class FileBase:
         self.parent = parent
 
     @property
+    def is_data(self):
+        return False
+
+    @property
+    def is_html(self):
+        return False
+
+    @property
+    def is_directory(self):
+        return False
+
+    @property
     def path(self):
         path = [self.filename]
         parent = self.parent
@@ -212,6 +231,10 @@ class HtmlPage(FileBase):
         # TODO: can be used to generate trans table
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
+
+    @property
+    def is_html(self):
+        return True
 
     @property
     def title(self):
@@ -303,6 +326,10 @@ class Data(FileBase):
         self.original_path = original_path
         self.content = content
 
+    @property
+    def is_data(self):
+        return True
+
     def save_as(self, file_path):
         with open(file_path, "wb") as f:
             f.write(self.content)
@@ -316,6 +343,10 @@ class Directory(FileBase):
 
         self.subdirs = []
         self.files = []
+
+    @property
+    def is_directory(self):
+        return True
 
     def __repr__(self):
         return "Directory(%s)" % self.filename
@@ -372,54 +403,3 @@ class Directory(FileBase):
 
         for dir in self.subdirs:
             dir.parent = self
-
-
-def iterate_zipfile(zipfile_path):
-    zf = zipfile.ZipFile(zipfile_path)
-
-    for zip_info in zf.infolist():
-        yield zf, zip_info
-
-    zf.close()
-
-
-def _patch_links(data):
-    dom = dhtmlparser.parseString(data)
-
-    for a in dom.find("a"):
-        if "href" not in a.params or "://" in a.params.get("href", ""):
-            continue
-
-        a.params["href"] = _patch_filename(a.params["href"])
-
-    for img in dom.find("img"):
-        if "src" not in img.params or "://" in img.params.get("src", ""):
-            continue
-
-        img.params["src"] = _patch_filename(img.params["src"])
-
-    return dom.__str__()
-
-
-def _patch_filename(filename):
-    # "English section 8f6665fa0621410daa32502748e3cc5d.html"
-    # -> "English section"
-    return re.sub(' [a-z0-9]{32}|%20[a-z0-9]{32}', '', filename)
-
-
-def _patch_html_filename(original_fn, data):
-    dom = dhtmlparser.parseString(data)
-
-    h1 = dom.find("h1")
-
-    if not h1:
-        return _patch_filename(original_fn)
-
-    return os.path.join(os.path.dirname(original_fn),
-                        _normalize_unicode(h1[0].getContent()) + ".html")
-
-
-def _normalize_unicode(unicode_name):
-    ascii_name = unicode_name.replace(" ", "_")
-
-    return ascii_name

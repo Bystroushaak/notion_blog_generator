@@ -5,7 +5,7 @@ from pytest import fixture
 
 from lib.create_abstract_tree import ResourceRegistry
 from lib.create_abstract_tree import VirtualFS
-from lib.create_abstract_tree import _patch_filename
+from lib.preprocessors.unfuck_filenames import UnfuckFilenames
 
 from lib.create_abstract_tree import Data
 from lib.create_abstract_tree import HtmlPage
@@ -50,7 +50,7 @@ def test_patch_filename():
     )
 
     for fucked, unfucked in filenames:
-        assert _patch_filename(fucked) == unfucked
+        assert UnfuckFilenames._patch_filename(fucked) == unfucked
 
 
 def test_path_property(tree):
