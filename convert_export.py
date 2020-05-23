@@ -6,6 +6,7 @@ import argparse
 from lib.create_abstract_tree import VirtualFS
 
 from lib.preprocessors import get_preprocessors
+from lib.html_transformers import get_transformers
 
 
 def generate_blog(zipfile, blog_root):
@@ -18,13 +19,13 @@ def generate_blog(zipfile, blog_root):
     for preprocessor in get_preprocessors():
         preprocessor.preprocess(blog_tree, root_node)
 
-    blog_tree.store_on_disc(blog_root)
+    for transformer in get_transformers():
+        transformer.log_transformer()
 
-    # _copy_to("scripts.js", real_blog_root)
-    # _copy_to("tweet_button.svg", real_blog_root)
-    # _copy_to("icons/favicon.ico", real_blog_root)
-    # _copy_to("nginx_redirects.txt", real_blog_root)
-    # _copy_to("icons", os.path.join(real_blog_root, "icons"))  # TODO: is the second parameter really necessary?
+        for html_file in root_node.walk_htmls():
+            transformer.transform(blog_tree, root_node, html_file)
+
+    blog_tree.store_on_disc(blog_root)
 
 
 def empty_directory(blog_path):

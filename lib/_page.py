@@ -101,7 +101,6 @@ class Page:
 
     def transform(self):
         transformer_classes = [
-            _old_transformers.RemoveInlinedStyle,
             _old_transformers.AddAtomFeed,
             _old_transformers.AddFileIcons,
             _old_transformers.AddBreadcrumb,
