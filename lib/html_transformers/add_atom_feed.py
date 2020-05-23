@@ -5,10 +5,10 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class AddAtomFeed(TransformerBase):
+class AddAtomFeedTag(TransformerBase):
     @classmethod
     def log_transformer(cls):
-        settings.logger.info("Adding atom feed to all pages..")
+        settings.logger.info("Adding Atom feed tag to all pages..")
 
     @classmethod
     def transform(cls, virtual_fs, root, page):
@@ -16,8 +16,9 @@ class AddAtomFeed(TransformerBase):
 
         atom_tag_str = (
             '<link rel="alternate" type="application/atom+xml" '
-            'href="http://rfox.eu/raw/feeds/notion_blog.xml" />'
+            'href="" />'
         )
+        atom_tag_str = atom_tag_str % settings.atom_feed_url
         atom_tag = dhtmlparser.parseString(atom_tag_str).find("link")[0]
 
         head.childs.append(atom_tag)

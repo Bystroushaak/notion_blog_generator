@@ -15,6 +15,7 @@ class Settings:
         self.logger = logger
         self.blog_url = "http://blog.rfox.eu"
         self.patreon_url = "https://www.patreon.com/bePatron?u=2618881"
+        self.atom_feed_url = "http://rfox.eu/raw/feeds/notion_blog.xml"
 
 
 settings = Settings()
