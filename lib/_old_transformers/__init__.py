@@ -7,7 +7,6 @@ from .fix_notion_links import FixNotionLinks
 from .fix_youtube_embeds import FixYoutubeEmbeds
 from .add_analytics_tag import AddAnalyticsTag
 from .generate_thumbnails import GenerateThumbnails
-from .add_favicon import AddFavicon
 from .postprocess_inlined_styles import PostprocessInlinedStyles
 from .postprocess_changelog import PostprocessChangelog
 from .postprocess_index import PostprocessIndex

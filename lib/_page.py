@@ -108,7 +108,6 @@ class Page:
             _old_transformers.FixYoutubeEmbeds,
             _old_transformers.AddAnalyticsTag,
             _old_transformers.GenerateThumbnails,
-            _old_transformers.AddFavicon,
             _old_transformers.PostprocessInlinedStyles,
             _old_transformers.PostprocessChangelog,
             _old_transformers.PostprocessIndex,

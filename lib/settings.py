@@ -13,6 +13,7 @@ logger.setLevel(logging.DEBUG)
 class Settings:
     def __init__(self):
         self.logger = logger
+        self.blog_url = "http://blog.rfox.eu"
 
 
 settings = Settings()
