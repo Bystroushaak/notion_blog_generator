@@ -101,7 +101,6 @@ class Page:
 
     def transform(self):
         transformer_classes = [
-            _old_transformers.AddFileIcons,
             _old_transformers.AddBreadcrumb,
             _old_transformers.AddPatreonButton,
             _old_transformers.AddTwitterCard,

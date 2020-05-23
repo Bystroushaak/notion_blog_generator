@@ -1,4 +1,3 @@
-from .add_file_icons import AddFileIcons
 from .add_breadcrumb import AddBreadcrumb
 from .add_patreon_button import AddPatreonButton
 from .add_twitter_card import AddTwitterCard
