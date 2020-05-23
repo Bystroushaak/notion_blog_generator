@@ -14,6 +14,7 @@ class Settings:
     def __init__(self):
         self.logger = logger
         self.blog_url = "http://blog.rfox.eu"
+        self.patreon_url = "https://www.patreon.com/bePatron?u=2618881"
 
 
 settings = Settings()

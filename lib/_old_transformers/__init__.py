@@ -1,5 +1,4 @@
 from .add_breadcrumb import AddBreadcrumb
-from .add_patreon_button import AddPatreonButton
 from .add_twitter_card import AddTwitterCard
 from .add_scripts_and_buttons import AddScriptsAndButtons
 from .add_sidebar import AddSidebar
