@@ -1,4 +1,3 @@
-from .add_atom_feed import AddAtomFeed
 from .add_file_icons import AddFileIcons
 from .add_breadcrumb import AddBreadcrumb
 from .add_patreon_button import AddPatreonButton
