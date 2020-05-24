@@ -4,7 +4,6 @@ from .add_scripts_and_buttons import AddScriptsAndButtons
 from .add_sidebar import AddSidebar
 from .fix_notion_links import FixNotionLinks
 from .fix_youtube_embeds import FixYoutubeEmbeds
-from .add_analytics_tag import AddAnalyticsTag
 from .generate_thumbnails import GenerateThumbnails
 from .postprocess_inlined_styles import PostprocessInlinedStyles
 from .postprocess_changelog import PostprocessChangelog
