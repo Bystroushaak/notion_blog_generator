@@ -4,7 +4,7 @@ import time
 import shutil
 import argparse
 
-from lib.create_abstract_tree import VirtualFS
+from lib.virtual_fs import VirtualFS
 
 from lib.settings import settings
 from lib.thumb_cache import ThumbCache

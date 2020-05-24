@@ -4,7 +4,7 @@ import dhtmlparser
 from PIL import Image
 
 from lib.settings import settings
-from lib.create_abstract_tree import Data
+from ..virtual_fs import Data
 
 from .transformer_base import TransformerBase
 

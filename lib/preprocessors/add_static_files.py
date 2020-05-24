@@ -1,7 +1,7 @@
 import os.path
 
 from lib.settings import settings
-from lib.create_abstract_tree import Data
+from lib.virtual_fs import Data
 
 from .preprocessor_base import PreprocessorBase
 

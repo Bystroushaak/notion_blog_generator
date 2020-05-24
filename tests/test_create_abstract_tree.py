@@ -3,13 +3,13 @@ import os.path
 
 from pytest import fixture
 
-from lib.create_abstract_tree import ResourceRegistry
-from lib.create_abstract_tree import VirtualFS
+from lib.virtual_fs import ResourceRegistry
+from lib.virtual_fs import VirtualFS
 from lib.preprocessors.unfuck_filenames import UnfuckFilenames
 
-from lib.create_abstract_tree import Data
-from lib.create_abstract_tree import HtmlPage
-from lib.create_abstract_tree import Directory
+from lib.virtual_fs import Data
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import Directory
 
 
 @fixture()
