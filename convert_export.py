@@ -8,6 +8,7 @@ from lib.create_abstract_tree import VirtualFS
 
 from lib.settings import settings
 from lib.preprocessors import get_preprocessors
+from lib.postprocessors import get_postprocessors
 from lib.html_transformers import get_transformers
 
 
@@ -28,6 +29,9 @@ def generate_blog(zipfile, blog_root):
 
         for html_file in root_node.walk_htmls():
             transformer.transform(blog_tree, root_node, html_file)
+
+    for postprocessor in get_postprocessors():
+        postprocessor.postprocess(blog_tree, root_node)
 
     blog_tree.store_on_disc(blog_root)
 

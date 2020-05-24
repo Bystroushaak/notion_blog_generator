@@ -12,13 +12,13 @@ class Post(namedtuple("Post", "timestamp, title, description")):
 
 
 class MakeChangelogReadable(TransformerBase):
-    last_five = []
+    last_articles = []
     is_set = False
     changelog_id = "94395240-48de-4516-9fd7-4f5e92fb9598"
 
     @classmethod
     def log_transformer(cls):
-        settings.logger.info("Converting Changelog table to redable page..")
+        settings.logger.info("Converting Changelog table to readable page..")
 
     @classmethod
     def transform(cls, virtual_fs, root, page):
@@ -31,7 +31,7 @@ class MakeChangelogReadable(TransformerBase):
         tr_line_template += "  <hr style=\"margin-bottom: 1em; margin-top: 1em;\"/>\n\n"
 
         tbody = article_tag[0].find("tbody")[0]
-        for cnt, tr in enumerate(reversed(tbody.find("tr"))):
+        for tr in reversed(tbody.find("tr")):
             td_date, td_title, td_content = tr.find("td")
 
             content = cls._parse_content(td_content)
@@ -40,8 +40,7 @@ class MakeChangelogReadable(TransformerBase):
             tr_line = tr_line_template % (post.title, post.timestamp, post.description)
             content_element += tr_line
 
-            if cnt < 5:
-                cls.last_five.append(post)
+            cls.last_articles.append(post)
 
         content_element += "</div>\n"
 
@@ -64,12 +63,15 @@ class MakeChangelogReadable(TransformerBase):
         return content
 
     @classmethod
-    def get_last_five_as_html_for_mainpage(cls):
+    def get_articles_as_html_for_root_index(cls, how_many=5):
         output = "<h1>Recent posts</h1>\n<div class=\"recent_posts\">\n"
         template = "  <h4 class=\"changelog_short\">%s (%s)</h4>\n<p>%s</p>"
 
         updates = []
-        for post in cls.last_five:
+        for cnt, post in enumerate(cls.last_articles):
+            if cnt >= how_many:
+                break
+
             updates.append(template % (post.title, post.timestamp, post.description))
 
         output += "\n".join(updates)
@@ -82,7 +84,7 @@ class MakeChangelogReadable(TransformerBase):
     def get_last_five_for_sidebars(cls):
         output = "<h3>New posts:</h3>\n<ul>\n"
 
-        for post in cls.last_five:
+        for post in cls.last_articles:
             output += "  <li>%s</li>\n" % post.title
 
         output += "</ul>\n"
