@@ -1,5 +1,3 @@
-import os.path
-
 import dhtmlparser
 
 from lib.settings import settings
