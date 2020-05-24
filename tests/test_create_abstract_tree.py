@@ -50,7 +50,7 @@ def test_patch_filename():
     )
 
     for fucked, unfucked in filenames:
-        assert UnfuckFilenames._patch_filename(fucked) == unfucked
+        assert UnfuckFilenames._unfuck_filename(fucked) == unfucked
 
 
 def test_path_property(tree):
