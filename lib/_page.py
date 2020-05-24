@@ -101,7 +101,6 @@ class Page:
 
     def transform(self):
         transformer_classes = [
-            _old_transformers.FixNotionLinks,
             _old_transformers.GenerateThumbnails,
             _old_transformers.PostprocessChangelog,
             _old_transformers.PostprocessIndex,
