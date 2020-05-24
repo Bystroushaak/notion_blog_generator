@@ -8,6 +8,7 @@ from lib.html_transformers.add_scripts_and_buttons import AddScriptsAndButtons
 from lib.html_transformers.add_twitter_card import AddTwitterCard
 from lib.html_transformers.add_syntax_highlighting import AddSyntaxHighlighting
 from lib.html_transformers.add_breadcrumbs import AddBreadcrumbs
+from lib.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
 
 
 def get_transformers():
@@ -22,4 +23,5 @@ def get_transformers():
         AddTwitterCard,
         AddSyntaxHighlighting,
         AddBreadcrumbs,
+        FixYoutubeEmbeds,
     )

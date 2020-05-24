@@ -102,7 +102,6 @@ class Page:
     def transform(self):
         transformer_classes = [
             _old_transformers.FixNotionLinks,
-            _old_transformers.FixYoutubeEmbeds,
             _old_transformers.GenerateThumbnails,
             _old_transformers.PostprocessInlinedStyles,
             _old_transformers.PostprocessChangelog,

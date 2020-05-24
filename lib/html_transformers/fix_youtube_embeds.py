@@ -3,20 +3,25 @@ from urllib.parse import urlparse
 
 import dhtmlparser
 
-from .postprocessor_base import Postprocessor
 from lib.settings import settings
 
+from .transformer_base import TransformerBase
 
-class FixYoutubeEmbeds(Postprocessor):
+
+class FixYoutubeEmbeds(TransformerBase):
+    embed_html = (
+        '<iframe width="100%%" height="50%%" frameborder="0" src="https://www.youtube.com/embed/%s"'
+        'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" '
+        'allowfullscreen></iframe>\n\n'
+    )
+
     @classmethod
-    def postprocess(cls, dom, page, shared):
-        embed_code = (
-            '<iframe width="100%%" height="50%%" frameborder="0" src="https://www.youtube.com/embed/%s"'
-            'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" '
-            'allowfullscreen></iframe>\n\n'
-        )
+    def log_transformer(cls):
+        settings.logger.info("Embedding youtube videos..")
 
-        youtube_links = dom.match(
+    @classmethod
+    def transform(cls, virtual_fs, root, page):
+        youtube_links = page.dom.match(
             "figure",
             {"tag_name": "div", "params": {"class": "source"}},
             "a"
@@ -44,7 +49,7 @@ class FixYoutubeEmbeds(Postprocessor):
                 settings.logger.error("Unparsed alt video `%s` hash: `%s`",
                                       video_url, video_hash)
 
-            html = embed_code % video_hash
+            html = cls.embed_html % video_hash
             tag = dhtmlparser.parseString(html)
 
             link.replaceWith(tag)
