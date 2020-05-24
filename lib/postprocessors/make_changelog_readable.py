@@ -14,6 +14,7 @@ class Post(namedtuple("Post", "timestamp, title, description")):
 class MakeChangelogReadable(PostprocessorBase):
     is_set = False
     last_articles = []
+    changelog_ref = "MakeChangelogReadable did not run yet!"
 
     @classmethod
     def postprocess(cls, virtual_fs, root):
@@ -27,6 +28,10 @@ class MakeChangelogReadable(PostprocessorBase):
         # remove "table" files
         changelog_dir.files = [file for file in changelog_dir.files
                                if file.is_index]
+
+        cls.changelog_ref = virtual_fs.resource_registry.register_item_as_ref_str(
+            changelog_dir.outer_index
+        )
 
         cls.is_set = True
 
@@ -85,13 +90,16 @@ class MakeChangelogReadable(PostprocessorBase):
         return output
 
     @classmethod
-    def get_last_five_for_sidebars(cls):
+    def get_last_n_for_sidebars(cls, how_many=5):
         output = "<h3>New posts:</h3>\n<ul>\n"
 
-        for post in cls.last_articles:
+        for cnt, post in enumerate(cls.last_articles):
+            if cnt >= how_many:
+                break
+
             output += "  <li>%s</li>\n" % post.title
 
         output += "</ul>\n"
-        output += "\n& <a href=\"/Changelog.html\">more</a>"
+        output += '\n& <a href="%s">more</a>' % cls.changelog_ref
 
         return output

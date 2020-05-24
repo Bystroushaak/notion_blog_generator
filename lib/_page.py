@@ -102,7 +102,6 @@ class Page:
     def transform(self):
         transformer_classes = [
             _old_transformers.GenerateThumbnails,
-            _old_transformers.AddSidebar,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]

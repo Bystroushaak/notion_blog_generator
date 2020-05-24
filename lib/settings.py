@@ -21,6 +21,7 @@ class Settings:
         self.twitter = "@Bystroushaak"
         self.twitter_url = ""
 
+        self.number_of_articles_in_sidebar = 5
         self.number_of_articles_in_minichangelog = 5
 
     def check(self):
