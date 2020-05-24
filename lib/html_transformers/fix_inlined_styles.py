@@ -5,7 +5,7 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class PostprocessInlinedStyles(TransformerBase):
+class FixInlinedStyles(TransformerBase):
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Postprocessing inlined <style> tags..")
