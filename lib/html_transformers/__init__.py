@@ -9,6 +9,7 @@ from lib.html_transformers.add_twitter_card import AddTwitterCard
 from lib.html_transformers.add_syntax_highlighting import AddSyntaxHighlighting
 from lib.html_transformers.add_breadcrumbs import AddBreadcrumbs
 from lib.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
+from lib.html_transformers.postprocess_inlined_styles import PostprocessInlinedStyles
 
 
 def get_transformers():
@@ -24,4 +25,5 @@ def get_transformers():
         AddSyntaxHighlighting,
         AddBreadcrumbs,
         FixYoutubeEmbeds,
+        PostprocessInlinedStyles,
     )
