@@ -1,12 +1,19 @@
-from .postprocessor_base import Postprocessor
-
 import dhtmlparser
 
-class BlockquoteNewlinePostprocessor(Postprocessor):
+from lib.settings import settings
+
+from .transformer_base import TransformerBase
+
+
+class FixBlockquotes(TransformerBase):
     @classmethod
-    def postprocess(cls, dom, page, shared):
+    def log_transformer(cls):
+        settings.logger.info("Fixing newlines in <blockquote> tags..")
+
+    @classmethod
+    def transform(cls, virtual_fs, root, page):
         # keep newlines in <blockquote> tags
-        for p in dom.find("blockquote"):
+        for p in page.dom.find("blockquote"):
             for text in p.find(None, fn=lambda x: not x.isTag()):
                 if "\n" not in text.getContent():
                     continue

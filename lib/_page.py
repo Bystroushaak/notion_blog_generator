@@ -106,7 +106,6 @@ class Page:
             _old_transformers.PostprocessChangelog,
             _old_transformers.PostprocessIndex,
             _old_transformers.AddSidebar,
-            _old_transformers.BlockquoteNewlinePostprocessor,
         ]
 
         full_path_without_filetype = self.path.rsplit(".", 1)[0]
