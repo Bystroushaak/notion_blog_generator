@@ -13,7 +13,10 @@ class AddScriptsAndButtons(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs, root, page):
-        if page.is_index and len(page.content) < 15000:
+        if page.is_index and len(page.content) < 30000:
+            return
+
+        if page is root.outer_index or page is root.inner_index:
             return
 
         head = page.dom.find("head")[0]
