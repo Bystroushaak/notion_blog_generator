@@ -6,6 +6,7 @@ import os.path
 import zipfile
 from typing import Union
 
+import sh
 import dhtmlparser
 
 from lib.settings import settings
@@ -139,9 +140,6 @@ class VirtualFS:
             file.save_as(full_file_path)
 
         settings.logger.info("Files stored on disc.")
-
-    def resolve_by_path(self, path):
-        pass
 
 
 class ResourceRegistry:
@@ -347,7 +345,16 @@ class HtmlPage(FileBase):
 
     def save_as(self, file_path):
         with open(file_path, "wt") as f:
-            f.write(self.dom.__str__())
+            if settings.write_prettify:
+                f.write(self.dom.prettify())
+            else:
+                f.write(self.dom.__str__())
+
+        if settings.tidy_html:
+            try:
+                sh.tidy("-m", "-w", "0", "-i", file_path)
+            except:
+                pass
 
     def create_copy(self):
         copy = HtmlPage(

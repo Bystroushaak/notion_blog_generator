@@ -26,6 +26,9 @@ class Settings:
 
         self.page_width = 900
 
+        self.tidy_html = True
+        self.write_prettify = False
+
     def check(self):
         if self.twitter and "@" not in self.twitter:
             self.twitter = "@" + self.twitter
