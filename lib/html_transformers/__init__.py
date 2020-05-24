@@ -7,6 +7,7 @@ from lib.html_transformers.add_analytics_tag import AddAnalyticsTag
 from lib.html_transformers.add_scripts_and_buttons import AddScriptsAndButtons
 from lib.html_transformers.add_twitter_card import AddTwitterCard
 from lib.html_transformers.add_syntax_highlighting import AddSyntaxHighlighting
+from lib.html_transformers.add_breadcrumbs import AddBreadcrumbs
 
 
 def get_transformers():
@@ -20,4 +21,5 @@ def get_transformers():
         AddScriptsAndButtons,
         AddTwitterCard,
         AddSyntaxHighlighting,
+        AddBreadcrumbs,
     )

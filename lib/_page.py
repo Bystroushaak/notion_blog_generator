@@ -101,7 +101,6 @@ class Page:
 
     def transform(self):
         transformer_classes = [
-            _old_transformers.AddBreadcrumb,
             _old_transformers.FixNotionLinks,
             _old_transformers.FixYoutubeEmbeds,
             _old_transformers.GenerateThumbnails,
