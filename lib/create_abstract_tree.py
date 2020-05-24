@@ -252,6 +252,8 @@ class HtmlPage(FileBase):
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
 
+        self.is_index = False
+
     @property
     def is_html(self):
         return True
@@ -314,11 +316,15 @@ class HtmlPage(FileBase):
         meta_links = (link for link in self.dom.find("link")
                       if "href" in link.params and \
                          "://" not in link.params.get("href", ""))
+        scripts = (script for script in self.dom.find("script")
+                   if "src" in script.params and \
+                      "://" not in script.params.get("href", ""))
 
         resources = (
             (links, "href"),
             (images, "src"),
             (meta_links, "href"),
+            (scripts, "src"),
         )
 
         return resources
