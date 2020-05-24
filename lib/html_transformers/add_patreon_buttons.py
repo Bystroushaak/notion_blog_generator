@@ -5,7 +5,7 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class AddPatreonButton(TransformerBase):
+class AddPatreonButtons(TransformerBase):
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding Patreon button to all pages..")

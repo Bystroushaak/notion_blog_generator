@@ -5,7 +5,7 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class AddAnalyticsTag(TransformerBase):
+class AddAnalyticsTags(TransformerBase):
     analytics_code = """
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script src="https://www.googletagmanager.com/gtag/js?id=%s"></script>

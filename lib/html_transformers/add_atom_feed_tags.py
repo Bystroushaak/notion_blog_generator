@@ -5,7 +5,7 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class AddAtomFeedTag(TransformerBase):
+class AddAtomFeedTags(TransformerBase):
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding Atom feed tag to all pages..")

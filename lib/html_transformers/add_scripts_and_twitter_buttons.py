@@ -6,7 +6,7 @@ from .transformer_base import TransformerBase
 from lib.preprocessors.add_static_files import AddStaticFiles
 
 
-class AddScriptsAndButtons(TransformerBase):
+class AddScriptsAndTwitterButtons(TransformerBase):
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding Twitter share button to all pages..")

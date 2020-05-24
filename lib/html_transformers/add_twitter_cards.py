@@ -7,7 +7,7 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class AddTwitterCard(TransformerBase):
+class AddTwitterCards(TransformerBase):
     summary_card_html = """
      <meta name="twitter:card" content="summary" />
      <meta name="twitter:site" content="{user}" />

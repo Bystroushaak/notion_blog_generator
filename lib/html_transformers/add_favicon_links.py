@@ -5,7 +5,7 @@ from lib.settings import settings
 from .transformer_base import TransformerBase
 
 
-class AddFaviconLinkTag(TransformerBase):
+class AddFaviconLinkTags(TransformerBase):
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding favicon <link> tag to all pages..")
