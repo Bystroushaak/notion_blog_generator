@@ -1,9 +1,8 @@
 import os
-import shutil
 import hashlib
-import tempfile
 
 from lib.settings import settings
+from lib.create_abstract_tree import Data
 
 
 class ThumbCache:
@@ -11,11 +10,12 @@ class ThumbCache:
     name_randomizer = 0
 
     def __init__(self):
-        self.tmp_dir = tempfile.mkdtemp()
         self.thumbs = {}
 
     @staticmethod
     def create_thumb_cache(blog_root):
+        settings.logger.info("Loading Thumbnail cache..")
+
         cache = ThumbCache()
         for root, dirs, files in os.walk(blog_root):
             for fn in files:
@@ -35,69 +35,33 @@ class ThumbCache:
         if suffix not in self.allowed_types:
             return
 
-        full_img_path = os.path.join(dirname, fn.replace("_thumb", ""))
-        if os.path.exists(full_img_path):
-            self.thumbs[self._get_hash(full_img_path)] = self._copy_to_tmp(path)
-            return
+        thumb_suffix = "_thumb.jpg"
+        filename_variations = (
+            fn.replace("_thumb", ""),
+            fn.replace(thumb_suffix, ".jpeg"),
+            fn.replace(thumb_suffix, ".png"),
+            fn.replace(thumb_suffix, ".svg"),
+        )
 
-        full_img_path = os.path.join(dirname, fn.replace("_thumb.jpg", ".jpeg"))
-        if os.path.exists(full_img_path):
-            self.thumbs[self._get_hash(full_img_path)] = self._copy_to_tmp(path)
-            return
+        for filename in filename_variations:
+            full_img_path = os.path.join(dirname, filename)
 
-        full_img_path = os.path.join(dirname, fn.replace("_thumb.jpg", ".png"))
-        if os.path.exists(full_img_path):
-            self.thumbs[self._get_hash(full_img_path)] = self._copy_to_tmp(path)
-            return
+            if os.path.exists(full_img_path):
+                hash = self._get_hash_for_file(full_img_path)
+                self.thumbs[hash] = self._import_thumbnail(path)
+                return
 
-        full_img_path = os.path.join(dirname, fn.replace("_thumb.jpg", ".svg"))
-        if os.path.exists(full_img_path):
-            self.thumbs[self._get_hash(full_img_path)] = self._copy_to_tmp(path)
-            return
-
-    def try_restore(self, image_path):
-        image_hash = self._get_hash(image_path)
-
-        thumb_in_tmp = self.thumbs.get(image_hash)
-        if thumb_in_tmp is not None:
-            return self._copy_from_tmp(thumb_in_tmp, image_path)
-
-        return None
-
-    def _get_hash(self, path):
+    def _get_hash_for_file(self, path):
         with open(path, "rb") as f:
             return hashlib.md5(f.read()).hexdigest()
 
-    def _copy_to_tmp(self, path):
-        subdir = self._make_subdir()
+    def _import_thumbnail(self, thumb_path):
+        with open(thumb_path, "rb") as f:
+            return Data(thumb_path, f.read())
 
-        tmp_name = os.path.join(self.tmp_dir, subdir, os.path.basename(path))
-        shutil.copyfile(path, tmp_name)
+    def try_restore(self, full_img: Data):
+        image_hash = self._get_hash_for_bytes(full_img.content)
+        return self.thumbs.get(image_hash, None)
 
-        settings.logger.debug("`%s` stored in thumb cache.", path)
-
-        return tmp_name
-
-    def _make_subdir(self):
-        subdir = str(self.name_randomizer)
-        self.name_randomizer += 1
-        os.makedirs(os.path.join(self.tmp_dir, subdir), exist_ok=True)
-
-        return subdir
-
-    def _copy_from_tmp(self, tmp_name, image_path):
-        fn = os.path.basename(tmp_name)
-        dirname = os.path.dirname(image_path)
-        thumb_path = os.path.join(dirname, fn)
-
-        shutil.copyfile(tmp_name, thumb_path)
-
-        return fn
-
-    def __del__(self):
-        self.cleanup()
-
-    def cleanup(self):
-        settings.logger.debug("Thumb cache deleted.")
-        if os.path.exists(self.tmp_dir):
-            shutil.rmtree(self.tmp_dir)
+    def _get_hash_for_bytes(self, data: bytes):
+        return hashlib.md5(data).hexdigest()
