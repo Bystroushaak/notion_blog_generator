@@ -110,7 +110,6 @@ class Page:
             _old_transformers.PostprocessChangelog,
             _old_transformers.PostprocessIndex,
             _old_transformers.AddSidebar,
-            _old_transformers.AddScriptsAndButtons,
             _old_transformers.AddSyntaxHighlighting,
             _old_transformers.BlockquoteNewlinePostprocessor,
         ]
