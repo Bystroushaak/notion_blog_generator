@@ -251,6 +251,7 @@ class HtmlPage(FileBase):
         # TODO: can be used to generate trans table
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
+        self.hash = self._parse_hash(self.original_fn)
 
         self.is_index_to = None
 
@@ -266,6 +267,12 @@ class HtmlPage(FileBase):
     def title(self):
         title_el = self.dom.find("h1", {"class": "page-title"})[0]
         return dhtmlparser.removeTags(title_el.__str__()).strip()
+
+    def _parse_hash(self, notion_fn):
+        without_html = notion_fn.rsplit(".", 1)[0]
+        hash_without_name = without_html.split()[-1]
+
+        return hash_without_name.strip()
 
     def convert_resources_to_ids(self, path_id_map):
         resources = self._collect_resources()
