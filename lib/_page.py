@@ -102,7 +102,6 @@ class Page:
     def transform(self):
         transformer_classes = [
             _old_transformers.GenerateThumbnails,
-            _old_transformers.PostprocessIndex,
             _old_transformers.AddSidebar,
         ]
 
