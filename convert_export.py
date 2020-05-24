@@ -2,14 +2,18 @@
 import os
 import shutil
 import argparse
+import time
 
 from lib.create_abstract_tree import VirtualFS
 
+from lib.settings import settings
 from lib.preprocessors import get_preprocessors
 from lib.html_transformers import get_transformers
 
 
 def generate_blog(zipfile, blog_root):
+    start_ts = time.time()
+
     # thumb_cache = ThumbCache.create_thumb_cache(blog_root)
     empty_directory(blog_root)
 
@@ -26,6 +30,9 @@ def generate_blog(zipfile, blog_root):
             transformer.transform(blog_tree, root_node, html_file)
 
     blog_tree.store_on_disc(blog_root)
+
+    settings.logger.info("Blog generated in %.2f seconds.",
+                         time.time() - start_ts)
 
 
 def empty_directory(blog_path):
