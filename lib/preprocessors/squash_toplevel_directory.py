@@ -6,6 +6,8 @@ from .preprocessor_base import PreprocessorBase
 class SquashToplevelDirectory(PreprocessorBase):
     @classmethod
     def preprocess(cls, virtual_fs, root):
+        settings.logger.info("Squashing toplevel directory..")
+
         root_index = root.files[0]
         root_index.filename = "index.html"
 
@@ -16,4 +18,5 @@ class SquashToplevelDirectory(PreprocessorBase):
         root.files.append(root_index)
         root.reindex_parents()
 
-        settings.logger.info("Toplevel directory squashed.")
+        root.inner_index = root_index
+        root.outer_index = root_index

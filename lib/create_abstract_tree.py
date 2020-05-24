@@ -252,15 +252,20 @@ class HtmlPage(FileBase):
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
 
-        self.is_index = False
+        self.is_index_to = None
 
     @property
     def is_html(self):
         return True
 
     @property
+    def is_index(self):
+        return bool(self.is_index_to)
+
+    @property
     def title(self):
-        return self.dom.find("h1", {"class": "page-title"})[0].getContent()
+        title_el = self.dom.find("h1", {"class": "page-title"})[0]
+        return dhtmlparser.removeTags(title_el.__str__()).strip()
 
     def convert_resources_to_ids(self, path_id_map):
         resources = self._collect_resources()
@@ -343,6 +348,7 @@ class HtmlPage(FileBase):
             self.original_fn,
         )
         copy.filename = self.filename
+        copy.is_index_to = self.is_index_to
 
         return copy
 
@@ -373,6 +379,13 @@ class Directory(FileBase):
         self.subdirs = []
         self.files = []
 
+        self.inner_index = None
+        self.outer_index = None
+
+    @property
+    def title(self):
+        return "dirname:" + self.filename
+
     @property
     def is_directory(self):
         return True
@@ -386,6 +399,20 @@ class Directory(FileBase):
     def add_file(self, file: Union[HtmlPage, Data]):
         self.files.append(file)
         file.set_parent(self)
+
+    def add_copy_as_index(self, html_file: HtmlPage):
+        index = html_file.create_copy()
+        index.filename = "index.html"
+
+        self.files.append(index)
+        index.parent = self
+
+        # used later to do all kinds of postprocessing
+        index.is_index_to = self
+        html_file.is_index_to = self
+
+        self.inner_index = index
+        self.outer_index = html_file
 
     def print_tree(self, indent=0):
         print(indent * "  ", self.filename + "/")

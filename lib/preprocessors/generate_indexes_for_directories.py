@@ -11,15 +11,7 @@ class GenerateIndexesForDirectories(PreprocessorBase):
         settings.logger.info("Generating indexes for directories..")
 
         for dir, file in cls.all_dirs_that_contain_html_with_same_name(root):
-            index = file.create_copy()
-            index.filename = "index.html"
-
-            dir.files.append(index)
-            index.parent = dir
-
-            # used later to do all kinds of postprocessing
-            file.is_index = True
-            index.is_index = True
+            dir.add_copy_as_index(file)
 
     @classmethod
     def all_dirs_that_contain_html_with_same_name(cls, root):
