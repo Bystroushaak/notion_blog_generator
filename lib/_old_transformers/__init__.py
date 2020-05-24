@@ -1,5 +1,4 @@
 from .add_breadcrumb import AddBreadcrumb
-from .add_twitter_card import AddTwitterCard
 from .add_sidebar import AddSidebar
 from .fix_notion_links import FixNotionLinks
 from .fix_youtube_embeds import FixYoutubeEmbeds

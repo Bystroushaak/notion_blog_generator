@@ -17,6 +17,7 @@ class Settings:
         self.patreon_url = "https://www.patreon.com/bePatron?u=2618881"
         self.atom_feed_url = "http://rfox.eu/raw/feeds/notion_blog.xml"
         self.google_analytics_code = "UA-142545439-1"
+        self.twitter = "@Bystroushaak"
 
 
 settings = Settings()

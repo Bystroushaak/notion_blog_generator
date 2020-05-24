@@ -319,12 +319,16 @@ class HtmlPage(FileBase):
         scripts = (script for script in self.dom.find("script")
                    if "src" in script.params and \
                       "://" not in script.params.get("href", ""))
+        twitter_images = (meta for meta in self.dom.find("meta",
+                                                     {"name": "twitter:image"})
+                          if "://" not in meta.params.get("content", ""))
 
         resources = (
             (links, "href"),
             (images, "src"),
             (meta_links, "href"),
             (scripts, "src"),
+            (twitter_images, "content"),
         )
 
         return resources
