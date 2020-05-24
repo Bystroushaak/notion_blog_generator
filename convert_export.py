@@ -1,21 +1,23 @@
 #! /usr/bin/env python3
 import os
+import time
 import shutil
 import argparse
-import time
 
 from lib.create_abstract_tree import VirtualFS
 
 from lib.settings import settings
+from lib.thumb_cache import ThumbCache
 from lib.preprocessors import get_preprocessors
 from lib.postprocessors import get_postprocessors
 from lib.html_transformers import get_transformers
+from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 
 
 def generate_blog(zipfile, blog_root):
     start_ts = time.time()
 
-    # thumb_cache = ThumbCache.create_thumb_cache(blog_root)
+    GenerateThumbnails.thumb_cache = ThumbCache.create_thumb_cache(blog_root)
     empty_directory(blog_root)
 
     blog_tree = VirtualFS(zipfile)

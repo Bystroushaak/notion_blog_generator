@@ -57,16 +57,17 @@ class GenerateThumbnails(TransformerBase):
             width = settings.page_width
 
         thumb = None
-        # if cls.thumb_cache:
-        #     thumb = cls.thumb_cache.try_restore(img.path)
-        #
-        # if thumb is not None:
-        #     settings.logger.debug("Thumbnail `%s` restored from cache.", thumb)
-        #     img_tag.params["src"] = cls._get_ref_str_for_img(thumb)
-        #     cls._put_into_same_directory_as_img(img, thumb)
-        #     return
+        if cls.thumb_cache:
+            thumb = cls.thumb_cache.try_restore(img)
+
+        if thumb is not None:
+            settings.logger.debug("Thumbnail `%s` found in cache.", img.path)
+            img_tag.params["src"] = cls._get_ref_str_for_img(thumb)
+            cls._put_into_same_directory_as_img(img, thumb)
+            return
 
         try:
+            settings.logger.debug("Generating thumbnail for %s.", img.path)
             thumb_img = cls._generate_thumbnail(img, width)
         except SmallerThanRequired:
             return
