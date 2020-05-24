@@ -1,13 +1,13 @@
 import dhtmlparser
 
 from lib.settings import settings
-from lib.html_transformers import MakeChangelogReadable
 from lib.preprocessors.add_static_files import AddStaticFiles
 
 from .postprocessor_base import PostprocessorBase
+from .make_changelog_readable import MakeChangelogReadable
 
 
-class AddChangelogToIndex(PostprocessorBase):
+class AddMinichangelogToIndex(PostprocessorBase):
     @classmethod
     def postprocess(cls, virtual_fs, root):
         settings.logger.info("Adding changelog to root index page..")

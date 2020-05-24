@@ -466,3 +466,16 @@ class Directory(FileBase):
 
         for dir in self.subdirs:
             dir.parent = self
+
+    def subdir_by_name(self, name, case_insensitive=False, default=None):
+        for directory in self.subdirs:
+            if directory.filename == name:
+                return directory
+
+            if case_insensitive and directory.filename.lower() == name.lower():
+                return directory
+
+        if default:
+            return default
+
+        raise ValueError("Couldn't find subdirectory `%s`.")

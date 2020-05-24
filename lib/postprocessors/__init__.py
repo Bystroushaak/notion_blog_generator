@@ -1,7 +1,9 @@
-from .add_changelog_to_index import AddChangelogToIndex
+from .make_changelog_readable import MakeChangelogReadable
+from .add_changelog_to_index import AddMinichangelogToIndex
 
 
 def get_postprocessors():
     return (
-        AddChangelogToIndex,
+        MakeChangelogReadable,
+        AddMinichangelogToIndex,
     )

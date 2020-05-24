@@ -4,33 +4,39 @@ import dhtmlparser
 
 from lib.settings import settings
 
-from .transformer_base import TransformerBase
+from .postprocessor_base import PostprocessorBase
 
 
 class Post(namedtuple("Post", "timestamp, title, description")):
     pass
 
 
-class MakeChangelogReadable(TransformerBase):
-    last_articles = []
+class MakeChangelogReadable(PostprocessorBase):
     is_set = False
-    changelog_id = "94395240-48de-4516-9fd7-4f5e92fb9598"
+    last_articles = []
 
     @classmethod
-    def log_transformer(cls):
+    def postprocess(cls, virtual_fs, root):
         settings.logger.info("Converting Changelog table to readable page..")
 
-    @classmethod
-    def transform(cls, virtual_fs, root, page):
-        article_tag = page.dom.find("article")
-        if not article_tag or article_tag[0].params.get("id") != cls.changelog_id:
-            return
+        changelog_dir = root.subdir_by_name("Changelog")
 
+        cls.make_changelog_readable(changelog_dir.inner_index)
+        cls.make_changelog_readable(changelog_dir.outer_index)
+
+        # remove "table" files
+        changelog_dir.files = [file for file in changelog_dir.files
+                               if file.is_index]
+
+        cls.is_set = True
+
+    @classmethod
+    def make_changelog_readable(cls, changelog_page):
         content_element = "<div>\n"
         tr_line_template = "  <p><span class=\"changelog_short\">%s</span> (%s)</p>\n%s"
         tr_line_template += "  <hr style=\"margin-bottom: 1em; margin-top: 1em;\"/>\n\n"
 
-        tbody = article_tag[0].find("tbody")[0]
+        tbody = changelog_page.dom.find("tbody")[0]
         for tr in reversed(tbody.find("tr")):
             td_date, td_title, td_content = tr.find("td")
 
@@ -44,10 +50,8 @@ class MakeChangelogReadable(TransformerBase):
 
         content_element += "</div>\n"
 
-        cls.is_set = True
-
         table_content_el = dhtmlparser.parseString(content_element).find("div")[0]
-        article_tag[0].find("table")[0].replaceWith(table_content_el)
+        changelog_page.dom.find("table")[0].replaceWith(table_content_el)
 
     @classmethod
     def _parse_content(cls, td_content):
