@@ -24,6 +24,8 @@ class Settings:
         self.number_of_articles_in_sidebar = 5
         self.number_of_articles_in_minichangelog = 5
 
+        self.page_width = 900
+
     def check(self):
         if self.twitter and "@" not in self.twitter:
             self.twitter = "@" + self.twitter

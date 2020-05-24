@@ -4,7 +4,6 @@ import copy
 import sh
 import dhtmlparser
 
-from lib import _old_transformers
 from lib._shared_resources import SharedResources
 
 
@@ -98,18 +97,3 @@ class Page:
                 href = "../" + href
 
             a.params["href"] = href
-
-    def transform(self):
-        transformer_classes = [
-            _old_transformers.GenerateThumbnails,
-        ]
-
-        full_path_without_filetype = self.path.rsplit(".", 1)[0]
-        for path in self.shared.all_pages.keys():
-            if path.startswith(full_path_without_filetype + "/"):
-                self.is_index = True
-                break
-
-        for transformer in transformer_classes:
-            transformer.postprocess(self.dom, self, self.shared)
-

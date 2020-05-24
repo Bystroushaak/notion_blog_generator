@@ -12,6 +12,7 @@ from lib.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
 from lib.html_transformers.fix_inlined_styles import FixInlinedStyles
 from lib.html_transformers.fix_blockquotes import FixBlockquotes
 from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
+from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 
 
 def get_transformers():
@@ -22,12 +23,13 @@ def get_transformers():
         AddFaviconLinkTag,
         AddPatreonButton,
         AddAnalyticsTag,
-        AddScriptsAndButtons,
-        AddTwitterCard,
         AddSyntaxHighlighting,
         AddBreadcrumbs,
         FixYoutubeEmbeds,
         FixInlinedStyles,
         FixBlockquotes,
         MakeNotionLinksLocal,
+        GenerateThumbnails,
+        AddTwitterCard,
+        AddScriptsAndButtons,
     )
