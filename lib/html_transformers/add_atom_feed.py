@@ -16,7 +16,7 @@ class AddAtomFeedTag(TransformerBase):
 
         atom_tag_str = (
             '<link rel="alternate" type="application/atom+xml" '
-            'href="" />'
+            'href="%s" />'
         )
         atom_tag_str = atom_tag_str % settings.atom_feed_url
         atom_tag = dhtmlparser.parseString(atom_tag_str).find("link")[0]
