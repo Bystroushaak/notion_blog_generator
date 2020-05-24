@@ -41,7 +41,7 @@ class AddTwitterCard(TransformerBase):
         else:
             meta_html = cls.summary_card_html.format(title=page.title,
                                                      description=description,
-                                                     user=settings.twitter)
+                                                     user=settings.twitter_handle)
 
         meta_tags = dhtmlparser.parseString(meta_html)
 
@@ -54,7 +54,7 @@ class AddTwitterCard(TransformerBase):
         return cls.large_image_card_html.format(title=page.title,
                                                 description=description,
                                                 image=first_image_path,
-                                                user=settings.twitter)
+                                                user=settings.twitter_handle)
 
     @classmethod
     def _parse_description(cls, page):

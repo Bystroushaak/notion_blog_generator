@@ -18,8 +18,8 @@ class Settings:
         self.atom_feed_url = "http://rfox.eu/raw/feeds/notion_blog.xml"
         self.google_analytics_code = "UA-142545439-1"
 
-        self.twitter = "@Bystroushaak"
         self.twitter_url = ""
+        self.twitter_handle = "@Bystroushaak"
 
         self.number_of_articles_in_sidebar = 5
         self.number_of_articles_in_minichangelog = 5
@@ -30,11 +30,11 @@ class Settings:
         self.write_prettify = False
 
     def check(self):
-        if self.twitter and "@" not in self.twitter:
-            self.twitter = "@" + self.twitter
+        if self.twitter_handle and "@" not in self.twitter_handle:
+            self.twitter_handle = "@" + self.twitter_handle
 
-        if self.twitter and not self.twitter_url:
-            twitter_username = self.twitter.replace("@", "")
+        if self.twitter_handle and not self.twitter_url:
+            twitter_username = self.twitter_handle.replace("@", "")
             self.twitter_url = "https://twitter.com/" + twitter_username
 
 
