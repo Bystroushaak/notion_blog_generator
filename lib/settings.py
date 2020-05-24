@@ -7,7 +7,7 @@ log_fmt = ("\033[90m%(asctime)s %(levelname)s %(filename)s:%(lineno)s;\033[0m\n"
            "%(message)s\n")
 stderr_logger.setFormatter(logging.Formatter(log_fmt))
 logger.addHandler(stderr_logger)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 class Settings:
