@@ -75,9 +75,8 @@ def _get_file_hash(path):
 
 def _print_as_nginx_redirect(old_path, new_path):
     template = """location '%s' {
-    return 301 %s;
-}
-"""
+    return 301 '%s';
+}"""
 
     print(template % (old_path, new_path))
 
