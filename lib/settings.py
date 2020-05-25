@@ -14,8 +14,8 @@ class Settings:
     def __init__(self):
         self.logger = logger
         self.blog_url = "http://blog.rfox.eu"
+        self.blog_name = "Bystroushaak's blog"
         self.patreon_url = "https://www.patreon.com/bePatron?u=2618881"
-        self.atom_feed_url = "http://rfox.eu/raw/feeds/notion_blog.xml"
         self.google_analytics_code = "UA-142545439-1"
 
         self.twitter_url = ""
@@ -28,6 +28,10 @@ class Settings:
 
         self.tidy_html = True
         self.write_prettify = False
+
+        self.generated_feed_name = "atom.xml"
+        self.atom_feed_url = self.blog_url + "/" + self.generated_feed_name
+        self.number_of_items_in_feed = 10
 
     def check(self):
         if self.twitter_handle and "@" not in self.twitter_handle:
