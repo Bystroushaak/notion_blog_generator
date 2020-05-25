@@ -85,7 +85,7 @@ class HtmlPage(FileBase):
                 resource_relpath = os.path.relpath(resource.path, html_dir)
 
                 if resource_el.params.get("name", "") == "twitter:image":
-                    image_path = self._to_abs_url_path(resource_relpath)
+                    image_path = self._to_abs_url_path(resource.path)
                     resource_el.params[src] = image_path
                 else:
                     resource_el.params[src] = resource_relpath
