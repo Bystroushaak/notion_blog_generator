@@ -56,7 +56,7 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
         href = link.params.get("href", "")
 
         if registry.is_ref_str(href):
-            item = registry.parse_ref_str(href)
+            item = registry.item_by_ref_str(href)
 
             title = item.title
             url = settings.blog_url
