@@ -28,6 +28,9 @@ class AddStaticFiles(PreprocessorBase):
     twitter_icon = None
     twitter_icon_ref = ""
 
+    nginx_redirects = None
+    nginx_redirects_ref = ""
+
     @classmethod
     def preprocess(cls, virtual_fs, root):
         settings.logger.info("Adding static files to virtual filesystem..")
@@ -52,6 +55,9 @@ class AddStaticFiles(PreprocessorBase):
         cls.twitter_icon = cls._data_from_static_files("twitter_icon.png")
         cls.twitter_icon_ref = registry.register_item_as_ref_str(cls.twitter_icon)
 
+        cls.nginx_redirects = cls._data_from_static_files("../nginx_redirects.txt")
+        cls.nginx_redirects_ref = registry.register_item_as_ref_str(cls.nginx_redirects)
+
         new_files = (
             cls.css,
             cls.js,
@@ -59,6 +65,7 @@ class AddStaticFiles(PreprocessorBase):
             cls.rss_icon,
             cls.tweet_button,
             cls.twitter_icon,
+            cls.nginx_redirects,
         )
 
         for file in new_files:
