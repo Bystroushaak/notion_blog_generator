@@ -3,7 +3,7 @@
 .DEFAULT: build
 build:
 	./convert_export.py --zipfile ~/Plocha/Export*.zip \
-                        --blogroot /home/bystrousak/Plocha/notion_blog_content
+                        --blogroot /home/bystrousak/Plocha/xlit/notion_blog_content
 
 help:
 	@echo "make"
