@@ -114,7 +114,9 @@ class GenerateThumbnails(TransformerBase):
 
         full_img_name_tokens = full_img.filename.rsplit(".", 1)
         if len(full_img_name_tokens) == 2:
-            thumb_img.filename = "{}_thumb.{}".format(*full_img_name_tokens)
+            name_base = full_img_name_tokens[0].strip()
+            name_base = name_base.replace(" ", "_")
+            thumb_img.filename = "%s_thumb.jpg" % name_base
         else:
             thumb_img.filename = full_img.filename + "_thumb"
 
@@ -136,7 +138,6 @@ class GenerateThumbnails(TransformerBase):
 
         height = img.size[1] * (img.size[0] / width)
         img.thumbnail((width, height), Image.ANTIALIAS)
-        # img = img.convert('RGB')
 
         thumb_img_as_io = io.BytesIO()
         img.save(thumb_img_as_io, "JPEG")

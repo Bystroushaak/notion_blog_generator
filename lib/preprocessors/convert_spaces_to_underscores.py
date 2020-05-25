@@ -8,6 +8,6 @@ class ConvertSpacesToUnderscores(PreprocessorBase):
     def preprocess(cls, virtual_fs, root):
         settings.logger.info("Converting all spaces in names to underscores..")
 
-        for item in list(root.walk_dirs()) + list(root.walk_htmls()):
+        for item in root.walk_all():
             item.filename = item.filename.replace(" ", "_")
             item.filename = item.filename.replace("%20", "_")

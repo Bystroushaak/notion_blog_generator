@@ -13,9 +13,6 @@ class AddScriptsAndTwitterButtons(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs, root, page):
-        if page.is_index and len(page.content) < 30000:
-            return
-
         if page is root.outer_index or page is root.inner_index:
             return
 
@@ -23,7 +20,8 @@ class AddScriptsAndTwitterButtons(TransformerBase):
         head.childs.append(cls._get_load_script_tag())
 
         body_tag = page.dom.find("body")[0]
-        body_tag.childs.append(cls._get_twitter_button_tag())
+        if not page.is_index or len(page.content) > 30000:
+            body_tag.childs.append(cls._get_twitter_button_tag())
 
         body_tag.params["onload"] = "on_body_load();"
 

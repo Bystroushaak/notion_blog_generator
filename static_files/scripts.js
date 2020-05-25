@@ -4,6 +4,10 @@ function add_twitter_link() {
     var url = "https://twitter.com/intent/tweet?text=" + blog_title + "&url=" + blog_url + "&via=Bystroushaak";
 
     var twitter_link = document.getElementById("twitter_button");
+    if (twitter_link == null) {
+        return;
+    }
+
     twitter_link.href = url;
     twitter_link.style.visibility = "visible";
 }
@@ -91,6 +95,6 @@ function add_image_overlays() {
 }
 
 function on_body_load() {
-    add_twitter_link();
     add_image_overlays();
+    add_twitter_link();
 }

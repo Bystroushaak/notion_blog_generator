@@ -104,10 +104,10 @@ class VirtualFS:
         for html in self.root.walk_htmls():
             html.convert_resources_to_paths(self.resource_registry)
 
-        settings.logger.info("Conversion of resources to paths done.")
-
     def store_on_disc(self, blog_root_path):
         self.convert_resources_to_paths()
+
+        settings.logger.info("Saving files to disc..")
 
         for directory in self.root.walk_dirs():
             directory_path = directory.path
@@ -134,5 +134,3 @@ class VirtualFS:
             full_file_path = os.path.join(blog_root_path, file_path)
 
             file.save_as(full_file_path)
-
-        settings.logger.info("Files stored on disc.")
