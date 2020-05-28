@@ -35,4 +35,5 @@ def get_transformers():
         GenerateThumbnails,
         AddTwitterCards,
         AddScriptsAndTwitterButtons,
+        AddKeywordMetadataTags,
     )
