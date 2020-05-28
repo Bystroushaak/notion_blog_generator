@@ -10,9 +10,9 @@ from lib.virtual_fs import HtmlPage
 import tqdm
 
 
-def do_diff_and_print_redirects(old_dir, new_dir):
-    hash_to_blog_path_old = _generate_hash_to_blog_map(old_dir)
-    hash_to_blog_path_new = _generate_hash_to_blog_map(new_dir)
+def do_diff_and_print_redirects(old_dir, new_dir, redirect_images=False):
+    hash_to_blog_path_old = _generate_hash_to_blog_map(old_dir, redirect_images)
+    hash_to_blog_path_new = _generate_hash_to_blog_map(new_dir, redirect_images)
 
     for hash, new_path in hash_to_blog_path_new.items():
         old_path = hash_to_blog_path_old.get(hash)
@@ -26,13 +26,15 @@ def do_diff_and_print_redirects(old_dir, new_dir):
         _print_as_nginx_redirect(old_path, new_path)
 
 
-def _generate_hash_to_blog_map(old_dir):
+def _generate_hash_to_blog_map(old_dir, redirect_images=False):
     hash_to_blog_path = {}
     for path, blog_path in tqdm.tqdm(list(_walk_blog(old_dir))):
         if path.endswith(".html"):
             hash = _get_html_content_independent_hash(path)
-        else:
+        elif redirect_images:
             hash = _get_file_hash(path)
+        else:
+            continue
 
         hash_to_blog_path[hash] = blog_path
 
@@ -78,6 +80,9 @@ def _print_as_nginx_redirect(old_path, new_path):
     return 301 '%s';
 }"""
 
+    if new_path.endswith("/index.html") and new_path != "/index.html":
+        new_path = new_path.rsplit("index.html", 1)[0]
+
     print(template % (old_path, new_path))
 
 
@@ -95,6 +100,12 @@ if __name__ == '__main__':
         required=True,
         help="New structure of the blog."
     )
+    parser.add_argument(
+        "-i",
+        "--redirect-images",
+        action="store_true",
+        help="By default, script only redirects html pages and not images."
+    )
 
     args = parser.parse_args()
 
@@ -106,4 +117,5 @@ if __name__ == '__main__':
         sys.stderr.write("--new-structure does not exist!\n")
         sys.exit(1)
 
-    do_diff_and_print_redirects(args.old_structure, args.new_structure)
+    do_diff_and_print_redirects(args.old_structure, args.new_structure,
+                                args.redirect_images)
