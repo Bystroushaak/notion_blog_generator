@@ -4,8 +4,9 @@ import dhtmlparser
 from prog_lang_detector.classify import classify
 
 from pygments import highlight
-from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
+from pygments.lexers.python import PythonLexer
+from pygments.lexers.smalltalk import SmalltalkLexer
 
 
 from lib.settings import settings
@@ -22,14 +23,17 @@ class AddSyntaxHighlighting(TransformerBase):
     def transform(cls, virtual_fs, root, page):
         dhtmlparser.makeDoubleLinked(page.dom)
 
-
         add_style_to_the_header = False
         for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):
             code_content, lang = cls._parse_code_content_and_lang(code_tag)
 
+            add_style_to_the_header = True
             if lang == "python" or lang == "python3":
-                cls._add_syntax_highlight_for_python(code_tag, code_content)
-                add_style_to_the_header = True
+                cls._add_syntax_highlight_for(PythonLexer, code_tag, code_content)
+            elif lang == "smalltalk":
+                cls._add_syntax_highlight_for(SmalltalkLexer, code_tag, code_content)
+            else:
+                add_style_to_the_header = False
 
         if add_style_to_the_header:
             style = HtmlFormatter().get_style_defs()
@@ -38,10 +42,10 @@ class AddSyntaxHighlighting(TransformerBase):
             page.dom.find("head")[0].childs.append(style_tag)
 
     @classmethod
-    def _add_syntax_highlight_for_python(cls, code, code_content):
+    def _add_syntax_highlight_for(cls, lexer, code, code_content):
         formatter = HtmlFormatter(wrapcode=False)
 
-        colored_text = highlight(code_content, PythonLexer(), formatter)
+        colored_text = highlight(code_content, lexer(), formatter)
         pre_tag = dhtmlparser.parseString(colored_text).find("pre")[0]
 
         # wrap content of the <pre> to the <code>
