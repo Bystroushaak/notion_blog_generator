@@ -148,7 +148,8 @@ class UnfuckFilenames(PreprocessorBase):
             return False
 
         for subitem in item.parent.subdirs + item.parent.files:
-            if subitem.filename == fn and item is not subitem:
+            if subitem.filename == fn and item is not subitem \
+                and type(item) == type(subitem):
                 return True
 
         return False
