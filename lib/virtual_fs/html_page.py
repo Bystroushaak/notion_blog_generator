@@ -1,12 +1,40 @@
 import os.path
 
 import sh
+import yaml
 import dhtmlparser
 
 from lib.settings import settings
 
 from lib.virtual_fs.file_baseclass import FileBase
 from lib.virtual_fs.resource_registry import ResourceRegistry
+
+
+class Metadata:
+    def __init__(self):
+        self.page_description = ""
+        self.image_index = -1
+        self.tags = []
+
+    @classmethod
+    def from_yaml(cls, yaml_str):
+        data = yaml.load(yaml_str)
+
+        metadata = Metadata()
+
+        description = data.get("description", data.get("Description"))
+        if description:
+            metadata.page_description = description
+
+        image_index = data.get("image_index", data.get("image-index"))
+        if image_index:
+            metadata.image_index = image_index
+
+        tags = data.get("tags")
+        if tags:
+            metadata.tags = [tag.strip() for tag in tags.split(",")]
+
+        return metadata
 
 
 class HtmlPage(FileBase):
@@ -16,10 +44,11 @@ class HtmlPage(FileBase):
         self.content = content
         self.dom = dhtmlparser.parseString(self.content)
 
-        # TODO: can be used to generate trans table
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
         self.hash = self._parse_hash(self.original_fn)
+
+        self.metadata = Metadata()
 
         self.is_index_to = None
 
