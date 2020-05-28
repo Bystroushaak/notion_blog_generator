@@ -107,25 +107,17 @@ class HtmlPage(FileBase):
                     continue
 
                 resource_id_token = resource_el.params[src]
+
+                if "://" in resource_id_token:
+                    continue
+
                 if not ResourceRegistry.is_ref_str(resource_id_token):
                     continue
 
                 resource = resource_registry.item_by_ref_str(resource_id_token)
                 resource_relpath = os.path.relpath(resource.path, html_dir)
+                resource_el.params[src] = resource_relpath
 
-                if resource_el.params.get("name", "") == "twitter:image":
-                    image_path = self._to_abs_url_path(resource.path)
-                    resource_el.params[src] = image_path
-                else:
-                    resource_el.params[src] = resource_relpath
-
-    def _to_abs_url_path(self, resource_relpath):
-        image_path = settings.blog_url
-
-        if not settings.blog_url.endswith("/") and not resource_relpath.startswith("/"):
-            image_path += "/"
-
-        return image_path + resource_relpath
 
     def _collect_resources(self):
         links = (a for a in self.dom.find("a")
