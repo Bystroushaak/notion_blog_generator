@@ -29,11 +29,7 @@ class AddTwitterCards(TransformerBase):
     @classmethod
     def transform(cls, virtual_fs, root, page):
         dhtmlparser.makeDoubleLinked(page.dom)
-
-        if page.metadata.page_description:
-            description = page.metadata.page_description
-        else:
-            description = cls._parse_description(page)
+        description = page.metadata.page_description
 
         if not description:
             return
@@ -62,35 +58,3 @@ class AddTwitterCards(TransformerBase):
                                                 image=first_image_path,
                                                 user=settings.twitter_handle)
 
-    @classmethod
-    def _parse_description(cls, page):
-        p_tags = page.dom.match(
-            "body",
-            {"tag_name": "div", "params": {"class": "page-body"}},
-            "p"
-        )
-
-        possible_descriptions = [
-            dhtmlparser.removeTags(p.getContent())
-            for p in p_tags if not cls._is_unwanted_element(p)
-        ]
-        if possible_descriptions:
-            return possible_descriptions[0]
-
-        return ""
-
-    @staticmethod
-    def _is_unwanted_element(p):
-        if p.find("time"):
-            return True
-
-        if p.params.get("class") == "column":
-            return True
-
-        if len(dhtmlparser.removeTags(p.getContent())) <= 30:
-            return True
-
-        if p.parent.params.get("class") != "page-body":
-            return True
-
-        return False
