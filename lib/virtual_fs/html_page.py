@@ -49,6 +49,7 @@ class HtmlPage(FileBase):
         self.hash = self._parse_hash(self.original_fn)
 
         self.metadata = Metadata()
+        self.alt_title = None
 
         self.is_index_to = None
 
@@ -62,6 +63,9 @@ class HtmlPage(FileBase):
 
     @property
     def title(self):
+        if self.alt_title:
+            return self.alt_title
+
         title_el = self.dom.find("h1", {"class": "page-title"})[0]
         return dhtmlparser.removeTags(title_el.__str__()).strip()
 
