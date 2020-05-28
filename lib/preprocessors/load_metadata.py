@@ -1,25 +1,26 @@
 import html
 
-import yaml
 import dhtmlparser
 
 from lib.settings import settings
 
-from .transformer_base import TransformerBase
+from .preprocessor_base import PreprocessorBase
 
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
-from lib.virtual_fs.html_page import HtmlPage
 from lib.virtual_fs.html_page import Metadata
 
 
-class LoadMetadata(TransformerBase):
+class LoadMetadata(PreprocessorBase):
     @classmethod
-    def log_transformer(cls):
+    def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Loading metadata from all HTML pages..")
 
-    @classmethod
-    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
+        for page in root.walk_htmls():
+            cls.parse_metadata_in_page(page)
+
+    @staticmethod
+    def parse_metadata_in_page(page):
         made_doublelinked = False
         for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):
             code_content = html.unescape(code_tag.getContent())

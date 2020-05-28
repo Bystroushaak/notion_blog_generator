@@ -13,13 +13,11 @@ from lib.html_transformers.fix_inlined_styles import FixInlinedStyles
 from lib.html_transformers.fix_blockquotes import FixBlockquotes
 from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from lib.html_transformers.generate_thumbnails import GenerateThumbnails
-from lib.html_transformers.load_metadata import LoadMetadata
 from lib.html_transformers.add_keywords import AddKeywordMetadataTags
 
 
 def get_transformers():
     return (
-        LoadMetadata,
         ReplaceInlinedStyles,
         AddAtomFeedTags,
         AddFileIcons,
