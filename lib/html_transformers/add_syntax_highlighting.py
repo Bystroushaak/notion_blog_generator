@@ -21,11 +21,14 @@ class AddSyntaxHighlighting(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs, root, page):
-        dhtmlparser.makeDoubleLinked(page.dom)
-
+        made_doublelinked = False
         add_style_to_the_header = False
         for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):
             code_content, lang = cls._parse_code_content_and_lang(code_tag)
+
+            if not made_doublelinked:
+                dhtmlparser.makeDoubleLinked(page.dom)
+                made_doublelinked = True
 
             add_style_to_the_header = True
             if lang == "python" or lang == "python3":
