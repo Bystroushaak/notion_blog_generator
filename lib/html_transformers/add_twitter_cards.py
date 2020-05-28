@@ -30,7 +30,11 @@ class AddTwitterCards(TransformerBase):
     def transform(cls, virtual_fs, root, page):
         dhtmlparser.makeDoubleLinked(page.dom)
 
-        description = cls._parse_description(page)
+        if page.metadata.page_description:
+            description = page.metadata.page_description
+        else:
+            description = cls._parse_description(page)
+
         if not description:
             return
 
@@ -47,7 +51,11 @@ class AddTwitterCards(TransformerBase):
 
     @classmethod
     def _large_image_card(cls, description, page):
-        first_image_path = page.dom.find("img")[0].params["src"]
+        image_index = 0
+        if page.metadata.image_index >= 0:
+            image_index = page.metadata.image_index
+
+        first_image_path = page.dom.find("img")[image_index].params["src"]
 
         return cls.large_image_card_html.format(title=page.title,
                                                 description=description,
