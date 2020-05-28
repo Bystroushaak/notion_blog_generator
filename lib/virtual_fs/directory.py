@@ -30,6 +30,7 @@ class Directory(FileBase):
 
     def add_subdir(self, subdir):
         self.subdirs.append(subdir)
+        subdir.set_parent(self)
 
     def add_file(self, file: Union[HtmlPage, Data]):
         self.files.append(file)
