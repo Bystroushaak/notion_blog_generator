@@ -31,7 +31,8 @@ class LoadMetadata(PreprocessorBase):
                 page.metadata = Metadata.from_yaml("\n".join(code_content_lines[1:]))
                 code_tag.parent.replaceWith(dhtmlparser.parseString(""))
 
-        page.metadata.page_description = cls._parse_description(page)
+        if not page.metadata.page_description:
+            page.metadata.page_description = cls._parse_description(page)
 
     @classmethod
     def _parse_description(cls, page):
