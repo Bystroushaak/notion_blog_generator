@@ -36,6 +36,15 @@ class Metadata:
 
         return metadata
 
+    def create_copy(self):
+        metadata = Metadata()
+
+        metadata.page_description = self.page_description
+        metadata.image_index = self.image_index
+        metadata.tags = self.tags
+
+        return metadata
+
 
 class HtmlPage(FileBase):
     def __init__(self, content, original_fn=None):
@@ -170,5 +179,6 @@ class HtmlPage(FileBase):
         )
         copy.filename = self.filename
         copy.is_index_to = self.is_index_to
+        copy.metadata = self.metadata.create_copy()
 
         return copy

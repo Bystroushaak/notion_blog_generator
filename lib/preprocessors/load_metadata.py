@@ -21,22 +21,17 @@ class LoadMetadata(PreprocessorBase):
 
     @classmethod
     def parse_metadata_in_page(cls, page):
-        made_doublelinked = False
+        dhtmlparser.makeDoubleLinked(page.dom)
+
         for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):
             code_content = html.unescape(code_tag.getContent())
             code_content_lines = code_content.splitlines()
 
             if code_content_lines and code_content_lines[0] == "#lang:metadata":
                 page.metadata = Metadata.from_yaml("\n".join(code_content_lines[1:]))
-
-                if not page.metadata.page_description:
-                    page.metadata.page_description = cls._parse_description(page)
-
-                if not made_doublelinked:
-                    dhtmlparser.makeDoubleLinked(page.dom)
-                    made_doublelinked = True
-
                 code_tag.parent.replaceWith(dhtmlparser.parseString(""))
+
+        page.metadata.page_description = cls._parse_description(page)
 
     @classmethod
     def _parse_description(cls, page):
