@@ -27,3 +27,7 @@ def test_metadata_parser_page_description(page):
 def test_metadata_parser_tags(page):
     assert page.metadata.tags == ["self", "python", "smalltalk", "programming_languages",
                                   "quest_for_structure", "os"]
+
+
+def test_metadata_unroll(page):
+    assert page.metadata.unroll == True

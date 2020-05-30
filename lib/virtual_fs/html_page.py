@@ -15,6 +15,7 @@ class Metadata:
         self.page_description = ""
         self.image_index = -1
         self.tags = []
+        self.unroll = False
 
     @classmethod
     def from_yaml(cls, yaml_str):
@@ -33,6 +34,8 @@ class Metadata:
         tags = data.get("tags")
         if tags:
             metadata.tags = [tag.strip() for tag in tags.split(",")]
+
+        metadata.unroll = data.get("unroll")
 
         return metadata
 
