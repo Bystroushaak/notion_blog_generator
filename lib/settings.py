@@ -25,6 +25,7 @@ class Settings:
         self.number_of_articles_in_minichangelog = 5
 
         self.page_width = 900
+        self.generate_thumbnails = True
 
         self.tidy_html = True
         self.write_prettify = False

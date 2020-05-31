@@ -1,9 +1,10 @@
-.PHONY: help build test
+.PHONY: help build test no_thumbs
 
 .DEFAULT: build
 build:
 	./convert_export.py --zipfile ~/Plocha/Export*.zip \
                         --blogroot /home/bystrousak/Plocha/xlit/notion_blog_content
+
 
 help:
 	@echo "make"
@@ -13,3 +14,8 @@ help:
 
 test:
 	python3 -m pytest
+
+no_thumbs:
+	./convert_export.py --zipfile ~/Plocha/Export*.zip \
+                        --blogroot /home/bystrousak/Plocha/xlit/notion_blog_content \
+                        --no-thumbs

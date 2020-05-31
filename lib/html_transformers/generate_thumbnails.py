@@ -19,10 +19,16 @@ class GenerateThumbnails(TransformerBase):
 
     @classmethod
     def log_transformer(cls):
-        settings.logger.info("Generating thumbnails for all images..")
+        if settings.generate_thumbnails:
+            settings.logger.info("Generating thumbnails for all images..")
+        else:
+            settings.logger.info("settings.generate_thumbnails == False")
 
     @classmethod
     def transform(cls, virtual_fs, root, page):
+        if not settings.generate_thumbnails:
+            return
+
         if cls.resource_registry is None:
             cls.resource_registry = virtual_fs.resource_registry
 

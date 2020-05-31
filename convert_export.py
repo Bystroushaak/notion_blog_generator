@@ -17,7 +17,8 @@ from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 def generate_blog(zipfile, blog_root):
     start_ts = time.time()
 
-    GenerateThumbnails.thumb_cache = ThumbCache.create_thumb_cache(blog_root)
+    if settings.generate_thumbnails:
+        GenerateThumbnails.thumb_cache = ThumbCache.create_thumb_cache(blog_root)
 
     _make_directory_empty(blog_root)
 
@@ -80,7 +81,15 @@ if __name__ == '__main__':
         "--blogroot",
         help="Path to the blog directory / git repo."
     )
+    parser.add_argument(
+        "--no-thumbs",
+        action="store_true",
+        help="Don't generate thumbnails (much faster)."
+    )
 
     args = parser.parse_args()
+
+    if args.no_thumbs:
+        settings.generate_thumbnails = False
 
     generate_blog(args.zipfile, args.blogroot)
