@@ -171,3 +171,20 @@ figure.image img:hover {opacity: 0.7;}
     width: 100%;
   }
 }
+
+ul.unroll {
+    list-style: none;
+    margin-top: -0.1em;
+}
+ul.unroll > li {
+    list-style: none;
+    text-indent: -1em;
+    padding: 0;
+    margin: -0.3em;
+}
+ul.unroll li:before {
+    content: '├» ';
+}
+ul.unroll li.unroll_last:before {
+    content: '└» ';
+}

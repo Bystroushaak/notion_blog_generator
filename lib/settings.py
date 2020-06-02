@@ -24,6 +24,10 @@ class Settings:
         self.number_of_articles_in_sidebar = 5
         self.number_of_articles_in_minichangelog = 5
 
+        self.unrolls_enabled = True
+        self.number_of_subpages_in_unroll = 3
+        self.unrolls_with_descriptions = False  # can be allowed by page metadata
+
         self.page_width = 900
 
         self.generate_thumbnails = True

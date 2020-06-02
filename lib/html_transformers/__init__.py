@@ -14,6 +14,7 @@ from lib.html_transformers.fix_blockquotes import FixBlockquotes
 from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 from lib.html_transformers.add_keywords import AddKeywordMetadataTags
+from lib.html_transformers.unroll_sections import UnrollSections
 
 
 def get_transformers():
@@ -34,4 +35,5 @@ def get_transformers():
         AddTwitterCards,
         AddScriptsAndTwitterButtons,
         AddKeywordMetadataTags,
+        UnrollSections,
     )
