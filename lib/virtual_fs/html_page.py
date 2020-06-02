@@ -25,13 +25,11 @@ class Metadata:
 
         metadata = Metadata()
 
-        description = data.get("description", data.get("Description"))
-        if description:
-            metadata.page_description = description
+        alt_descr = data.get("Description", metadata.page_description)
+        metadata.page_description = data.get("description", alt_descr)
 
-        image_index = data.get("image_index", data.get("image-index"))
-        if image_index:
-            metadata.image_index = image_index
+        alt_index = data.get("image-index", metadata.image_index)
+        metadata.image_index = data.get("image_index", alt_index)
 
         tags = data.get("tags")
         if tags:
