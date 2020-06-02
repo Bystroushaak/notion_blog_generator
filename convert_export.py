@@ -7,7 +7,7 @@ import argparse
 from lib.virtual_fs import VirtualFS
 
 from lib.settings import settings
-from lib.thumb_cache import ThumbCache
+from lib.thumb_cache import StoredThumbCache
 from lib.preprocessors import get_preprocessors
 from lib.postprocessors import get_postprocessors
 from lib.html_transformers import get_transformers
@@ -17,8 +17,10 @@ from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 def generate_blog(zipfile, blog_root):
     start_ts = time.time()
 
+    thumb_cache = None
     if settings.generate_thumbnails:
-        GenerateThumbnails.thumb_cache = ThumbCache.create_thumb_cache(blog_root)
+        thumb_cache = StoredThumbCache.create_thumb_cache(blog_root)
+        GenerateThumbnails.thumb_cache = thumb_cache
 
     _make_directory_empty(blog_root)
 
@@ -30,6 +32,9 @@ def generate_blog(zipfile, blog_root):
     _run_postprocessors(blog_tree, root_node)
 
     blog_tree.store_on_disc(blog_root)
+
+    if thumb_cache:
+        thumb_cache.save_to_storage()
 
     settings.logger.info("Blog generated in %.2f seconds.",
                          time.time() - start_ts)
@@ -57,6 +62,9 @@ def _make_directory_empty(blog_path):
     if os.path.exists(blog_path) and "index.html" in os.listdir(blog_path):
         for item in os.listdir(blog_path):
             if item == ".git":
+                continue
+
+            if item == settings.thumb_cache_name:
                 continue
 
             path = os.path.join(blog_path, item)
