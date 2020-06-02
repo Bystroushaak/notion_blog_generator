@@ -1,6 +1,8 @@
 import os.path
 import zipfile
 
+from tqdm import tqdm
+
 from lib.settings import settings
 from lib.virtual_fs.data import Data
 from lib.virtual_fs.directory import Directory
@@ -123,7 +125,7 @@ class VirtualFS:
             full_directory_path = os.path.join(blog_root_path, directory_path)
             os.makedirs(full_directory_path, exist_ok=True)
 
-        for file in self.root.walk_files():
+        for file in tqdm(list(self.root.walk_files())):
             file_path = file.path
 
             # because os.path.join() doesn't work with second argument starting

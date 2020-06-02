@@ -4,3 +4,4 @@ pyDHTMLParser
 prog_lang_detector
 pyatom
 dateparser
+tqdm
