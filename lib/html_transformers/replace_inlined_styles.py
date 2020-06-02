@@ -36,3 +36,5 @@ class ReplaceInlinedStyles(TransformerBase):
 
         css_as_bytes = bytes(original_css, "utf-8")
         AddStaticFiles.css.content = css_as_bytes + AddStaticFiles.css.content
+
+        cls._initialized = True
