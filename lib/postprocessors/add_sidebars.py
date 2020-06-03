@@ -16,7 +16,7 @@ class AddSidebarsToAllPages(PostprocessorBase):
         )
 
         for page in root.walk_htmls():
-            if page.is_index and len(page.content) < 15000:
+            if not page.is_embeddable:
                 continue
 
             if page is root.outer_index or page is root.inner_index:
