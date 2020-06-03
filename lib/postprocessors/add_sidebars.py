@@ -1,6 +1,8 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import Directory
+from lib.virtual_fs import VirtualFS
 
 from .postprocessor_base import PostprocessorBase
 from .make_changelog_readable import MakeChangelogReadable
@@ -8,7 +10,7 @@ from .make_changelog_readable import MakeChangelogReadable
 
 class AddSidebarsToAllPages(PostprocessorBase):
     @classmethod
-    def postprocess(cls, virtual_fs, root):
+    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Adding sidebars to all pages..")
 
         sidebar_content = MakeChangelogReadable.get_last_n_for_sidebars(

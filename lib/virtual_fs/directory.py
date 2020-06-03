@@ -1,4 +1,5 @@
 from typing import Union
+from typing import Iterator
 
 from lib.virtual_fs.data import Data
 from lib.virtual_fs.html_page import HtmlPage
@@ -68,20 +69,20 @@ class Directory(FileBase):
         for dir in self.subdirs:
             yield from dir.walk_all()
 
-    def walk_dirs(self):
+    def walk_dirs(self) -> Iterator["Directory"]:
         yield self
 
         for dir in self.subdirs:
             yield from dir.walk_dirs()
 
-    def walk_files(self):
+    def walk_files(self) -> Iterator[Union[HtmlPage, Data]]:
         for file in self.files:
             yield file
 
         for dir in self.subdirs:
             yield from dir.walk_files()
 
-    def walk_htmls(self):
+    def walk_htmls(self) -> Iterator[HtmlPage]:
         for file in self.files:
             if isinstance(file, HtmlPage):
                 yield file
