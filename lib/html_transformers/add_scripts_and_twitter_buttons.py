@@ -20,7 +20,7 @@ class AddScriptsAndTwitterButtons(TransformerBase):
         head.childs.append(cls._get_load_script_tag())
 
         body_tag = page.dom.find("body")[0]
-        if not page.is_index or len(page.content) > 30000:
+        if page.is_embeddable:
             body_tag.childs.append(cls._get_twitter_button_tag())
 
         body_tag.params["onload"] = "on_body_load();"

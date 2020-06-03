@@ -76,6 +76,13 @@ class HtmlPage(FileBase):
         return bool(self.is_index_to)
 
     @property
+    def is_embeddable(self):
+        if self.is_index and len(self.dom.find("article").__str__()) < 15000:
+            return False
+
+        return True
+
+    @property
     def title(self):
         if self.alt_title:
             return self.alt_title
