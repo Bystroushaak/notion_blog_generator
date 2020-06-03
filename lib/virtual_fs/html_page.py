@@ -76,7 +76,18 @@ class HtmlPage(FileBase):
         return bool(self.is_index_to)
 
     @property
+    @lru_cache()
     def is_embeddable(self):
+        if len(self.dom.find("img")) > 3:
+            return True
+
+        # pages that are indexes in directories that just contain images
+        # can't be considered index pages..
+        if self.is_index:
+            subpages = [x for x in self.is_index_to.files if x.is_html]
+            if len(subpages) <= 1:
+                return True
+
         if self.is_index and len(self.dom.find("article").__str__()) < 15000:
             return False
 
