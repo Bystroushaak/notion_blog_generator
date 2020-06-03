@@ -59,12 +59,14 @@ def _run_postprocessors(blog_tree, root_node):
 
 
 def _make_directory_empty(blog_path):
+    blacklist = {
+        ".git",
+        ".gitignore",
+        settings.thumb_cache_name,
+    }
     if os.path.exists(blog_path) and "index.html" in os.listdir(blog_path):
         for item in os.listdir(blog_path):
-            if item == ".git":
-                continue
-
-            if item == settings.thumb_cache_name:
+            if item in blacklist:
                 continue
 
             path = os.path.join(blog_path, item)
