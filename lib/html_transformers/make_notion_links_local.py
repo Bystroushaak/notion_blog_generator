@@ -1,5 +1,3 @@
-import dhtmlparser
-
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
