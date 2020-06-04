@@ -4,6 +4,9 @@ from urllib.parse import urlparse
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -20,7 +23,7 @@ class FixYoutubeEmbeds(TransformerBase):
         settings.logger.info("Embedding youtube videos..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         youtube_links = page.dom.match(
             "figure",
             {"tag_name": "div", "params": {"class": "source"}},

@@ -10,6 +10,9 @@ from pygments.lexers.smalltalk import SmalltalkLexer
 
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -20,7 +23,7 @@ class AddSyntaxHighlighting(TransformerBase):
         settings.logger.info("Adding syntax highlighting to <pre> elements..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         made_doublelinked = False
         add_style_to_the_header = False
         for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):

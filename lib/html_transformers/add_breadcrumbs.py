@@ -1,6 +1,9 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -11,7 +14,7 @@ class AddBreadcrumbs(TransformerBase):
         settings.logger.info("Adding Breadcrumbs to all pages..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         if page is root.inner_index:  # skip root index
             return
 

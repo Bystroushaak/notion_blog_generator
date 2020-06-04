@@ -4,7 +4,10 @@ import dhtmlparser
 from PIL import Image
 
 from lib.settings import settings
-from ..virtual_fs import Data
+from lib.virtual_fs import Data
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -25,7 +28,7 @@ class GenerateThumbnails(TransformerBase):
             settings.logger.info("settings.generate_thumbnails == False")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         if not settings.generate_thumbnails:
             return
 

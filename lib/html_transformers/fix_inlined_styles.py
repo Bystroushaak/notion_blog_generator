@@ -1,6 +1,9 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -11,7 +14,7 @@ class FixInlinedStyles(TransformerBase):
         settings.logger.info("Postprocessing inlined <style> tags..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         for item in page.dom.find("", fn=lambda x: "style" in x.params):
             if item.getTagName() == "figure":
                 cls._postprocess_figure(item)

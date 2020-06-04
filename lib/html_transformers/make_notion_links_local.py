@@ -1,6 +1,9 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -16,7 +19,7 @@ class MakeNotionLinksLocal(TransformerBase):
         settings.logger.info("Converting stalled notion.so links to local paths..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         if not cls.initliazed:
             cls.initialize(virtual_fs.resource_registry, root)
 

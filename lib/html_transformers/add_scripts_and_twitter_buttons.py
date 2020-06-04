@@ -1,6 +1,9 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 from lib.preprocessors.add_static_files import AddStaticFiles
@@ -12,7 +15,7 @@ class AddScriptsAndTwitterButtons(TransformerBase):
         settings.logger.info("Adding Twitter share button to all pages..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         if page is root.outer_index or page is root.inner_index:
             return
 

@@ -1,6 +1,9 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
 
@@ -11,7 +14,7 @@ class AddFaviconLinkTags(TransformerBase):
         settings.logger.info("Adding favicon <link> tag to all pages..")
 
     @classmethod
-    def transform(cls, virtual_fs, root, page):
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         favicon_full_url = settings.blog_url + "/favicon.ico"
         favicon_code = '<link rel="shortcut icon" href="%s">' % favicon_full_url
         favicon_tag = dhtmlparser.parseString(favicon_code)
