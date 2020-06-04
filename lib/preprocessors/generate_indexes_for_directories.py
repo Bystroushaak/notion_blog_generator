@@ -1,13 +1,15 @@
 import os.path
 
 from lib.settings import settings
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
 
 
 class GenerateIndexesForDirectories(PreprocessorBase):
     @classmethod
-    def preprocess(cls, virtual_fs, root):
+    def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Generating indexes for directories..")
 
         for dir, file in cls.all_dirs_that_contain_html_with_same_name(root):

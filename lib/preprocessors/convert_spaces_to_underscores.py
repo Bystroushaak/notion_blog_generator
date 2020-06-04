@@ -1,11 +1,13 @@
 from lib.settings import settings
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
 
 
 class ConvertSpacesToUnderscores(PreprocessorBase):
     @classmethod
-    def preprocess(cls, virtual_fs, root):
+    def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Converting all spaces in names to underscores..")
 
         for item in root.walk_all():

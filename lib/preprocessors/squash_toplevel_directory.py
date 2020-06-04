@@ -1,11 +1,13 @@
 from lib.settings import settings
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
 
 
 class SquashToplevelDirectory(PreprocessorBase):
     @classmethod
-    def preprocess(cls, virtual_fs, root):
+    def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Squashing toplevel directory..")
 
         root_index = root.files[0]

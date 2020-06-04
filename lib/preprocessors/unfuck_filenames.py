@@ -5,13 +5,15 @@ from functools import lru_cache
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import VirtualFS
+from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
 
 
 class UnfuckFilenames(PreprocessorBase):
     @classmethod
-    def preprocess(cls, virtual_fs, root):
+    def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Unfucking filenames..")
 
         for item in root.walk_htmls():
