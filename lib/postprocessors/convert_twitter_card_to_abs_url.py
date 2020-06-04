@@ -1,4 +1,6 @@
 from lib.settings import settings
+from lib.virtual_fs import Directory
+from lib.virtual_fs import VirtualFS
 from lib.virtual_fs.resource_registry import ResourceRegistry
 
 from .postprocessor_base import PostprocessorBase
@@ -6,7 +8,7 @@ from .postprocessor_base import PostprocessorBase
 
 class ConvertTwitterCardsToAbsURL(PostprocessorBase):
     @classmethod
-    def postprocess(cls, virtual_fs, root):
+    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Converting twitter cards to abs url..")
 
         for page in root.walk_htmls():

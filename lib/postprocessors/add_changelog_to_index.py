@@ -1,6 +1,9 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import Directory
+from lib.virtual_fs import VirtualFS
+
 from lib.preprocessors.add_static_files import AddStaticFiles
 
 from .postprocessor_base import PostprocessorBase
@@ -9,7 +12,7 @@ from .make_changelog_readable import MakeChangelogReadable
 
 class AddMinichangelogToIndex(PostprocessorBase):
     @classmethod
-    def postprocess(cls, virtual_fs, root):
+    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Adding changelog to root index page..")
 
         root_index_page = root.inner_index

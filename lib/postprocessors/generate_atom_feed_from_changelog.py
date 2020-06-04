@@ -8,6 +8,8 @@ import dhtmlparser
 
 from lib.settings import settings
 from lib.virtual_fs import Data
+from lib.virtual_fs import Directory
+from lib.virtual_fs import VirtualFS
 
 from .postprocessor_base import PostprocessorBase
 from .make_changelog_readable import MakeChangelogReadable
@@ -15,7 +17,7 @@ from .make_changelog_readable import MakeChangelogReadable
 
 class GenerateAtomFeedFromChangelog(PostprocessorBase):
     @classmethod
-    def postprocess(cls, virtual_fs, root):
+    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Generating Atom feed from XML..")
 
         xml = cls._generate_feed_from_last_articles(

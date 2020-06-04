@@ -3,6 +3,8 @@ from collections import namedtuple
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import Directory
+from lib.virtual_fs import VirtualFS
 
 from .postprocessor_base import PostprocessorBase
 
@@ -17,7 +19,7 @@ class MakeChangelogReadable(PostprocessorBase):
     changelog_ref = "MakeChangelogReadable did not run yet!"
 
     @classmethod
-    def postprocess(cls, virtual_fs, root):
+    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Converting Changelog table to readable page..")
 
         changelog_dir = root.subdir_by_name("Changelog")
