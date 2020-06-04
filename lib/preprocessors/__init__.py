@@ -6,12 +6,14 @@ from .rename_root_sections import RenameRootSections
 from .add_static_files import AddStaticFiles
 from .load_metadata import LoadMetadata
 from .generate_tag_structure import GenerateTagStructure
+from .collect_refs_to_other_pages import CollectRefsToOtherPages
 
 
 def get_preprocessors():
     return (
         SquashToplevelDirectory,
         LoadMetadata,
+        CollectRefsToOtherPages,
         GenerateTagStructure,
         GenerateIndexesForDirectories,
         UnfuckFilenames,

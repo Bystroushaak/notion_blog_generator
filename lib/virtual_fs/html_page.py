@@ -20,6 +20,8 @@ class Metadata:
         self.unroll = False
         self.unroll_description = False
 
+        self.refs_from_other_pages = set()
+
     @classmethod
     def from_yaml(cls, yaml_str):
         data = yaml.load(yaml_str)
@@ -157,8 +159,7 @@ class HtmlPage(FileBase):
 
 
     def _collect_resources(self):
-        links = (a for a in self.dom.find("a")
-                 if "://" not in a.params.get("href", ""))
+        links = self._collect_local_links()
 
         images = (img for img in self.dom.find("img")
                   if "://" not in img.params.get("src", ""))
@@ -182,6 +183,10 @@ class HtmlPage(FileBase):
         )
 
         return resources
+
+    def _collect_local_links(self):
+        return (a for a in self.dom.find("a")
+                if "://" not in a.params.get("href", ""))
 
     def save_as(self, file_path):
         with open(file_path, "wt") as f:
