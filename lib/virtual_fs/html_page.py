@@ -81,6 +81,10 @@ class HtmlPage(FileBase):
     @property
     @lru_cache()
     def is_embeddable(self):
+        root = self.get_root_dir()
+        if self is root.outer_index or self is root.inner_index:
+            return False
+
         if len(self.dom.find("img")) > 3:
             return True
 
@@ -95,6 +99,13 @@ class HtmlPage(FileBase):
             return False
 
         return True
+
+    def get_root_dir(self):
+        page = self
+        while page.parent:
+            page = page.parent
+
+        return page
 
     @property
     def title(self):
@@ -156,7 +167,6 @@ class HtmlPage(FileBase):
                 resource = resource_registry.item_by_ref_str(resource_id_token)
                 resource_relpath = os.path.relpath(resource.path, html_dir)
                 resource_el.params[src] = resource_relpath
-
 
     def _collect_resources(self):
         links = self._collect_local_links()

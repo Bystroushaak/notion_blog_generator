@@ -16,6 +16,7 @@ from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 from lib.html_transformers.add_keywords import AddKeywordMetadataTags
 from lib.html_transformers.unroll_sections import UnrollSections
 from lib.html_transformers.add_sidebars import AddSidebarsToAllPages
+from lib.html_transformers.add_last_five_sidebars import AddLastFiveArticlesToSidebars
 
 
 def get_transformers():
@@ -38,4 +39,5 @@ def get_transformers():
         AddKeywordMetadataTags,
         UnrollSections,
         AddSidebarsToAllPages,
+        AddLastFiveArticlesToSidebars,
     )
