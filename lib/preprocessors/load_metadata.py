@@ -34,6 +34,8 @@ class LoadMetadata(PreprocessorBase):
         if not page.metadata.page_description:
             page.metadata.page_description = cls._parse_description(page)
 
+        page.metadata.date = cls._parse_date(page)
+
     @classmethod
     def _parse_description(cls, page):
         p_tags = page.dom.match(
@@ -66,3 +68,12 @@ class LoadMetadata(PreprocessorBase):
             return True
 
         return False
+
+    @classmethod
+    def _parse_date(cls, page):
+        date_tags = page.dom.find("time")
+        if not date_tags:
+            return None
+
+        date = date_tags[0].getContent()
+        return dhtmlparser.removeTags(date)

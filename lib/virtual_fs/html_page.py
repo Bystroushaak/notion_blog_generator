@@ -20,6 +20,8 @@ class Metadata:
         self.unroll = False
         self.unroll_description = False
 
+        self.date = None
+
         self.refs_from_other_pages = set()
 
     @classmethod
