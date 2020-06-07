@@ -7,7 +7,7 @@ from lib.virtual_fs import VirtualFS
 from lib.preprocessors.add_static_files import AddStaticFiles
 
 from .postprocessor_base import PostprocessorBase
-from .make_changelog_readable import MakeChangelogReadable
+from lib.preprocessors.make_changelog_readable import MakeChangelogReadable
 
 
 class AddMinichangelogToIndex(PostprocessorBase):

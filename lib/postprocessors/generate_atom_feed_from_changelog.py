@@ -12,7 +12,7 @@ from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
 from .postprocessor_base import PostprocessorBase
-from .make_changelog_readable import MakeChangelogReadable
+from lib.preprocessors.make_changelog_readable import MakeChangelogReadable
 
 
 class GenerateAtomFeedFromChangelog(PostprocessorBase):

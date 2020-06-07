@@ -6,20 +6,20 @@ from lib.settings import settings
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
-from .postprocessor_base import PostprocessorBase
+from .preprocessor_base import PreprocessorBase
 
 
 class Post(namedtuple("Post", "timestamp, title, description")):
     pass
 
 
-class MakeChangelogReadable(PostprocessorBase):
+class MakeChangelogReadable(PreprocessorBase):
     is_set = False
     last_articles = []
     changelog_ref = "MakeChangelogReadable did not run yet!"
 
     @classmethod
-    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
+    def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Converting Changelog table to readable page..")
 
         changelog_dir = root.subdir_by_name("Changelog")
