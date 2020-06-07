@@ -1,8 +1,15 @@
+from collections import namedtuple
+
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
+
+
+class RefTitle(namedtuple("RefTitle", "ref_str title item")):
+    pass
 
 
 class CollectRefsToOtherPages(PreprocessorBase):
@@ -15,7 +22,7 @@ class CollectRefsToOtherPages(PreprocessorBase):
             cls._collect_from(page, registry)
 
     @staticmethod
-    def _collect_from(page, registry):
+    def _collect_from(page: HtmlPage, registry):
         if not page.is_embeddable:
             return
 
@@ -32,4 +39,5 @@ class CollectRefsToOtherPages(PreprocessorBase):
             if not item.is_html:
                 continue
 
-            item.metadata.refs_from_other_pages.add(own_ref_str)
+            ref_title_pair = RefTitle(own_ref_str, page.title, page)
+            item.metadata.refs_from_other_pages.add(ref_title_pair)
