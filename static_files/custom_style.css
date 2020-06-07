@@ -188,3 +188,8 @@ ul.unroll li:before {
 ul.unroll li.unroll_last:before {
     content: '└» ';
 }
+
+a.unroll_link,
+a.visited {
+    text-decoration-color: #bbbbbb;
+}
