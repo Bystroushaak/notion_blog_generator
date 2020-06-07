@@ -77,17 +77,20 @@ class UnrollSections(TransformerBase):
 
         subpages_html = "\n".join(subpages_as_links)
         if more > 0:
-            fmt_str = '\n<li class="unroll_last"><a href="%s">.. & %d more</a></li>\n'
+            fmt_str = ('\n<li class="unroll_last">\n'
+                       '  <a href="%s" class="unroll_link">.. & %d more</a>\n'
+                       '</li>\n')
             subpages_html += fmt_str % (page_ref_str, more)
 
-        link_html = '<a href="%s">%s</a>\n' % (page_ref_str, link.getContent())
+        link_html_template = '<a href="%s" class="unroll_link">%s</a>\n'
+        link_html = link_html_template % (page_ref_str, link.getContent())
         subpages_html = '<ul class="unroll">\n%s\n</ul>\n' % subpages_html
 
         link.replaceWith(dhtmlparser.parseString(link_html + subpages_html))
 
     @classmethod
     def _pages_to_links(cls, pages_to_unroll, registry, show_description):
-        template = '<li><a href="%s">%s</a></li>'
+        template = '<li><a href="%s" class="unroll_link">%s</a></li>'
         description_template = '<li><a href="%s">%s</a><br>%s</li>'
 
         for page in pages_to_unroll:
