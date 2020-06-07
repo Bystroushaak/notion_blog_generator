@@ -21,6 +21,19 @@ class FileBase:
     def is_directory(self):
         return False
 
+    def get_root_dir(self):
+        page = self
+        while page.parent:
+            page = page.parent
+
+        return page
+
+    def yield_parents(self):
+        parent = self.parent
+        while parent:
+            yield parent
+            parent = parent.parent
+
     @property
     def path(self):
         path = [self.filename]

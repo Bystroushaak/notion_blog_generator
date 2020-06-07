@@ -100,13 +100,6 @@ class HtmlPage(FileBase):
 
         return True
 
-    def get_root_dir(self):
-        page = self
-        while page.parent:
-            page = page.parent
-
-        return page
-
     @property
     def title(self):
         if self.alt_title:
