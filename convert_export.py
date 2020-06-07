@@ -42,20 +42,27 @@ def generate_blog(zipfile, blog_root):
 
 def _run_preprocessors(blog_tree, root_node):
     for preprocessor in get_preprocessors():
+        preprocessor.validate_requirements()
         preprocessor.preprocess(blog_tree, root_node)
+        preprocessor.did_run = True
 
 
 def _run_html_transformers(blog_tree, root_node):
     for transformer in get_transformers():
         transformer.log_transformer()
+        transformer.validate_requirements()
 
         for html_file in root_node.walk_htmls():
             transformer.transform(blog_tree, root_node, html_file)
 
+        transformer.did_run = True
+
 
 def _run_postprocessors(blog_tree, root_node):
     for postprocessor in get_postprocessors():
+        postprocessor.validate_requirements()
         postprocessor.postprocess(blog_tree, root_node)
+        postprocessor.did_run = True
 
 
 def _make_directory_empty(blog_path):

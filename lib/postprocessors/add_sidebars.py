@@ -9,6 +9,8 @@ from lib.preprocessors.make_changelog_readable import MakeChangelogReadable
 
 
 class AddSidebarsToAllPages(PostprocessorBase):
+    requires = [MakeChangelogReadable]
+
     @classmethod
     def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Adding sidebars to all pages..")
