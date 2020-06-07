@@ -15,6 +15,7 @@ from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 from lib.html_transformers.add_keywords import AddKeywordMetadataTags
 from lib.html_transformers.unroll_sections import UnrollSections
+from lib.html_transformers.add_sidebars import AddSidebarsToAllPages
 
 
 def get_transformers():
@@ -36,4 +37,5 @@ def get_transformers():
         AddScriptsAndTwitterButtons,
         AddKeywordMetadataTags,
         UnrollSections,
+        AddSidebarsToAllPages,
     )

@@ -1,32 +1,45 @@
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
-from .postprocessor_base import PostprocessorBase
+from .transformer_base import TransformerBase
+
 from lib.preprocessors.make_changelog_readable import MakeChangelogReadable
 
 
-class AddSidebarsToAllPages(PostprocessorBase):
+class AddSidebarsToAllPages(TransformerBase):
     requires = [MakeChangelogReadable]
 
+    initialized = False
+    sidebar_content = None
+
     @classmethod
-    def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
+    def log_transformer(cls):
         settings.logger.info("Adding sidebars to all pages..")
 
-        sidebar_content = MakeChangelogReadable.get_last_n_for_sidebars(
+    @classmethod
+    def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
+        if not cls.initialized:
+            cls._initialize()
+
+        if not page.is_embeddable:
+            return
+
+        if page is root.outer_index or page is root.inner_index:
+            return
+
+        cls._add_sidebar_to_page(page, cls.sidebar_content)
+
+    @classmethod
+    def _initialize(cls):
+        cls.sidebar_content = MakeChangelogReadable.get_last_n_for_sidebars(
             settings.number_of_articles_in_sidebar
         )
 
-        for page in root.walk_htmls():
-            if not page.is_embeddable:
-                continue
-
-            if page is root.outer_index or page is root.inner_index:
-                continue
-
-            cls._add_sidebar_to_page(page, sidebar_content)
+        cls.initialized = True
 
     @classmethod
     def _add_sidebar_to_page(cls, page, sidebar_content):
