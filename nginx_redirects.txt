@@ -2761,7 +2761,6 @@ location '/Paperclips_-_Utrzky/Fuck_Shelve.html' {
 location '/en/Practical_experiments/Report_Monkey_occupiers/index.html' {
     return 301 '/en/Improvements/Report_Monkey_occupiers/';
 }
-}
 location '/en/Sunburst_for_PyCharm_-_Idea/index.html' {
     return 301 '/Paperclips_-_Utrzky/Sunburst_for_PyCharm_-_Idea/';
 }
