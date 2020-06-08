@@ -5,6 +5,7 @@ from prog_lang_detector.classify import classify
 
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
+from pygments.lexers.css import CssLexer
 from pygments.lexers.python import PythonLexer
 from pygments.lexers.smalltalk import SmalltalkLexer
 
@@ -38,6 +39,8 @@ class AddSyntaxHighlighting(TransformerBase):
                 cls._add_syntax_highlight_for(PythonLexer, code_tag, code_content)
             elif lang == "smalltalk":
                 cls._add_syntax_highlight_for(SmalltalkLexer, code_tag, code_content)
+            elif lang == "css":
+                cls._add_syntax_highlight_for(CssLexer, code_tag, code_content)
             else:
                 add_style_to_the_header = False
 
