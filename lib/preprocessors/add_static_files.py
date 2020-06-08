@@ -33,6 +33,12 @@ class AddStaticFiles(PreprocessorBase):
     nginx_redirects = None
     nginx_redirects_ref = ""
 
+    noto_font_subset_ttf = None
+    noto_font_subset_ttf_ref = ""
+
+    noto_font_subset_woff = None
+    noto_font_subset_woff_ref = ""
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Adding static files to virtual filesystem..")
@@ -58,7 +64,18 @@ class AddStaticFiles(PreprocessorBase):
         cls.twitter_icon_ref = registry.register_item_as_ref_str(cls.twitter_icon)
 
         cls.nginx_redirects = cls._data_from_static_files("../nginx_redirects.txt")
-        cls.nginx_redirects_ref = registry.register_item_as_ref_str(cls.nginx_redirects)
+        cls.nginx_redirects_ref = registry.register_item_as_ref_str(
+            cls.nginx_redirects
+        )
+
+        cls.noto_font_subset_ttf = cls._data_from_static_files("NotoEmojiSubset.ttf")
+        cls.noto_font_subset_ttf_ref = registry.register_item_as_ref_str(
+            cls.noto_font_subset_ttf
+        )
+        cls.noto_font_subset_woff = cls._data_from_static_files("NotoEmojiSubset.woff")
+        cls.noto_font_subset_woff_ref = registry.register_item_as_ref_str(
+            cls.noto_font_subset_woff
+        )
 
         new_files = (
             cls.css,
@@ -68,6 +85,8 @@ class AddStaticFiles(PreprocessorBase):
             cls.tweet_button,
             cls.twitter_icon,
             cls.nginx_redirects,
+            cls.noto_font_subset_ttf,
+            cls.noto_font_subset_woff,
         )
 
         for file in new_files:
