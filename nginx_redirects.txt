@@ -2746,3 +2746,25 @@ location '/Paperclips_tr_ky/Graphical_lisp/1441970764006.gif' {
 location '/Paperclips_tr_ky/Graphical_lisp/graphic_lisp.pdf' {
     return 301 '/Paperclips_-_Utrzky/Graphical_lisp/graphic_lisp.pdf';
 }
+location '/Paperclips_-_Utrzky/Installation_of_pip_packages_on_offline_computer.html' {
+    return 301 '/en/Python/Installation_of_pip_packages_on_offline_computer.html';
+}
+location '/en/Active_widget_in_PyQT5_-_QTextEdit/index.html' {
+    return 301 '/en/Python/Active_widget_in_PyQT5_-_QTextEdit/';
+}
+location '/en/Active_widget_in_PyQT5_-_QTextEdit.html' {
+    return 301 '/en/Python/Active_widget_in_PyQT5_-_QTextEdit/';
+}
+location '/Paperclips_-_Utrzky/Fuck_Shelve.html' {
+    return 301 '/en/Python/Fuck_Shelve.html';
+}
+location '/en/Practical_experiments/Report_Monkey_occupiers/index.html' {
+    return 301 '/en/Improvements/Report_Monkey_occupiers/';
+}
+}
+location '/en/Sunburst_for_PyCharm_-_Idea/index.html' {
+    return 301 '/Paperclips_-_Utrzky/Sunburst_for_PyCharm_-_Idea/';
+}
+location '/en/Sunburst_for_PyCharm_-_Idea.html' {
+    return 301 '/Paperclips_-_Utrzky/Sunburst_for_PyCharm_-_Idea/';
+}
