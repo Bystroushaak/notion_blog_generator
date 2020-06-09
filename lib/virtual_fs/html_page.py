@@ -40,6 +40,10 @@ class Metadata:
         if tags:
             metadata.tags = [tag.strip() for tag in tags.split(",")]
 
+        date = data.get("date")
+        if date:
+            metadata.date = date
+
         metadata.unroll = data.get("unroll", metadata.unroll)
         metadata.unroll_description = data.get("unroll-description",
                                                metadata.unroll_description)
