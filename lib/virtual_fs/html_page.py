@@ -43,7 +43,7 @@ class Metadata:
 
         date = data.get("date")
         if date:
-            metadata.date = date
+            metadata.date = date.replace("/", "-")
 
         metadata.unroll = data.get("unroll", metadata.unroll)
         metadata.unroll_description = data.get("unroll-description",

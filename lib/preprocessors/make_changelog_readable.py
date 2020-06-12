@@ -48,7 +48,8 @@ class MakeChangelogReadable(PreprocessorBase):
             td_date, td_title, td_content = tr.find("td")
 
             content = cls._parse_content(td_content)
-            post = Post(td_date.getContent(), td_title.getContent(), content)
+            date = cls._parse_date(td_date)
+            post = Post(date, td_title.getContent(), content)
 
             tr_line = tr_line_template % (post.title, post.timestamp, post.description)
             content_element += tr_line
@@ -72,6 +73,15 @@ class MakeChangelogReadable(PreprocessorBase):
             content = content_template % content[0].getContent()
 
         return content
+
+    @classmethod
+    def _parse_date(cls, td_date):
+        time_tags = td_date.find("time")
+        if not time_tags:
+            return td_date.getContent().replace("/", "-")
+
+        time_content = time_tags[0].getContent().replace("/", "-")
+        return "<time>%s</time>" % time_content
 
     @classmethod
     def get_articles_as_html_for_root_index(cls, how_many=5):

@@ -76,4 +76,4 @@ class LoadMetadata(PreprocessorBase):
             return None
 
         date = date_tags[0].getContent()
-        return dhtmlparser.removeTags(date)
+        return dhtmlparser.removeTags(date).replace("/", "-")
