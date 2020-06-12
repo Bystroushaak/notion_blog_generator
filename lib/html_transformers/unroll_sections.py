@@ -36,7 +36,16 @@ class UnrollSections(TransformerBase):
 
     @classmethod
     def _get_pages_to_unroll(cls, page: HtmlPage):
-        for file_in_dir in page.is_index_to.files:
+        def sortkey(page):
+            if not page.is_html:
+                return ""
+
+            if page.metadata.date:
+                return page.metadata.date
+
+            return ""
+
+        for file_in_dir in sorted(page.is_index_to.files, key=sortkey, reverse=True):
             if not file_in_dir.is_html:
                 continue
 
