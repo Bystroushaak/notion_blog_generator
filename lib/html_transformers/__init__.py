@@ -18,6 +18,7 @@ from lib.html_transformers.unroll_sections import UnrollSections
 from lib.html_transformers.add_sidebars import AddSidebarsToAllPages
 from lib.html_transformers.add_last_five_sidebars import AddLastFiveArticlesToSidebars
 from lib.html_transformers.add_backlinks import AddBacklinks
+from lib.html_transformers.unroll_subpage_descriptions import UnrollSubpageDescriptions
 
 
 def get_transformers():
@@ -42,4 +43,5 @@ def get_transformers():
         AddSidebarsToAllPages,
         AddLastFiveArticlesToSidebars,
         AddBacklinks,
+        UnrollSubpageDescriptions,
     )

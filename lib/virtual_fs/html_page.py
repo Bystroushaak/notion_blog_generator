@@ -19,6 +19,7 @@ class Metadata:
 
         self.unroll = False
         self.unroll_description = False
+        self.unroll_subpages = False
 
         self.date = None
 
@@ -47,6 +48,8 @@ class Metadata:
         metadata.unroll = data.get("unroll", metadata.unroll)
         metadata.unroll_description = data.get("unroll-description",
                                                metadata.unroll_description)
+        metadata.unroll_subpages = data.get("unroll-subpages",
+                                            metadata.unroll_subpages)
 
         return metadata
 
