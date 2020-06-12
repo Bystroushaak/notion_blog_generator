@@ -70,10 +70,11 @@ class AddSyntaxHighlighting(TransformerBase):
         code_content = html.unescape(code.getContent())
         code_content_lines = code_content.splitlines()
 
+        lang = ""
         if "lang:" in code_content_lines[0]:
             lang = code_content_lines[0].split("lang:", 1)[-1].strip()
             code_content = "\n".join(code_content_lines[1:])
-        else:
+        elif settings.lang_classificator_enabled:
             lang = classify(code_content, print_details=False)
 
         return code_content, lang

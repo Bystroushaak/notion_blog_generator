@@ -40,6 +40,8 @@ class Settings:
         self.atom_feed_url = self.blog_url + "/" + self.generated_feed_name
         self.number_of_items_in_feed = 10
 
+        self.lang_classificator_enabled = False
+
     def check(self):
         if self.twitter_handle and "@" not in self.twitter_handle:
             self.twitter_handle = "@" + self.twitter_handle
