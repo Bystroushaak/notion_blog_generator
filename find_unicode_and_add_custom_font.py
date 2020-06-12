@@ -15,7 +15,7 @@ def generate_font_subset(blogroot, font_path):
             data = f.read().decode("utf-8")
 
         for char in data:
-            if ord(char) > 65000:
+            if ord(char) > 1000:
                 unicode_characters.add(char)
 
     unicode_points = ",".join(_convert_unicode_chars_to_codepoints(unicode_characters))
@@ -33,10 +33,15 @@ def generate_font_subset(blogroot, font_path):
 def _convert_unicode_chars_to_codepoints(unicode_characters):
     for char in sorted(unicode_characters):
         encoded = char.encode("unicode_escape")
-        if b"U" not in encoded:
-            continue
+        # if b"U" not in encoded:
+        #     continue
+
+        print(char, end=" ")
+        
 
         yield encoded.replace(b"\\U", b"U+").decode("utf-8")
+
+    print()
 
 
 def _walk_html_files_in_blog(blog_dir):
