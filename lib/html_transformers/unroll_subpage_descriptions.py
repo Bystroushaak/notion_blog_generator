@@ -46,7 +46,7 @@ class UnrollSubpageDescriptions(TransformerBase):
                 return ""
 
             if page.metadata.date:
-                return page.metadata.date
+                return page.metadata.date + page.title
 
             return ""
 
