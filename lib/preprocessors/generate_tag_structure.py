@@ -90,7 +90,7 @@ class GenerateTagStructure(PreprocessorBase):
     def _generate_tag_structure(cls, root, registry, tag_dict):
         tag_directory = Directory("Tags")
         tag_to_ref_str_map = {}
-        for tag, subpages in tag_dict.items():
+        for tag, subpages in sorted(tag_dict.items()):
             links = cls._yield_links_to_subpages(registry, subpages)
 
             tag_page_html = TAG_PAGE_TEMPLATE.format(tag_name=tag,
@@ -142,7 +142,7 @@ class GenerateTagStructure(PreprocessorBase):
     def _get_tagbox(cls, tags, tag_to_ref_str_map):
         out = "<hr><div><h3>Tags</h3><p>"
         all_tags = []
-        for tag in tags:
+        for tag in sorted(tags):
             tag_html = '<a href="{tag_ref}">{tag_name}</a>'
             tag_html = tag_html.format(tag_ref=tag_to_ref_str_map[tag.lower()],
                                        tag_name=tag)
