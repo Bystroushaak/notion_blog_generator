@@ -66,7 +66,7 @@ class Metadata:
 
         metadata.date = self.date
 
-        metadata.refs_from_other_pages = set(self.refs_from_other_pages)
+        # metadata.refs_from_other_pages = set(self.refs_from_other_pages)
 
         return metadata
 
