@@ -65,7 +65,7 @@ class UnrollSubpageDescriptions(TransformerBase):
 
     @classmethod
     def _pages_to_links(cls, pages_to_unroll, registry) -> Iterator[SubpageInfo]:
-        description_template = '<p>%s</p>'
+        description_template = '<p>%s</p><hr />'
 
         for page in pages_to_unroll:
             page_ref = registry.register_item_as_ref_str(page)
