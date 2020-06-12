@@ -60,6 +60,14 @@ class Metadata:
         metadata.image_index = self.image_index
         metadata.tags = self.tags
 
+        metadata.unroll = self.unroll
+        metadata.unroll_description = self.unroll_description
+        metadata.unroll_subpages = self.unroll_subpages
+
+        metadata.date = self.date
+
+        metadata.refs_from_other_pages = set(self.refs_from_other_pages)
+
         return metadata
 
 
