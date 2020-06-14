@@ -2767,3 +2767,69 @@ location '/en/Sunburst_for_PyCharm_-_Idea/index.html' {
 location '/en/Sunburst_for_PyCharm_-_Idea.html' {
     return 301 '/Paperclips_-_Utrzky/Sunburst_for_PyCharm_-_Idea/';
 }
+location '/Paperclips_-_Utrzky/index.html' {
+    return 301 '/Paperclips/';
+}
+location '/Paperclips_-_Utrzky/Meditace__stav_cholinu_v_mozku.html' {
+    return 301 '/Utrzky/Meditace__stav_cholinu_v_mozku.html';
+}
+location '/Paperclips_-_Utrzky/Tao.html' {
+    return 301 '/Utrzky/Tao.html';
+}
+location '/Paperclips_-_Utrzky/Protiatomove_dvere_v_Prazskem_metru/index.html' {
+    return 301 '/Utrzky/Protiatomove_dvere_v_Prazskem_metru/';
+}
+location '/Paperclips_-_Utrzky/Metalang.html' {
+    return 301 '/Utrzky/Metalang.html';
+}
+location '/Paperclips_-_Utrzky/Fraktalni_dildo/index.html' {
+    return 301 '/Utrzky/Fraktalni_dildo/';
+}
+location '/Paperclips_-_Utrzky/Lisp_PS.html' {
+    return 301 '/Utrzky/Lisp_PS.html';
+}
+location '/Paperclips_-_Utrzky/Nekonecna_kniha.html' {
+    return 301 '/Utrzky/Nekonecna_kniha.html';
+}
+location '/Paperclips_-_Utrzky/Opera_programovani_dracich_dild.html' {
+    return 301 '/Utrzky/Opera_programovani_dracich_dild.html';
+}
+location '/Paperclips_-_Utrzky/Koralky.html' {
+    return 301 '/Utrzky/Koralky.html';
+}
+location '/Paperclips_-_Utrzky/SendDVD.html' {
+    return 301 '/Utrzky/SendDVD.html';
+}
+location '/Paperclips_-_Utrzky/Datove_schranky_sajou.html' {
+    return 301 '/Utrzky/Datove_schranky_sajou.html';
+}
+location '/Paperclips_-_Utrzky/JTTP.html' {
+    return 301 '/Utrzky/JTTP.html';
+}
+location '/Paperclips_-_Utrzky/CaptchaCoin.html' {
+    return 301 '/Utrzky/CaptchaCoin.html';
+}
+location '/Paperclips_-_Utrzky/Graphical_lisp/index.html' {
+    return 301 '/Paperclips/Graphical_lisp/';
+}
+location '/Paperclips_-_Utrzky/Just_a_list_of_good_programming_memes/index.html' {
+    return 301 '/Paperclips/Just_a_list_of_good_programming_memes/';
+}
+location '/Paperclips_-_Utrzky/Control_panels_-_alt_interface/index.html' {
+    return 301 '/Paperclips/Control_panels_-_alt_interface/';
+}
+location '/Paperclips_-_Utrzky/Good_youtube_channels_about_programming__lainchan.html' {
+    return 301 '/Paperclips/Good_youtube_channels_about_programming__lainchan.html';
+}
+location '/Paperclips_-_Utrzky/the_Algorithm/index.html' {
+    return 301 '/Paperclips/the_Algorithm/';
+}
+location '/Paperclips_-_Utrzky/Smart_crap_gallery/index.html' {
+    return 301 '/Paperclips/Smart_crap_gallery/';
+}
+location '/Paperclips_-_Utrzky/Yurtas_with_satellite_connection/index.html' {
+    return 301 '/Paperclips/Yurtas_with_satellite_connection/';
+}
+location '/Paperclips_-_Utrzky/Sunburst_for_PyCharm_-_Idea/index.html' {
+    return 301 '/Paperclips/Sunburst_for_PyCharm_-_Idea/';
+}
