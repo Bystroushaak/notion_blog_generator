@@ -28,6 +28,8 @@ class Metadata:
     @classmethod
     def from_yaml(cls, yaml_str):
         data = yaml.load(yaml_str)
+        if data is None:
+            data = {}
 
         metadata = Metadata()
 
