@@ -20,6 +20,7 @@ class Metadata:
         self.unroll = False
         self.unroll_description = False
         self.unroll_subpages = False
+        self.unroll_length = settings.number_of_subpages_in_unroll
 
         self.date = None
 
@@ -57,6 +58,8 @@ class Metadata:
                                                metadata.unroll_description)
         metadata.unroll_subpages = data.get("unroll-subpages",
                                             metadata.unroll_subpages)
+        metadata.unroll_length = data.get("unroll-len", metadata.unroll_length)
+        metadata.unroll_length = data.get("unroll-length", metadata.unroll_length)
 
         return metadata
 

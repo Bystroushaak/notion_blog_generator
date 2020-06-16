@@ -32,7 +32,8 @@ class UnrollSections(TransformerBase):
                                                 page.metadata.unroll_description)
 
         page_ref_str = registry.register_item_as_ref_str(page)
-        cls._insert_into(directory_page, page_ref_str, subpages_as_links)
+        cls._insert_into(directory_page, page_ref_str, subpages_as_links,
+                         page.metadata.unroll_length)
 
     @classmethod
     def _get_pages_to_unroll(cls, page: HtmlPage):
@@ -59,7 +60,8 @@ class UnrollSections(TransformerBase):
             yield file_in_dir
 
     @classmethod
-    def _insert_into(cls, target: HtmlPage, page_ref_str, subpages_as_links):
+    def _insert_into(cls, target: HtmlPage, page_ref_str, subpages_as_links,
+                     max_unroll):
         def find_links_to_the_subsection(x):
             return x.params.get("href") == page_ref_str
 
@@ -74,7 +76,6 @@ class UnrollSections(TransformerBase):
             return
 
         more = 0
-        max_unroll = settings.number_of_subpages_in_unroll
         if len(subpages_as_links) > max_unroll:
             more = len(subpages_as_links) - max_unroll
             subpages_as_links = subpages_as_links[:max_unroll]
