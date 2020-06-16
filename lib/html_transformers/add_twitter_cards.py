@@ -39,7 +39,7 @@ class AddTwitterCards(TransformerBase):
         if not description:
             return
 
-        if page.dom.find("img"):
+        if page.dom.find("img") and page.metadata.image_index != -1:
             meta_html = cls._large_image_card(description, page)
         else:
             meta_html = cls.summary_card_html.format(title=escape(page.title),
