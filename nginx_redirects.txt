@@ -89,7 +89,7 @@ location '/Bystroushaak s blog/Changelog/Untitled 14.html' {
     return 301 '/Changelog/Untitled_14.html';
 }
 location '/Bystroushaak s blog/Changelog/index.html' {
-    return 301 '/Changelog/index.html';
+    return 301 '/Changelog/';
 }
 location '/Bystroushaak s blog/Changelog/Star s rie p enesena z m ch star ch webov ch str n.html' {
     return 301 '/Changelog/Star_s_rie_p_enesena_z_m_ch_star_ch_webov_ch_str_n.html';
@@ -206,7 +206,7 @@ location '/Bystroushaak s blog/Interesting articles/https queue acm org detail c
     return 301 '/Interesting_articles/https_queue_acm_org_detail_cfm_id_3212479.html';
 }
 location '/Bystroushaak s blog/Interesting articles/index.html' {
-    return 301 '/Interesting_articles/index.html';
+    return 301 '/Interesting_articles/';
 }
 location '/Bystroushaak s blog/Interesting articles/https edition cnn com 2019 04 19 asia thai sea hom.html' {
     return 301 '/Interesting_articles/https_edition_cnn_com_2019_04_19_asia_thai_sea_hom.html';
@@ -281,7 +281,7 @@ location '/Bystroushaak s blog/Czech section/Library at Mount Char.html' {
     return 301 '/cz/Library_at_Mount_Char.html';
 }
 location '/Bystroushaak s blog/Czech section/index.html' {
-    return 301 '/cz/index.html';
+    return 301 '/cz/';
 }
 location '/Bystroushaak s blog/Czech section/Program torova kritika chyb j c struktury opera n .html' {
     return 301 '/cz/Program_torova_kritika_chyb_j_c_struktury_opera_n_.html';
@@ -305,7 +305,7 @@ location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Scriptova
     return 301 '/cz/Jak_se_st_t_program_torem/Scriptovac_versus_kompilovan_jazyky.html';
 }
 location '/Bystroushaak s blog/Czech section/Jak se st t program torem/index.html' {
-    return 301 '/cz/Jak_se_st_t_program_torem/index.html';
+    return 301 '/cz/Jak_se_st_t_program_torem/';
 }
 location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Neu te se do za tku plej du jazyk.html' {
     return 301 '/cz/Jak_se_st_t_program_torem/Neu_te_se_do_za_tku_plej_du_jazyk.html';
@@ -317,7 +317,7 @@ location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Editor/Ob
     return 301 '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut.html';
 }
 location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Editor/index.html' {
-    return 301 '/cz/Jak_se_st_t_program_torem/Editor/index.html';
+    return 301 '/cz/Jak_se_st_t_program_torem/Editor/';
 }
 location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Editor/Obvykl kl vesov zkratky pro posunut/Dolu.html' {
     return 301 '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut/Dolu.html';
@@ -332,7 +332,7 @@ location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Editor/Ob
     return 301 '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut/Doleva.html';
 }
 location '/Bystroushaak s blog/Czech section/Jak se st t program torem/Editor/Obvykl kl vesov zkratky pro posunut/index.html' {
-    return 301 '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut/index.html';
+    return 301 '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut/';
 }
 location '/Bystroushaak s blog/Czech section/Vypu t n knihy/Tabulka knih' {
     return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih';
@@ -341,7 +341,7 @@ location '/Bystroushaak s blog/Czech section/Vypu t n knihy/Tabulka knih.html' {
     return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih.html';
 }
 location '/Bystroushaak s blog/Czech section/Vypu t n knihy/index.html' {
-    return 301 '/cz/Vypu_t_n_knihy/index.html';
+    return 301 '/cz/Vypu_t_n_knihy/';
 }
 location '/Bystroushaak s blog/Czech section/Vypu t n knihy/Tabulka knih/Pr ce na d lku.html' {
     return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih/Pr_ce_na_d_lku.html';
@@ -545,7 +545,7 @@ location '/Bystroushaak s blog/Czech section/Vypu t n knihy/Tabulka knih/Um l in
     return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih/Um_l_inteligence_hrozba_nebo_nad_je.html';
 }
 location '/Bystroushaak s blog/Czech section/Vypu t n knihy/Tabulka knih/index.html' {
-    return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih/index.html';
+    return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih/';
 }
 location '/Bystroushaak s blog/Czech section/Vypu t n knihy/Tabulka knih/Martin Eden.html' {
     return 301 '/cz/Vypu_t_n_knihy/Tabulka_knih/Martin_Eden.html';
@@ -584,7 +584,7 @@ location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programov
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_t_et_debugg.html';
 }
 location '/Bystroushaak s blog/Czech section/Seri l o Selfu/index.html' {
-    return 301 '/cz/Seri_l_o_Selfu/index.html';
+    return 301 '/cz/Seri_l_o_Selfu/';
 }
 location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programovac jazyk Selfu d l tvrt komuni.html' {
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_tvrt_komuni.html';
@@ -596,7 +596,7 @@ location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programov
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy.html';
 }
 location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programovac jazyk Selfu d l druh jazyk/index.html' {
-    return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/index.html';
+    return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/';
 }
 location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programovac jazyk Selfu d l druh jazyk/Nejd le it j zpr vy/at Put.html' {
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/at_Put.html';
@@ -611,7 +611,7 @@ location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programov
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/do.html';
 }
 location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programovac jazyk Selfu d l druh jazyk/Nejd le it j zpr vy/index.html' {
-    return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/index.html';
+    return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/';
 }
 location '/Bystroushaak s blog/Czech section/Seri l o Selfu/Prost ed a programovac jazyk Selfu d l druh jazyk/Nejd le it j zpr vy/add.html' {
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/add.html';
@@ -623,7 +623,7 @@ location '/Bystroushaak s blog/Czech section/Pov dky/Do dr ky koleno.html' {
     return 301 '/cz/Pov_dky/Do_dr_ky_koleno.html';
 }
 location '/Bystroushaak s blog/Czech section/Pov dky/index.html' {
-    return 301 '/cz/Pov_dky/index.html';
+    return 301 '/cz/Pov_dky/';
 }
 location '/Bystroushaak s blog/Czech section/Jak se p e programovac jazyk/Jak se p e programovac jazyk 5 Bajtk d a liter ly' {
     return 301 '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_5_Bajtk_d_a_liter_ly';
@@ -659,7 +659,7 @@ location '/Bystroushaak s blog/Czech section/Jak se p e programovac jazyk/Jak se
     return 301 '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_6_Kompil_tor_AST_do_b.html';
 }
 location '/Bystroushaak s blog/Czech section/Jak se p e programovac jazyk/index.html' {
-    return 301 '/cz/Jak_se_p_e_programovac_jazyk/index.html';
+    return 301 '/cz/Jak_se_p_e_programovac_jazyk/';
 }
 location '/Bystroushaak s blog/Czech section/Jak se p e programovac jazyk/Jak se p e programovac jazyk 5 Bajtk d a liter ly.html' {
     return 301 '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_5_Bajtk_d_a_liter_ly.html';
@@ -719,7 +719,7 @@ location '/Bystroushaak s blog/English section/LVR 15 research reactor near Prag
     return 301 '/en/LVR_15_research_reactor_near_Prague.html';
 }
 location '/Bystroushaak s blog/English section/index.html' {
-    return 301 '/en/index.html';
+    return 301 '/en/';
 }
 location '/Bystroushaak s blog/English section/Moldable tools a book and a movement.html' {
     return 301 '/en/Moldable_tools_a_book_and_a_movement.html';
@@ -746,7 +746,7 @@ location '/Bystroushaak s blog/English section/tinySelf/tinySelf performance gai
     return 301 '/en/tinySelf/tinySelf_performance_gains_2019_4.html';
 }
 location '/Bystroushaak s blog/English section/tinySelf/index.html' {
-    return 301 '/en/tinySelf/index.html';
+    return 301 '/en/tinySelf/';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06.html' {
     return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06.html';
@@ -773,13 +773,13 @@ location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2
     return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/1_000_000_while_cycles.html';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06/index.html' {
-    return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/index.html';
+    return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06/1 000 000 while cycles/Interpreted under Pypy 2 7.html' {
     return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/1_000_000_while_cycles/Interpreted_under_Pypy_2_7.html';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06/1 000 000 while cycles/index.html' {
-    return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/1_000_000_while_cycles/index.html';
+    return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/1_000_000_while_cycles/';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06/1 000 000 while cycles/RPython without JIT.html' {
     return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/1_000_000_while_cycles/RPython_without_JIT.html';
@@ -791,7 +791,7 @@ location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2
     return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/10_000_while_cycles/Interpreted_under_Pypy_2_7.html';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06/10 000 while cycles/index.html' {
-    return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/10_000_while_cycles/index.html';
+    return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/10_000_while_cycles/';
 }
 location '/Bystroushaak s blog/English section/tinySelf/Simple while benchmark 2019 01 06/10 000 while cycles/RPython without JIT.html' {
     return 301 '/en/tinySelf/Simple_while_benchmark_2019_01_06/10_000_while_cycles/RPython_without_JIT.html';
@@ -857,7 +857,7 @@ location '/Bystroushaak s blog/English section/Weekly updates/Weekly update 2019
     return 301 '/en/Weekly_updates/Weekly_update_2019_09_15_Finally_the_bug_was_found.html';
 }
 location '/Bystroushaak s blog/English section/Weekly updates/index.html' {
-    return 301 '/en/Weekly_updates/index.html';
+    return 301 '/en/Weekly_updates/';
 }
 location '/Bystroushaak s blog/English section/Weekly updates/Biweekly update 2019 12 08 Projects and work organ.html' {
     return 301 '/en/Weekly_updates/Biweekly_update_2019_12_08_Projects_and_work_organ.html';
@@ -869,7 +869,7 @@ location '/Bystroushaak s blog/English section/Weekly updates/Weekly update 2019
     return 301 '/en/Weekly_updates/Weekly_update_2019_09_08_Bugs_and_a_lot_of_stress/Articles_read_during_2019_09_02_2019_09_08.html';
 }
 location '/Bystroushaak s blog/English section/Weekly updates/Weekly update 2019 09 08 Bugs and a lot of stress/index.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019_09_08_Bugs_and_a_lot_of_stress/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019_09_08_Bugs_and_a_lot_of_stress/';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 2' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_2';
@@ -911,7 +911,7 @@ location '/Bystroushaak s blog/English section/Series about Self/Environment and
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_2.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/index.html' {
-    return 301 '/en/Series_about_Self/index.html';
+    return 301 '/en/Series_about_Self/';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 3/finder.gif' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3/finder.gif';
@@ -938,7 +938,7 @@ location '/Bystroushaak s blog/English section/Series about Self/Environment and
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/at Put.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at_Put.html';
@@ -953,7 +953,7 @@ location '/Bystroushaak s blog/English section/Series about Self/Environment and
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/do.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/add.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/add.html';
@@ -962,7 +962,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/index.html' {
-    return 301 '/en/Practical_experiments/index.html';
+    return 301 '/en/Practical_experiments/';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers.html';
@@ -995,7 +995,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/index.html' {
-    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/index.html';
+    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 3.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_3.html';
@@ -1007,7 +1007,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_2/Usefulness.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 2/index.html' {
-    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_2/index.html';
+    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_2/';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 3/Difficulty.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_3/Difficulty.html';
@@ -1019,7 +1019,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_3/Usefulness.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 3/index.html' {
-    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_3/index.html';
+    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_3/';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 1/Price.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_1/Price.html';
@@ -1028,7 +1028,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_1/Usefulness.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 1/index.html' {
-    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_1/index.html';
+    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_1/';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 4/Difficulty.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_4/Difficulty.html';
@@ -1040,7 +1040,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_4/Usefulness.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters 4/index.html' {
-    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_4/index.html';
+    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_4/';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters/Price.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters/Price.html';
@@ -1049,7 +1049,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters/Usefulness.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers/Parameters/index.html' {
-    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters/index.html';
+    return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters/';
 }
 location '/Bystroushaak%20s%20blog/English%20section.html' {
     return 301 '/English_section.html';
@@ -1967,7 +1967,7 @@ location '/Bystroushaak s blog/English section/Practical experiments/Report Monk
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters_3/Price.html';
 }
 location '/Paperclips_tr_ky/index.html' {
-    return 301 '/Paperclips_-_Utrzky/index.html';
+    return 301 '/Paperclips_-_Utrzky/';
 }
 location '/icons/favicon.ico' {
     return 301 '/favicon.ico';
@@ -2117,79 +2117,79 @@ location '/Interesting_articles/https_fs_blog_category_mental_models.html' {
     return 301 '/Interesting_articles/https_fs_blog_category_mental_models_d91ea7dcfd0c4f23958ad3b45767582b.html';
 }
 location '/en/The_beauty_of_a_fusion_reactor.html' {
-    return 301 '/en/The_beauty_of_a_fusion_reactor/index.html';
+    return 301 '/en/The_beauty_of_a_fusion_reactor/';
 }
 location '/en/LVR_15_research_reactor_near_Prague.html' {
-    return 301 '/en/LVR-15_research_reactor_near_Prague/index.html';
+    return 301 '/en/LVR-15_research_reactor_near_Prague/';
 }
 location '/en/Active_widget_in_PyQT5_QTextEdit.html' {
-    return 301 '/en/Active_widget_in_PyQT5_-_QTextEdit/index.html';
+    return 301 '/en/Active_widget_in_PyQT5_-_QTextEdit/';
 }
 location '/en/Sam_Harris_Jordan_Peterson_what_just_happened.html' {
     return 301 '/en/Sam_Harris__Jordan_Peterson_-_what_just_happened.html';
 }
 location '/en/Moldable_tools_a_book_and_a_movement.html' {
-    return 301 '/en/Moldable_tools_a_book_and_a_movement/index.html';
+    return 301 '/en/Moldable_tools_a_book_and_a_movement/';
 }
 location '/en/Disadvantages_of_notion_so.html' {
     return 301 '/en/Disadvantages_of_notionso.html';
 }
 location '/en/Programmer_s_critique_of_missing_structure_of_oper.html' {
-    return 301 '/en/Programmers_critique_of_missing_structure_of_operating_systems/index.html';
+    return 301 '/en/Programmers_critique_of_missing_structure_of_operating_systems/';
 }
 location '/en/Sunburst_for_PyCharm_Idea.html' {
-    return 301 '/en/Sunburst_for_PyCharm_-_Idea/index.html';
+    return 301 '/en/Sunburst_for_PyCharm_-_Idea/';
 }
 location '/en/Microblog_Stephen_Wolfram_s_infrastructure.html' {
     return 301 '/en/Microblog_Stephen_Wolframs_infrastructure.html';
 }
 location '/en/Weekly_updates/Weekly_update_2019_10_13_I_was_really_busy.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019-10-13_I_was_really_busy/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019-10-13_I_was_really_busy/';
 }
 location '/en/Weekly_updates/Weekly_update_2019_09_29_I_feel_tired_all_the_time.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019-09-29_I_feel_tired_all_the_time/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019-09-29_I_feel_tired_all_the_time/';
 }
 location '/en/Weekly_updates/Biweekly_update_2019_12_08_Projects_and_work_organ.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2019-12-08_Projects_and_work_organization/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2019-12-08_Projects_and_work_organization/';
 }
 location '/en/Weekly_updates/Biweekly_update_2019_10_27_Slacking_hard.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2019-10-27_Slacking_hard/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2019-10-27_Slacking_hard/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_01_05_objWiki_is_coming_nicel.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-01-05_objWiki_is_coming_nicely/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-01-05_objWiki_is_coming_nicely/';
 }
 location '/en/Weekly_updates/Biweekly_update_2019_12_24_Christmas_sighs.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2019-12-24_Christmas_sighs/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2019-12-24_Christmas_sighs/';
 }
 location '/en/Weekly_updates/Biweekly_update_2019_11_10_Quiet_and_slow_progress.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2019-11-10_Quiet_and_slow_progress/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2019-11-10_Quiet_and_slow_progress/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_01_19_Productive_but_unsatisf.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-01-19_Productive_but_unsatisfactory_two_weeks/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-01-19_Productive_but_unsatisfactory_two_weeks/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_03_01_Publishing_success.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-03-01_Publishing_success/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-03-01_Publishing_success/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_02_16_I_am_fragmented.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-02-16_I_am_fragmented/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-02-16_I_am_fragmented/';
 }
 location '/en/Weekly_updates/Biweekly_update_2019_11_24_Mental_refactorings_and.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2019-11-24_Mental_refactorings_and_wiki_gardening/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2019-11-24_Mental_refactorings_and_wiki_gardening/';
 }
 location '/en/Weekly_updates/Weekly_update_2019_09_01_What_I_am_working_on.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019-09-01_What_I_am_working_on/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019-09-01_What_I_am_working_on/';
 }
 location '/en/Weekly_updates/Weekly_update_2019_09_08_Bugs_and_a_lot_of_stress/index.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019-09-08_Bugs_and_a_lot_of_stress/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019-09-08_Bugs_and_a_lot_of_stress/';
 }
 location '/en/Weekly_updates/Weekly_update_2019_09_22_The_bug_was_finally_fixed.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019-09-22_The_bug_was_finally_fixed/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019-09-22_The_bug_was_finally_fixed/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_04_22_A_lot_of_programming.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-04-22_A_lot_of_programming/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-04-22_A_lot_of_programming/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_04_06_Finally_not_sick_and_pr.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-04-06_Finally_not_sick_and_productive/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-04-06_Finally_not_sick_and_productive/';
 }
 location '/en/Weekly_updates/Weekly_update_2019_10_06_Slowly_ramping_up_to_wher.html' {
     return 301 '/en/Weekly_updates/Weekly_update_2019-10-06_Slowly_ramping_up_to_where_I_was.html';
@@ -2198,37 +2198,37 @@ location '/en/Weekly_updates/Biweekly_update_2020_02_02_Boring_two_weeks.html' {
     return 301 '/en/Weekly_updates/Biweekly_update_2020-02-02_Boring_two_weeks.html';
 }
 location '/en/Weekly_updates/Weekly_update_2019_09_15_Finally_the_bug_was_found.html' {
-    return 301 '/en/Weekly_updates/Weekly_update_2019-09-15_Finally_the_bug_was_found/index.html';
+    return 301 '/en/Weekly_updates/Weekly_update_2019-09-15_Finally_the_bug_was_found/';
 }
 location '/en/Weekly_updates/Biweekly_update_2020_03_23_Sick_again.html' {
-    return 301 '/en/Weekly_updates/Biweekly_update_2020-03-23_Sick_again/index.html';
+    return 301 '/en/Weekly_updates/Biweekly_update_2020-03-23_Sick_again/';
 }
 location '/en/Weekly_updates/Weekly_update_2019_09_08_Bugs_and_a_lot_of_stress/Articles_read_during_2019_09_02_2019_09_08.html' {
     return 301 '/en/Weekly_updates/Weekly_update_2019-09-08_Bugs_and_a_lot_of_stress/Articles_read_during_2019-09-02_-_2019-09-08.html';
 }
 location '/en/Data_hoarding/Where_is_Johnny_K9.html' {
-    return 301 '/en/Data_hoarding/Where_is_Johnny_K9/index.html';
+    return 301 '/en/Data_hoarding/Where_is_Johnny_K9/';
 }
 location '/en/Improvements/Vitamins_nootropics_and_other_boosters/Theobromine.html' {
-    return 301 '/en/Improvements/Vitamins_nootropics_and_other_boosters/Theobromine/index.html';
+    return 301 '/en/Improvements/Vitamins_nootropics_and_other_boosters/Theobromine/';
 }
 location '/en/tinySelf/tinySelf_performance_gains_2019_4.html' {
-    return 301 '/en/tinySelf/tinySelf_performance_gains_2019-4/index.html';
+    return 301 '/en/tinySelf/tinySelf_performance_gains_2019-4/';
 }
 location '/en/tinySelf/Simple_while_benchmark_2019_01_06/index.html' {
-    return 301 '/en/tinySelf/Simple_while_benchmark_20190106/index.html';
+    return 301 '/en/tinySelf/Simple_while_benchmark_20190106/';
 }
 location '/en/tinySelf/The_traits_float_bug_2020_1.html' {
-    return 301 '/en/tinySelf/The_traits_float_bug_2020-1/index.html';
+    return 301 '/en/tinySelf/The_traits_float_bug_2020-1/';
 }
 location '/en/tinySelf/Speedups_of_the_interpreter_2019_1.html' {
-    return 301 '/en/tinySelf/Speedups_of_the_interpreter_2019-1/index.html';
+    return 301 '/en/tinySelf/Speedups_of_the_interpreter_2019-1/';
 }
 location '/en/tinySelf/Simple_while_benchmark_2019_01_06/10_000_while_cycles/index.html' {
-    return 301 '/en/tinySelf/Simple_while_benchmark_20190106/10_000_while_cycles/index.html';
+    return 301 '/en/tinySelf/Simple_while_benchmark_20190106/10_000_while_cycles/';
 }
 location '/en/tinySelf/Simple_while_benchmark_2019_01_06/1_000_000_while_cycles/index.html' {
-    return 301 '/en/tinySelf/Simple_while_benchmark_20190106/1_000_000_while_cycles/index.html';
+    return 301 '/en/tinySelf/Simple_while_benchmark_20190106/1_000_000_while_cycles/';
 }
 location '/en/tinySelf/Simple_while_benchmark_2019_01_06/10_000_while_cycles/Interpreted_under_Python_2_7.html' {
     return 301 '/en/tinySelf/Simple_while_benchmark_20190106/10_000_while_cycles/Interpreted_under_Python_27.html';
@@ -2258,25 +2258,25 @@ location '/en/tinySelf/tinySelf_performance_gains_2019_4/different_kind_of_light
     return 301 '/en/tinySelf/tinySelf_performance_gains_2019-4/different_kind_of_lightweightdict.txt';
 }
 location '/en/objWiki/Transaction_support_for_simple_in_memory_database.html' {
-    return 301 '/en/objWiki/Transaction_support_for_simple_in-memory_database/index.html';
+    return 301 '/en/objWiki/Transaction_support_for_simple_in-memory_database/';
 }
 location '/en/Active_widget_in_PyQT5_QTextEdit/out.gif' {
     return 301 '/en/Active_widget_in_PyQT5_-_QTextEdit/out.gif';
 }
 location '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive.html' {
-    return 301 '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive/index.html';
+    return 301 '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_2.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3/parser.gif' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/parser.gif';
@@ -2285,7 +2285,7 @@ location '/en/Series_about_Self/Environment_and_the_programming_language_Self_pa
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/finder.gif';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/index.html';
+    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/addAll.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/addAll.html';
@@ -2315,67 +2315,67 @@ location '/en/Series_about_Self/Environment_and_the_programming_language_Self_pa
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/directness.gif';
 }
 location '/cz/Program_torova_kritika_chyb_j_c_struktury_opera_n_.html' {
-    return 301 '/cz/Programatorova_kritika_chybejici_struktury_operacnich_systemu/index.html';
+    return 301 '/cz/Programatorova_kritika_chybejici_struktury_operacnich_systemu/';
 }
 location '/cz/Jak_se_st_t_hackerem.html' {
     return 301 '/cz/Jak_se_stat_hackerem.html';
 }
 location '/cz/Jak_se_st_t_program_torem/index.html' {
-    return 301 '/cz/Jak_se_stat_programatorem/index.html';
+    return 301 '/cz/Jak_se_stat_programatorem/';
 }
 location '/cz/Kni_n_recenze_Firefall_Slepozrakost_a_Echopraxie.html' {
     return 301 '/cz/Knizni_recenze_Firefall_Slepozrakost_a_Echopraxie.html';
 }
 location '/cz/Racion_ln_p_prava_na_virus.html' {
-    return 301 '/cz/Racionalni_priprava_na_virus/index.html';
+    return 301 '/cz/Racionalni_priprava_na_virus/';
 }
 location '/cz/Um_r_ab_ko_ano_a_drsn.html' {
-    return 301 '/cz/Umira_abicko_ano_a_drsne/index.html';
+    return 301 '/cz/Umira_abicko_ano_a_drsne/';
 }
 location '/cz/umami_youtube_kan_l.html' {
-    return 301 '/cz/umami_youtube_kanal/index.html';
+    return 301 '/cz/umami_youtube_kanal/';
 }
 location '/cz/Pov_dky/index.html' {
-    return 301 '/cz/Povidky/index.html';
+    return 301 '/cz/Povidky/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/index.html' {
-    return 301 '/cz/Jak_se_pise_programovaci_jazyk/index.html';
+    return 301 '/cz/Jak_se_pise_programovaci_jazyk/';
 }
 location '/cz/Moldable_tools_kniha_a_hnut.html' {
     return 301 '/cz/Moldable_tools_kniha_a_hnuti.html';
 }
 location '/cz/Vypu_t_n_knihy/index.html' {
-    return 301 '/cz/Vypustene_knihy/index.html';
+    return 301 '/cz/Vypustene_knihy/';
 }
 location '/cz/Seri_l_o_Selfu/index.html' {
-    return 301 '/cz/Serial_o_Selfu/index.html';
+    return 301 '/cz/Serial_o_Selfu/';
 }
 location '/cz/Elon_Musk_d_l_po_d_to_sam.html' {
     return 301 '/cz/Elon_Musk_dela_porad_to_same.html';
 }
 location '/cz/H_bitov/index.html' {
-    return 301 '/cz/Hrbitov/index.html';
+    return 301 '/cz/Hrbitov/';
 }
 location '/cz/Library_at_Mount_Char.html' {
-    return 301 '/cz/Library_at_Mount_Char/index.html';
+    return 301 '/cz/Library_at_Mount_Char/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_6_Kompil_tor_AST_do_b.html' {
     return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_6_Kompilator_AST_do_bytecode.html';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_5_Bajtk_d_a_liter_ly.html' {
-    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_5_Bajtkod_a_literaly/index.html';
+    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_5_Bajtkod_a_literaly/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_4_Objektov_layout.html' {
-    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_4_Objektovy_layout/index.html';
+    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_4_Objektovy_layout/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_3_5_RPython.html' {
-    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_35_RPython/index.html';
+    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_35_RPython/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_3_Parser_a_AST.html' {
-    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_3_Parser_a_AST/index.html';
+    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_3_Parser_a_AST/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_2_Lexer.html' {
-    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_2_Lexer/index.html';
+    return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_2_Lexer/';
 }
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_1_Motivace.html' {
     return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_1_Motivace.html';
@@ -2387,16 +2387,16 @@ location '/cz/Jak_se_st_t_program_torem/Je_t_jednou_o_motivaci.html' {
     return 301 '/cz/Jak_se_stat_programatorem/Jeste_jednou_o_motivaci.html';
 }
 location '/cz/Jak_se_st_t_program_torem/Editor/index.html' {
-    return 301 '/cz/Jak_se_stat_programatorem/Editor/index.html';
+    return 301 '/cz/Jak_se_stat_programatorem/Editor/';
 }
 location '/cz/Jak_se_st_t_program_torem/Scriptovac_versus_kompilovan_jazyky.html' {
     return 301 '/cz/Jak_se_stat_programatorem/Scriptovaci_versus_kompilovane_jazyky.html';
 }
 location '/cz/Jak_se_st_t_program_torem/Neu_te_se_do_za_tku_plej_du_jazyk.html' {
-    return 301 '/cz/Jak_se_stat_programatorem/Neucte_se_do_zacatku_plejadu_jazyku/index.html';
+    return 301 '/cz/Jak_se_stat_programatorem/Neucte_se_do_zacatku_plejadu_jazyku/';
 }
 location '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut/index.html' {
-    return 301 '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/index.html';
+    return 301 '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/';
 }
 location '/cz/Jak_se_st_t_program_torem/Editor/Obvykl_kl_vesov_zkratky_pro_posunut/Nahoru.html' {
     return 301 '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/Nahoru.html';
@@ -2420,7 +2420,7 @@ location '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_prvn_prost_.
     return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_prvni_prostredi.html';
 }
 location '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/index.html' {
-    return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/index.html';
+    return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/';
 }
 location '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_tvrt_komuni.html' {
     return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_ctvrty_komunita_historie.html';
@@ -2429,7 +2429,7 @@ location '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_t_et_debugg.
     return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_treti_debugger_transporter_a.html';
 }
 location '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/index.html' {
-    return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/index.html';
+    return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/';
 }
 location '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_druh_jazyk/Nejd_le_it_j_zpr_vy/addAll.html' {
     return 301 '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/addAll.html';
@@ -2450,13 +2450,13 @@ location '/cz/H_bitov/Oce_n_informac.html' {
     return 301 '/cz/Hrbitov/Ocean_informaci.html';
 }
 location '/cz/H_bitov/V_he_zapomenut_klenot.html' {
-    return 301 '/cz/Hrbitov/Vyhen_-_zapomenuty_klenot/index.html';
+    return 301 '/cz/Hrbitov/Vyhen_-_zapomenuty_klenot/';
 }
 location '/cz/H_bitov/Roz_en_v_stup_lidsk_ho_mozku.html' {
-    return 301 '/cz/Hrbitov/Rozsireni_vystupu_lidskeho_mozku/index.html';
+    return 301 '/cz/Hrbitov/Rozsireni_vystupu_lidskeho_mozku/';
 }
 location '/cz/Vypu_t_n_knihy/Tabulka_knih/index.html' {
-    return 301 '/cz/Vypustene_knihy/Tabulka_knih/index.html';
+    return 301 '/cz/Vypustene_knihy/Tabulka_knih/';
 }
 location '/cz/Vypu_t_n_knihy/Tabulka_knih/Martin_Eden.html' {
     return 301 '/cz/Vypustene_knihy/Tabulka_knih/Martin_Eden.html';
@@ -2678,37 +2678,37 @@ location '/Paperclips_tr_ky/Installation_of_pip_packages_on_offline_computer.htm
     return 301 '/Paperclips_-_Utrzky/Installation_of_pip_packages_on_offline_computer.html';
 }
 location '/Paperclips_tr_ky/Graphical_lisp.html' {
-    return 301 '/Paperclips_-_Utrzky/Graphical_lisp/index.html';
+    return 301 '/Paperclips_-_Utrzky/Graphical_lisp/';
 }
 location '/Paperclips_tr_ky/Just_a_list_of_good_programming_memes.html' {
-    return 301 '/Paperclips_-_Utrzky/Just_a_list_of_good_programming_memes/index.html';
+    return 301 '/Paperclips_-_Utrzky/Just_a_list_of_good_programming_memes/';
 }
 location '/Paperclips_tr_ky/Meditace_stav_cholinu_v_mozku.html' {
     return 301 '/Paperclips_-_Utrzky/Meditace__stav_cholinu_v_mozku.html';
 }
 location '/Paperclips_tr_ky/Control_panels_alt_interface.html' {
-    return 301 '/Paperclips_-_Utrzky/Control_panels_-_alt_interface/index.html';
+    return 301 '/Paperclips_-_Utrzky/Control_panels_-_alt_interface/';
 }
 location '/Paperclips_tr_ky/Good_youtube_channels_about_programming_lainchan.html' {
     return 301 '/Paperclips_-_Utrzky/Good_youtube_channels_about_programming__lainchan.html';
 }
 location '/Paperclips_tr_ky/the_Algorithm.html' {
-    return 301 '/Paperclips_-_Utrzky/the_Algorithm/index.html';
+    return 301 '/Paperclips_-_Utrzky/the_Algorithm/';
 }
 location '/Paperclips_tr_ky/Tao.html' {
     return 301 '/Paperclips_-_Utrzky/Tao.html';
 }
 location '/Paperclips_tr_ky/Smart_crap_gallery.html' {
-    return 301 '/Paperclips_-_Utrzky/Smart_crap_gallery/index.html';
+    return 301 '/Paperclips_-_Utrzky/Smart_crap_gallery/';
 }
 location '/Paperclips_tr_ky/Protiatomov_dve_e_v_Pra_sk_m_metru.html' {
-    return 301 '/Paperclips_-_Utrzky/Protiatomove_dvere_v_Prazskem_metru/index.html';
+    return 301 '/Paperclips_-_Utrzky/Protiatomove_dvere_v_Prazskem_metru/';
 }
 location '/Paperclips_tr_ky/Metalang.html' {
     return 301 '/Paperclips_-_Utrzky/Metalang.html';
 }
 location '/Paperclips_tr_ky/Frakt_ln_dildo.html' {
-    return 301 '/Paperclips_-_Utrzky/Fraktalni_dildo/index.html';
+    return 301 '/Paperclips_-_Utrzky/Fraktalni_dildo/';
 }
 location '/Paperclips_tr_ky/Lisp_PS.html' {
     return 301 '/Paperclips_-_Utrzky/Lisp_PS.html';
@@ -2723,7 +2723,7 @@ location '/Paperclips_tr_ky/Kor_lky.html' {
     return 301 '/Paperclips_-_Utrzky/Koralky.html';
 }
 location '/Paperclips_tr_ky/Yurtas_with_satellite_connection.html' {
-    return 301 '/Paperclips_-_Utrzky/Yurtas_with_satellite_connection/index.html';
+    return 301 '/Paperclips_-_Utrzky/Yurtas_with_satellite_connection/';
 }
 location '/Paperclips_tr_ky/SendDVD.html' {
     return 301 '/Paperclips_-_Utrzky/SendDVD.html';
