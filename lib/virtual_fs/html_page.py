@@ -14,7 +14,7 @@ from lib.virtual_fs.resource_registry import ResourceRegistry
 class Metadata:
     def __init__(self):
         self.page_description = ""
-        self.image_index = -1
+        self.image_index = 0
         self.tags = []
 
         self.unroll = False

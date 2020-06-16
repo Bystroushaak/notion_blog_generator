@@ -38,8 +38,10 @@ class AddMetaTags(TransformerBase):
     def _add_meta_tag(cls, name, content, escape_html=True):
         template = '<meta name="%s" content="%s" />'
 
+        content = content.replace('"', "&quote;")
+
         if escape_html:
-            meta_str = template % (escape(name), escape(content))
+            meta_str = template % (escape(name), content)
         else:
             meta_str = template % (name, content)
 

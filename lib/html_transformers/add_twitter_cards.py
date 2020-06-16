@@ -1,5 +1,3 @@
-from html import escape
-
 import dhtmlparser
 
 from lib.settings import settings
@@ -37,13 +35,15 @@ class AddTwitterCards(TransformerBase):
         description = page.metadata.page_description
 
         if not description:
-            return
+            description = ""
+
+        description = description.replace('"', "&quote;")
 
         if page.dom.find("img") and page.metadata.image_index != -1:
             meta_html = cls._large_image_card(description, page)
         else:
-            meta_html = cls.summary_card_html.format(title=escape(page.title),
-                                                     description=escape(description),
+            meta_html = cls.summary_card_html.format(title=page.title,
+                                                     description=description,
                                                      user=settings.twitter_handle)
 
         meta_tags = dhtmlparser.parseString(meta_html)
@@ -58,8 +58,8 @@ class AddTwitterCards(TransformerBase):
 
         first_image_path = page.dom.find("img")[image_index].params["src"]
 
-        return cls.large_image_card_html.format(title=escape(page.title),
-                                                description=escape(description),
+        return cls.large_image_card_html.format(title=page.title,
+                                                description=description,
                                                 image=first_image_path,
                                                 user=settings.twitter_handle)
 
