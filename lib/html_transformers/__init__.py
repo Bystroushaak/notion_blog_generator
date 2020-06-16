@@ -13,7 +13,7 @@ from lib.html_transformers.fix_inlined_styles import FixInlinedStyles
 from lib.html_transformers.fix_blockquotes import FixBlockquotes
 from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from lib.html_transformers.generate_thumbnails import GenerateThumbnails
-from lib.html_transformers.add_keywords import AddKeywordMetadataTags
+from lib.html_transformers.add_meta_tags import AddMetaTags
 from lib.html_transformers.unroll_sections import UnrollSections
 from lib.html_transformers.add_sidebars import AddSidebarsToAllPages
 from lib.html_transformers.add_last_five_sidebars import AddLastFiveArticlesToSidebars
@@ -38,7 +38,7 @@ def get_transformers():
         GenerateThumbnails,
         AddTwitterCards,
         AddScriptsAndTwitterButtons,
-        AddKeywordMetadataTags,
+        AddMetaTags,
         UnrollSections,
         AddSidebarsToAllPages,
         AddLastFiveArticlesToSidebars,
