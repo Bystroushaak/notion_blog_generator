@@ -1,7 +1,25 @@
+function get_meta(meta_name) {
+  const metas = document.getElementsByTagName('meta');
+
+  for (let i = 0; i < metas.length; i++) {
+    if (metas[i].getAttribute('name') === meta_name) {
+      return metas[i].getAttribute('content');
+    }
+  }
+
+  return '';
+}
+
+
 function add_twitter_link() {
     var blog_url = encodeURIComponent(document.location);
-    var blog_title = encodeURIComponent(document.title);
-    var url = "https://twitter.com/intent/tweet?text=" + blog_title + "&url=" + blog_url + "&via=Bystroushaak";
+    var blog_title = encodeURIComponent(document.title + "\n\n");
+    var url = "https://twitter.com/intent/tweet?text=" + blog_title + "&url=" + blog_url;
+
+    var keywords = get_meta('keywords');
+    if (keywords) {
+        url = url + "&hashtags=" + encodeURIComponent(keywords);
+    }
 
     var twitter_link = document.getElementById("twitter_button");
     if (twitter_link == null) {
@@ -11,6 +29,7 @@ function add_twitter_link() {
     twitter_link.href = url;
     twitter_link.style.visibility = "visible";
 }
+
 
 function add_image_overlays() {
     var figures = document.getElementsByTagName("figure");
@@ -93,6 +112,7 @@ function add_image_overlays() {
         }
     });
 }
+
 
 function on_body_load() {
     add_image_overlays();
