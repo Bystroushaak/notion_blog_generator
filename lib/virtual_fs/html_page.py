@@ -188,6 +188,13 @@ class HtmlPage(FileBase):
                 resource_relpath = os.path.relpath(resource.path, html_dir)
                 resource_el.params[src] = resource_relpath
 
+                # add title= to <a> for better SEO
+                if resource_el.getTagName() == "a":
+                    if resource.is_html:
+                        resource_el.params["title"] = resource.title
+                    else:
+                        resource_el.params["title"] = resource.filename
+
     def _collect_resources(self):
         links = self._collect_local_links()
 
