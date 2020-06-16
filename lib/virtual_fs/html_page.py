@@ -122,8 +122,8 @@ class HtmlPage(FileBase):
             if len(subpages) <= 1:
                 return True
 
-        if self.is_index and len(self.dom.find("article").__str__()) < 15000:
-            return False
+        # if self.is_index and len(self.dom.find("article").__str__()) < 15000:
+        #     return False
 
         return True
 
