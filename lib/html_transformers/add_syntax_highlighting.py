@@ -6,6 +6,8 @@ from prog_lang_detector.classify import classify
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers.css import CssLexer
+from pygments.lexers.html import XmlLexer
+from pygments.lexers.html import HtmlLexer
 from pygments.lexers.python import PythonLexer
 from pygments.lexers.smalltalk import SmalltalkLexer
 
@@ -35,12 +37,19 @@ class AddSyntaxHighlighting(TransformerBase):
                 made_doublelinked = True
 
             add_style_to_the_header = True
-            if lang == "python" or lang == "python3":
+            if lang == "python" or lang == "python3" or lang == "py":
                 cls._add_syntax_highlight_for(PythonLexer, code_tag, code_content)
             elif lang == "smalltalk":
                 cls._add_syntax_highlight_for(SmalltalkLexer, code_tag, code_content)
+            elif lang == "xml":
+                cls._add_syntax_highlight_for(XmlLexer, code_tag, code_content)
+            elif lang == "html":
+                cls._add_syntax_highlight_for(HtmlLexer, code_tag, code_content)
             elif lang == "css":
                 cls._add_syntax_highlight_for(CssLexer, code_tag, code_content)
+            elif lang:
+                settings.logger.error("Unknown lang definition: %s, skipping.", lang)
+                add_style_to_the_header = False
             else:
                 add_style_to_the_header = False
 
