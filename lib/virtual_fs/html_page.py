@@ -36,6 +36,11 @@ class Metadata:
         alt_descr = data.get("Description", metadata.page_description)
         metadata.page_description = data.get("description", alt_descr)
 
+        if isinstance(metadata.page_description, dict):
+            key = list(metadata.page_description.keys())[0]
+            val = metadata.page_description[key]
+            metadata.page_description = key + ": " + val
+
         alt_index = data.get("image-index", metadata.image_index)
         metadata.image_index = data.get("image_index", alt_index)
 
