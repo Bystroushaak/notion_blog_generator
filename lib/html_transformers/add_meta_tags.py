@@ -31,9 +31,6 @@ class AddMetaTags(TransformerBase):
                                      escape_html=False)
             head.childs.append(meta)
 
-        meta = cls._add_meta_tag("viewport", "width=device-width, initial-scale=1.0")
-        head.childs.append(meta)
-
     @classmethod
     def _add_meta_tag(cls, name, content, escape_html=True):
         template = '<meta name="%s" content="%s" />'
