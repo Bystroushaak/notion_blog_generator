@@ -1,3 +1,5 @@
+import re
+
 import dhtmlparser
 
 from lib.settings import settings
@@ -44,7 +46,12 @@ class UnrollSections(TransformerBase):
             if page.metadata.date:
                 return page.metadata.date + page.title
 
-            return ""
+            # for biweekly updates
+            dates = re.findall(r"[\d]{4}[/-][\d]{2}[/-][\d]{2}", page.title)
+            if dates:
+                return dates[0].replace("/", "-")
+
+            return page.title
 
         for file_in_dir in sorted(page.is_index_to.files, key=sortkey, reverse=True):
             if not file_in_dir.is_html:
