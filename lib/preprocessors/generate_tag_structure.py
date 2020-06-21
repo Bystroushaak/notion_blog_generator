@@ -80,7 +80,7 @@ class GenerateTagStructure(PreprocessorBase):
         tag_dict = defaultdict(list)
         pages_with_tags = set()
         for page in root.walk_htmls():
-            for tag in page.metadata.tags:
+            for tag in sorted(page.metadata.tags):
                 tag_dict[tag.lower()].append(page)
                 pages_with_tags.add(page)
 
@@ -125,7 +125,10 @@ class GenerateTagStructure(PreprocessorBase):
 
     @classmethod
     def _yield_links_to_subpages(cls, registry, subpages):
-        for page in subpages:
+        subpages_sorted = sorted(subpages, reverse=True,
+                                 key=lambda x: x.metadata.date or x.title)
+
+        for page in subpages_sorted:
             ref_str = registry.register_item_as_ref_str(page)
             description = "<p>" + page.metadata.page_description + "</p><hr>"
             yield LINK_TEMPLATE.format(page_name=page.title, ref_str=ref_str,
