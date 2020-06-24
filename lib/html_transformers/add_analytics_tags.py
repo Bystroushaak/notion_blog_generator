@@ -19,8 +19,6 @@ class AddAnalyticsTags(TransformerBase):
     
       gtag('config', '%s');
     </script>
-	<script>var ezoicId = 198743;</script>
-	<script type="text/javascript" src="//go.ezoic.net/ezoic/ezoic.js"></script>
     """ % (settings.google_analytics_code, settings.google_analytics_code)
     analytics_tag = dhtmlparser.parseString(analytics_code)
 
