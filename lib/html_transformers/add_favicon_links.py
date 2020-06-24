@@ -15,7 +15,6 @@ class AddFaviconLinkTags(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
-        favicon_full_url = settings.blog_url + "/favicon.ico"
-        favicon_code = '<link rel="shortcut icon" href="%s">' % favicon_full_url
+        favicon_code = '<link rel="shortcut icon" href="/favicon.ico">'
         favicon_tag = dhtmlparser.parseString(favicon_code)
         page.dom.find("head")[0].childs.append(favicon_tag)
