@@ -17,6 +17,7 @@ class Settings:
         self.blog_name = "Bystroushaak's blog"
         self.patreon_url = "https://www.patreon.com/bePatron?u=2618881"
         self.google_analytics_code = "UA-142545439-1"
+        self.google_adsense_code = "ca-pub-8322439660353685"
 
         self.twitter_url = ""
         self.twitter_handle = "@Bystroushaak"

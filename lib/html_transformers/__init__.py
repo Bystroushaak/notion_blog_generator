@@ -3,7 +3,7 @@ from lib.html_transformers.add_atom_feed_tags import AddAtomFeedTags
 from lib.html_transformers.add_file_icons import AddFileIcons
 from lib.html_transformers.add_favicon_links import AddFaviconLinkTags
 from lib.html_transformers.add_patreon_buttons import AddPatreonButtons
-from lib.html_transformers.add_analytics_tags import AddAnalyticsTags
+from lib.html_transformers.add_google_tags import AddGoogleTags
 from lib.html_transformers.add_scripts_and_twitter_buttons import AddScriptsAndTwitterButtons
 from lib.html_transformers.add_twitter_cards import AddTwitterCards
 from lib.html_transformers.add_syntax_highlighting import AddSyntaxHighlighting
@@ -28,7 +28,7 @@ def get_transformers():
         AddFileIcons,
         AddFaviconLinkTags,
         AddPatreonButtons,
-        AddAnalyticsTags,
+        AddGoogleTags,
         AddSyntaxHighlighting,
         AddBreadcrumbs,
         FixYoutubeEmbeds,
