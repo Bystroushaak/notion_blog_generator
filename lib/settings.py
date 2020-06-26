@@ -22,7 +22,7 @@ class Settings:
         self.twitter_url = ""
         self.twitter_handle = "@Bystroushaak"
 
-        self.number_of_articles_in_sidebar = 5
+        self.number_of_articles_in_sidebar = 10
         self.number_of_articles_in_minichangelog = 5
 
         self.unrolls_enabled = True
