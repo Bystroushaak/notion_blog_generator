@@ -54,6 +54,10 @@ class Metadata:
         if date:
             metadata.date = date.replace("/", "-")
 
+        last_mod = data.get("last-mod")
+        if last_mod:
+            metadata.last_mod = last_mod.replace("/", "-")
+
         metadata.unroll = data.get("unroll", metadata.unroll)
         metadata.unroll_description = data.get("unroll-description",
                                                metadata.unroll_description)
