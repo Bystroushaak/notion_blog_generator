@@ -76,6 +76,7 @@ class Metadata:
         metadata.unroll_subpages = self.unroll_subpages
 
         metadata.date = self.date
+        metadata.last_mod = self.last_mod
 
         # metadata.refs_from_other_pages = set(self.refs_from_other_pages)
 
