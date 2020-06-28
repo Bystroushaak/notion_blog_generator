@@ -92,7 +92,7 @@ class UnrollSubpageDescriptions(TransformerBase):
 
             date = subpage_info.page.metadata.date
             if date:
-                link_html_template = '<h3><a href="%s">%s</a> <time>(%s)</time></h3>\n'
+                link_html_template = '<h3><a href="%s">%s</a> <time>(@%s)</time></h3>\n'
                 link_html = link_html_template % (href, a_tag.getContent(),
                                                   date)
             else:
