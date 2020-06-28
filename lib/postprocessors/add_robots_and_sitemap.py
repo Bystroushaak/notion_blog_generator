@@ -62,7 +62,7 @@ class AddRobotsAndSitemap(PostprocessorBase):
             if lastmod:
                 yield cls._url_template_with_lastmod.format(
                     loc=abs_url,
-                    lastmod=lastmod,
+                    lastmod=lastmod.split(" ")[0],
                     changefreq=changefreq
                 )
             else:
