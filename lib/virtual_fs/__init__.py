@@ -101,7 +101,7 @@ class VirtualFS:
         return resource_registry
 
     def convert_resources_to_paths(self):
-        settings.logger.info("Converting resource to paths..")
+        settings.logger.info("Converting resources to paths..")
 
         for html in self.root.walk_htmls():
             html.convert_resources_to_paths(self.resource_registry)

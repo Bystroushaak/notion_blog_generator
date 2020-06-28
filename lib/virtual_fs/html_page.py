@@ -23,6 +23,7 @@ class Metadata:
         self.unroll_length = settings.number_of_subpages_in_unroll
 
         self.date = None
+        self.last_mod = None
 
         self.refs_from_other_pages = set()
 
