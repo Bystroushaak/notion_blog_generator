@@ -12,7 +12,7 @@ class RemoveDullNotionTableFiles(PreprocessorBase):
         settings.logger.info("Removing dull notion.so table files..")
 
         for dir in root.walk_dirs():
-            if dir.filename.startswith("Interesting articles") and dir.parent is root:
+            if dir.filename.startswith("Interesting_articles") and dir.parent is root:
                 cls._empty_directory(dir)
 
         for page in root.walk_htmls():
