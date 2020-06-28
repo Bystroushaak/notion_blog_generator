@@ -1,3 +1,4 @@
+from lib.settings import settings
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
@@ -20,3 +21,12 @@ class PostprocessorBase:
                         cls.__name__,
                     )
                 )
+
+    @staticmethod
+    def _to_abs_url_path(resource_relpath):
+        blog_url = settings.blog_url
+
+        if not blog_url.endswith("/") and not resource_relpath.startswith("/"):
+            blog_url += "/"
+
+        return blog_url + resource_relpath
