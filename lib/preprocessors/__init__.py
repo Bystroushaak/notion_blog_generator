@@ -8,6 +8,7 @@ from .load_metadata import LoadMetadata
 from .generate_tag_structure import GenerateTagStructure
 from .collect_refs_to_other_pages import CollectRefsToOtherPages
 from .make_changelog_readable import MakeChangelogReadable
+from .remove_dull_notion_table_files import RemoveDullNotionTableFiles
 
 
 def get_preprocessors():
@@ -22,4 +23,5 @@ def get_preprocessors():
         RenameRootSections,
         AddStaticFiles,
         MakeChangelogReadable,
+        RemoveDullNotionTableFiles,
     )
