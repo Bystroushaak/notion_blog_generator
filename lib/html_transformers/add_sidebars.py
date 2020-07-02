@@ -32,7 +32,17 @@ class AddSidebarsToAllPages(TransformerBase):
 
     @classmethod
     def _add_sidebars_to_page(cls, page):
-        top_tag_code = '<div id="sidebar_top">\n</div>'
+        top_tag_code = """<div id="sidebar_top">
+        <ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8322439660353685"
+     data-ad-slot="8589969791"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+</div>"""
         bottom_tag_code = '<div id="sidebar_bottom">\n</div>'
 
         top_tag = dhtmlparser.parseString(top_tag_code).find("div")[0]

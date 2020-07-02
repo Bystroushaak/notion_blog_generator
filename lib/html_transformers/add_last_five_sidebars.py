@@ -44,9 +44,9 @@ class AddLastFiveArticlesToSidebars(TransformerBase):
         top_tag_code = '<div id="last_five_top">\n%s\n</div>' % sidebar_content
         top_tag = dhtmlparser.parseString(top_tag_code).find("div")[0]
         top_div = page.dom.find("div", {"id": "sidebar_top"})[0]
-        top_div.childs.append(top_tag)
+        top_div.childs.insert(0, top_tag)
 
         bottom_tag_code = '<div id="last_five_bottom">\n%s\n</div>' % sidebar_content
         bottom_tag = dhtmlparser.parseString(bottom_tag_code).find("div")[0]
         bottom_div = page.dom.find("div", {"id": "sidebar_bottom"})[0]
-        bottom_div.childs.append(bottom_tag)
+        bottom_div.childs.insert(0, bottom_tag)

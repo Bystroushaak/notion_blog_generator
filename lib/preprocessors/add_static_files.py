@@ -39,6 +39,9 @@ class AddStaticFiles(PreprocessorBase):
     noto_font_subset_woff = None
     noto_font_subset_woff_ref = ""
 
+    ads_txt = None
+    ads_txt_ref = ""
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Adding static files to virtual filesystem..")
@@ -77,6 +80,9 @@ class AddStaticFiles(PreprocessorBase):
             cls.noto_font_subset_woff
         )
 
+        cls.ads_txt = cls._data_from_static_files("ads.txt")
+        cls.ads_txt_ref = registry.register_item_as_ref_str(cls.ads_txt)
+
         new_files = (
             cls.css,
             cls.js,
@@ -87,6 +93,7 @@ class AddStaticFiles(PreprocessorBase):
             cls.nginx_redirects,
             cls.noto_font_subset_ttf,
             cls.noto_font_subset_woff,
+            cls.ads_txt,
         )
 
         for file in new_files:
