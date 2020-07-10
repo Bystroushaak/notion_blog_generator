@@ -40,8 +40,8 @@ def get_transformers():
         AddScriptsAndTwitterButtons,
         AddMetaTags,
         UnrollSections,
+        UnrollSubpageDescriptions,
         AddSidebarsToAllPages,
         AddLastFiveArticlesToSidebars,
         AddBacklinks,
-        UnrollSubpageDescriptions,
     )
