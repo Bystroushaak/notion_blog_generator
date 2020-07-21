@@ -109,3 +109,35 @@ class Directory(FileBase):
             return default
 
         raise ValueError("Couldn't find subdirectory `%s`.")
+
+
+class RootSection(Directory):
+    """
+    RootSection is special kind of directory used for language mutations.
+    """
+    def __init__(self, filename):
+        super().__init__(filename)
+
+        self.tags = []
+        self.changelog = None
+
+    @classmethod
+    def make_from(cls, dir):
+        root_section = cls(dir.filename)
+
+        root_section.subdirs = dir.subdirs
+        root_section.files = dir.files
+        root_section.inner_index = dir.inner_index
+        root_section.outer_index = dir.outer_index
+
+        root_section.parent = dir.parent
+        root_section.reindex_parents()
+
+        return root_section
+
+    @property
+    def title(self):
+        return self.filename
+
+    def __repr__(self):
+        return "RootSection(%s)" % self.filename
