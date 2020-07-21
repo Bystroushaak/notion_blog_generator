@@ -40,6 +40,7 @@ class AddSidebarsToAllPages(TransformerBase):
      data-ad-slot="8589969791"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>"""
         bottom_tag_code = '<div id="sidebar_bottom">\n</div>'
 

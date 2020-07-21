@@ -28,7 +28,6 @@ def get_transformers():
         AddFileIcons,
         AddFaviconLinkTags,
         AddPatreonButtons,
-        AddGoogleTags,
         AddSyntaxHighlighting,
         AddBreadcrumbs,
         FixYoutubeEmbeds,
@@ -44,4 +43,5 @@ def get_transformers():
         AddSidebarsToAllPages,
         AddLastFiveArticlesToSidebars,
         AddBacklinks,
+        AddGoogleTags,
     )

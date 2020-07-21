@@ -32,12 +32,18 @@ class AddGoogleTags(TransformerBase):
      data-ad-slot="9175281399"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 """
-    top_vertical_ad_tag = dhtmlparser.parseString(top_vertical_ad_code)
 
+    in_article_vertical_ad_code = """
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-8322439660353685"
+     data-ad-slot="8927869381"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+"""
     bottom_vertical_ad_code = """
     <ins class="adsbygoogle"
      style="display:block"
@@ -45,12 +51,8 @@ class AddGoogleTags(TransformerBase):
      data-ad-slot="4657737295"
      data-ad-format="auto"
      data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 """
-    bottom_vertical_ad_tag = dhtmlparser.parseString(bottom_vertical_ad_code)
-
     cookie_consent_code = """
 <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
 <script>
@@ -63,29 +65,12 @@ window.cookieconsent.initialise({
     "button": {
       "background": "#4b81e8"
     }
-  },
-  "position": "bottom-left"
+  }
 });
 </script>
 """
-    cookie_consent_tag = dhtmlparser.parseString(cookie_consent_code)
-
     cookie_consent_css_code = """
-<script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
-<script>
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": {
-      "background": "#edeff5",
-      "text": "#838391"
-    },
-    "button": {
-      "background": "#4b81e8"
-    }
-  },
-  "position": "bottom-left"
-});
-</script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 """
     cookie_consent_css_tag = dhtmlparser.parseString(cookie_consent_css_code)
 
@@ -104,8 +89,32 @@ window.cookieconsent.initialise({
             head.childs.append(cls.adsense_tag)
 
         body = page.dom.find("body")[0]
-        body.childs.insert(0, cls.top_vertical_ad_tag)
-        body.childs.append(cls.bottom_vertical_ad_tag)
+        dhtmlparser.makeDoubleLinked(body)
 
-        body.childs.append(cls.cookie_consent_tag)
+        p_tags = body.find("p")
+        if len(p_tags) > 8:
+            selected_tag = p_tags[4]
+
+            h1_tags = body.find("h1")
+            if len(h1_tags) > 4:
+                selected_tag = h1_tags[2]
+
+            cls._add_ad_before(selected_tag)
+        else:
+            top_vertical_ad_tag = dhtmlparser.parseString(cls.top_vertical_ad_code)
+            body.childs.insert(0, top_vertical_ad_tag)
+
+        bottom_vertical_ad_tag = dhtmlparser.parseString(cls.bottom_vertical_ad_code)
+        body.childs.append(bottom_vertical_ad_tag)
+
+        cookie_consent_tag = dhtmlparser.parseString(cls.cookie_consent_code)
+        body.childs.append(cookie_consent_tag)
         head.childs.append(cls.cookie_consent_css_tag)
+
+    @classmethod
+    def _add_ad_before(cls, selected_tag):
+        parent = selected_tag.parent
+        index = parent.childs.index(selected_tag)
+
+        in_article_ad_tag = dhtmlparser.parseString(cls.in_article_vertical_ad_code)
+        parent.childs.insert(index, in_article_ad_tag)
