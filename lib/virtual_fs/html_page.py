@@ -1,4 +1,6 @@
 import os.path
+from html import unescape
+from urllib.parse import unquote
 from functools import lru_cache
 
 import sh
@@ -164,12 +166,14 @@ class HtmlPage(FileBase):
                     id = path_id_map[abs_path]
                     resource_el.params[src] = ResourceRegistry.as_ref_str(id)
                 except KeyError:
+                    unquoted = unquote(abs_path)
+                    unquoted = unescape(unquoted)
                     try:
-                        id = path_id_map[abs_path.replace("%20", " ")]
+                        id = path_id_map[unquoted]
                         resource_el.params[src] = ResourceRegistry.as_ref_str(id)
                     except KeyError:
-                        settings.logger.error("Link not found, skipping: %s",
-                                              abs_path)
+                        settings.logger.error("%s: Link not found, skipping: %s",
+                                              self.filename, unquoted)
                         continue
 
     def convert_resources_to_paths(self, resource_registry: ResourceRegistry):
