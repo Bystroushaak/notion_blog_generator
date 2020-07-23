@@ -54,5 +54,9 @@ class FileBase:
 
         return full_path
 
+    @property
+    def root_section(self):
+        return self.parent.root_section
+
     def save_as(self, file_path):
         raise NotImplementedError()

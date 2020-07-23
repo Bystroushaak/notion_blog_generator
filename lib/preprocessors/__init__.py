@@ -7,7 +7,7 @@ from .add_static_files import AddStaticFiles
 from .load_metadata import LoadMetadata
 from .generate_tag_structure import GenerateTagStructure
 from .collect_refs_to_other_pages import CollectRefsToOtherPages
-from .make_changelog_readable import MakeChangelogReadable
+from .make_changelog_readable import LoadChangelogsAndMakeThemReadable
 from .remove_dull_notion_table_files import RemoveDullNotionTableFiles
 
 
@@ -22,6 +22,6 @@ def get_preprocessors():
         ConvertSpacesToUnderscores,
         MakeRootSections,
         AddStaticFiles,
-        MakeChangelogReadable,
+        LoadChangelogsAndMakeThemReadable,
         RemoveDullNotionTableFiles,
     )

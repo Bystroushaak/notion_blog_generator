@@ -12,37 +12,44 @@ from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
 from .postprocessor_base import PostprocessorBase
-from lib.preprocessors.make_changelog_readable import MakeChangelogReadable
+from lib.preprocessors.make_changelog_readable import LoadChangelogsAndMakeThemReadable
 
 
 class GenerateAtomFeedFromChangelog(PostprocessorBase):
+    requires = [LoadChangelogsAndMakeThemReadable]
+
     @classmethod
     def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
-        settings.logger.info("Generating Atom feed from XML..")
+        settings.logger.info("Generating Atom feeds..")
 
+        cls._generate_atom_feed(root, virtual_fs, root.subdir_by_name("en").changelog)
+        cls._generate_atom_feed(root, virtual_fs, root.subdir_by_name("cz").changelog)
+
+    @classmethod
+    def _generate_atom_feed(cls, root, virtual_fs, changelog):
         xml = cls._generate_feed_from_last_articles(
+            changelog,
             virtual_fs.resource_registry,
             settings.number_of_items_in_feed
         )
-
-        xml_item = Data("atom.xml", bytes(xml, "utf-8"))
+        xml_item = Data(changelog.feed_name, bytes(xml, "utf-8"))
         root.add_file(xml_item)
 
     @classmethod
-    def _generate_feed_from_last_articles(cls, registry, how_many=10):
+    def _generate_feed_from_last_articles(cls, changelog, registry, how_many=10):
         # bleh
         my_timezone = pytz.timezone(str(tzlocal.get_localzone()))
         timezone = datetime.datetime.now(my_timezone).strftime('%z')
 
         feed = pyatom.AtomFeed(
             title=settings.blog_name,
-            feed_url=settings.atom_feed_url,
+            feed_url=changelog.atom_feed_url,
             url=settings.blog_url,
             author=settings.twitter_handle.replace("@", ""),
             timezone=timezone,
         )
 
-        for cnt, post in enumerate(MakeChangelogReadable.last_articles):
+        for cnt, post in enumerate(changelog.posts):
             if cnt >= how_many:
                 break
 

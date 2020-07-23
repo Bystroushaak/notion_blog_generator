@@ -38,7 +38,7 @@ class Settings:
         self.write_prettify = False
 
         self.generated_feed_name = "atom.xml"
-        self.atom_feed_url = self.blog_url + "/" + self.generated_feed_name
+        self.atom_feed_root_url = self.blog_url + "/"
         self.number_of_items_in_feed = 10
 
         self.lang_classificator_enabled = False

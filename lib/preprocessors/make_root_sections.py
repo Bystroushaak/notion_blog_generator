@@ -20,8 +20,10 @@ class MakeRootSections(PreprocessorBase):
             if dir.filename == "English_section":
                 dir.filename = "en"
                 yield RootSection.make_from(dir)
+
             elif dir.filename == "Czech_section":
                 dir.filename = "cz"
                 yield RootSection.make_from(dir)
+
             else:
                 yield dir

@@ -108,7 +108,14 @@ class Directory(FileBase):
         if default:
             return default
 
-        raise ValueError("Couldn't find subdirectory `%s`.")
+        raise ValueError("Couldn't find subdirectory `%s`." % name)
+
+    @property
+    def root_section(self):
+        if self.parent:
+            return self.parent.root_section
+
+        return self.subdir_by_name("en")
 
 
 class RootSection(Directory):
@@ -125,10 +132,13 @@ class RootSection(Directory):
     def make_from(cls, dir):
         root_section = cls(dir.filename)
 
-        root_section.subdirs = dir.subdirs
         root_section.files = dir.files
+        root_section.subdirs = dir.subdirs
+
         root_section.inner_index = dir.inner_index
+        root_section.inner_index.is_index_to = root_section
         root_section.outer_index = dir.outer_index
+        root_section.outer_index.is_index_to = root_section
 
         root_section.parent = dir.parent
         root_section.reindex_parents()
@@ -141,3 +151,7 @@ class RootSection(Directory):
 
     def __repr__(self):
         return "RootSection(%s)" % self.filename
+
+    @property
+    def root_section(self):
+        return self

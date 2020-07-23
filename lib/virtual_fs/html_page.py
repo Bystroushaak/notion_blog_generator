@@ -258,3 +258,10 @@ class HtmlPage(FileBase):
         copy.metadata = self.metadata.create_copy()
 
         return copy
+
+    @property
+    def root_section(self):
+        if self.is_index_to is not None:
+            return self.is_index_to.root_section
+
+        return self.parent.root_section

@@ -8,14 +8,11 @@ from lib.virtual_fs import VirtualFS
 from .transformer_base import TransformerBase
 from .add_sidebars import AddSidebarsToAllPages
 
-from lib.preprocessors.make_changelog_readable import MakeChangelogReadable
+from lib.preprocessors.make_changelog_readable import LoadChangelogsAndMakeThemReadable
 
 
 class AddLastFiveArticlesToSidebars(TransformerBase):
-    requires = [MakeChangelogReadable, AddSidebarsToAllPages]
-
-    initialized = False
-    sidebar_content = None
+    requires = [LoadChangelogsAndMakeThemReadable, AddSidebarsToAllPages]
 
     @classmethod
     def log_transformer(cls):
@@ -23,21 +20,14 @@ class AddLastFiveArticlesToSidebars(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
-        if not cls.initialized:
-            cls._initialize()
-
         if not page.is_embeddable:
             return
 
-        cls._add_last_five_to_page(page, cls.sidebar_content)
-
-    @classmethod
-    def _initialize(cls):
-        cls.sidebar_content = MakeChangelogReadable.get_last_n_for_sidebars(
+        sidebar_content = page.root_section.changelog.get_last_n_for_sidebars(
             settings.number_of_articles_in_sidebar
         )
 
-        cls.initialized = True
+        cls._add_last_five_to_page(page, sidebar_content)
 
     @classmethod
     def _add_last_five_to_page(cls, page, sidebar_content):
