@@ -5,9 +5,12 @@ from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
+from .convert_spaces_to_underscores import ConvertSpacesToUnderscores
 
 
 class GenerateIndexesForDirectories(PreprocessorBase):
+    requires = [ConvertSpacesToUnderscores]
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Generating indexes for directories..")

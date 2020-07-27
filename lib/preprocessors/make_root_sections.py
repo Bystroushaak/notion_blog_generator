@@ -4,9 +4,11 @@ from lib.virtual_fs import Directory
 from lib.virtual_fs import RootSection
 
 from .preprocessor_base import PreprocessorBase
+from .generate_indexes_for_directories import GenerateIndexesForDirectories
 
 
 class MakeRootSections(PreprocessorBase):
+    requires = [GenerateIndexesForDirectories]
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Renaming `English_section/` to `en/` and "

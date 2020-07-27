@@ -9,9 +9,12 @@ from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
+from .collect_refs_to_other_pages import CollectRefsToOtherPages
 
 
 class UnfuckFilenames(PreprocessorBase):
+    requires = [CollectRefsToOtherPages]
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Unfucking filenames..")

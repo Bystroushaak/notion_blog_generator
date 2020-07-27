@@ -7,6 +7,7 @@ from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
+from lib.preprocessors import MakeRootSections
 from lib.preprocessors.preprocessor_base import PreprocessorBase
 
 TAG_PAGE_TEMPLATE = """<!DOCTYPE html>
@@ -62,6 +63,8 @@ LINK_TEMPLATE = """
 
 
 class GenerateTagStructure(PreprocessorBase):
+    requires = [MakeRootSections]
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Collecting tags..")
