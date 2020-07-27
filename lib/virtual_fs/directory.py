@@ -1,5 +1,6 @@
 from typing import Union
 from typing import Iterator
+from collections import defaultdict
 
 from lib.virtual_fs.data import Data
 from lib.virtual_fs.html_page import HtmlPage
@@ -20,7 +21,7 @@ class Directory(FileBase):
 
     @property
     def title(self):
-        return "dirname:" + self.filename
+        return self.filename
 
     @property
     def is_directory(self):
@@ -117,6 +118,39 @@ class Directory(FileBase):
 
         return self.subdir_by_name("en")
 
+    def get_root_sections(self):
+        if self.parent:
+            return self.parent.get_root_sections()
+
+        return [dir for dir in self.subdirs
+                if isinstance(dir, RootSection)]
+
+
+class Tags:
+    def __init__(self):
+        self.dirname = "Tags"
+        self.tag_dict = defaultdict(list)
+        self.pages_with_tags = set()
+        self.alt_title = None
+
+    @classmethod
+    def _collect_tags(cls, root):
+        for page in root.walk_htmls():
+            tag_manager = page.root_section.tags
+
+            # stuff was added and this now runs after GenerateIndexesForDirectories,
+            # so I have to deal with two indexes
+            if page.is_index and page.is_index_to.inner_index == page:
+                tag_manager.pages_with_tags.add(page)
+                continue
+
+            for tag in sorted(page.metadata.tags):
+                tag_manager.add_tag(tag, page)
+
+    def add_tag(self, tag, page):
+        self.pages_with_tags.add(page)
+        self.tag_dict[tag.lower()].append(page)
+
 
 class RootSection(Directory):
     """
@@ -125,20 +159,30 @@ class RootSection(Directory):
     def __init__(self, filename):
         super().__init__(filename)
 
-        self.tags = []
         self.changelog = None
+        self.tags = Tags()
+
+        if filename == "en":
+            self.tags.dirname = "Tags"
+            self.tags.alt_title = "Tags used in the blogs"
+        else:
+            self.tags.dirname = "Tagy"
+            self.tags.alt_title = "Tagy použité v blozích"
 
     @classmethod
     def make_from(cls, dir):
-        root_section = cls(dir.filename)
+        root_section = RootSection(dir.filename)
 
         root_section.files = dir.files
         root_section.subdirs = dir.subdirs
 
         root_section.inner_index = dir.inner_index
-        root_section.inner_index.is_index_to = root_section
+        if root_section.inner_index is not None:
+            root_section.inner_index.is_index_to = root_section
+
         root_section.outer_index = dir.outer_index
-        root_section.outer_index.is_index_to = root_section
+        if root_section.outer_index is not None:
+            root_section.outer_index.is_index_to = root_section
 
         root_section.parent = dir.parent
         root_section.reindex_parents()

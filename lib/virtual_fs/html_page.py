@@ -105,6 +105,9 @@ class HtmlPage(FileBase):
 
         self.is_index_to = None
 
+    def __repr__(self):
+        return "HtmlPage(%s)" % self.filename
+
     @property
     def is_html(self):
         return True

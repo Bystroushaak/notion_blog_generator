@@ -3,6 +3,7 @@ from collections import defaultdict
 import dhtmlparser
 
 from lib.settings import settings
+from lib.virtual_fs import Tags
 from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
@@ -70,30 +71,22 @@ class GenerateTagStructure(PreprocessorBase):
         settings.logger.info("Collecting tags..")
 
         registry = virtual_fs.resource_registry
-        tag_dict, pages_with_tags = cls._collect_tags(root)
+        Tags._collect_tags(root)
 
         settings.logger.info("Generating tag structure..")
-        tag_to_ref_str_map = cls._generate_tag_structure(root, registry, tag_dict)
 
-        settings.logger.info("Putting taglist to pages with tags..")
-        cls._add_tags_to_all_pages(pages_with_tags, tag_to_ref_str_map)
+        for root_section in root.get_root_sections():
+            tag_to_ref_str_map = cls._generate_tag_structure(root, registry,
+                                                             root_section.tags)
 
-    @classmethod
-    def _collect_tags(cls, root):
-        tag_dict = defaultdict(list)
-        pages_with_tags = set()
-        for page in root.walk_htmls():
-            for tag in sorted(page.metadata.tags):
-                tag_dict[tag.lower()].append(page)
-                pages_with_tags.add(page)
-
-        return tag_dict, pages_with_tags
+            settings.logger.info("Putting taglist to pages with tags..")
+            cls._add_tags_to_all_pages(root_section.tags, tag_to_ref_str_map)
 
     @classmethod
-    def _generate_tag_structure(cls, root, registry, tag_dict):
-        tag_directory = Directory("Tags")
+    def _generate_tag_structure(cls, root, registry, tag_manager):
+        tag_directory = Directory(tag_manager.dirname)
         tag_to_ref_str_map = {}
-        for tag, subpages in sorted(tag_dict.items()):
+        for tag, subpages in sorted(tag_manager.tag_dict.items()):
             links = cls._yield_links_to_subpages(registry, subpages)
 
             tag_page_html = TAG_PAGE_TEMPLATE.format(tag_name=tag,
@@ -108,21 +101,23 @@ class GenerateTagStructure(PreprocessorBase):
 
         links = []
         for tag, tag_ref in tag_to_ref_str_map.items():
-            no_items = len(tag_dict[tag])
+            no_items = len(tag_manager.tag_dict[tag])
             no_tags = "(%s items)" if no_items > 1 else "(%s item)"
             links.append(LINK_TEMPLATE.format(page_name=tag, ref_str=tag_ref,
                                               no_tags=no_tags % no_items,
                                               description=""))
 
         tag_index_html = TAG_INDEX_TEMPLATE.format(links="\n".join(links))
-        tag_index_outer = HtmlPage(tag_index_html, "Tags.html")
-        tag_index_outer.alt_title = "Tags"
+        tag_index_outer = HtmlPage(tag_index_html, "%s.html" % tag_manager.dirname)
+        tag_index_outer.alt_title = tag_manager.alt_title
 
         root.add_subdir(tag_directory)
         root.add_file(tag_index_outer)
 
-        tag_index_inner = HtmlPage(tag_index_html, "index.html")
-        tag_directory.add_file(tag_index_inner)
+        # tag_index_inner = HtmlPage(tag_index_html, "index.html")
+        # tag_index_inner.alt_title = tag_manager.alt_title
+        # tag_directory.add_file(tag_index_inner)
+        tag_directory.add_copy_as_index(tag_index_outer)
 
         return tag_to_ref_str_map
 
@@ -138,15 +133,19 @@ class GenerateTagStructure(PreprocessorBase):
                                        no_tags="", description=description)
 
     @classmethod
-    def _add_tags_to_all_pages(cls, pages_with_tags: set, tag_to_ref_str_map):
-        for page in pages_with_tags:
+    def _add_tags_to_all_pages(cls, tag_manager, tag_to_ref_str_map):
+        for page in tag_manager.pages_with_tags:
             body = page.dom.find("body")[0]
-            tag_box = cls._get_tagbox(page.metadata.tags, tag_to_ref_str_map)
+            tag_box = cls._get_tagbox(tag_manager.dirname, page.metadata.tags,
+                                      tag_to_ref_str_map)
             body.childs.append(tag_box)
 
     @classmethod
-    def _get_tagbox(cls, tags, tag_to_ref_str_map):
-        out = "<hr><div><h3>Tags</h3><p>"
+    def _get_tagbox(cls, title, tags, tag_to_ref_str_map):
+        if not tags:
+            return dhtmlparser.parseString("")
+
+        out = "<hr><div><h3>%s</h3><p>" % title
         all_tags = []
         for tag in sorted(tags):
             tag_html = '<a href="{tag_ref}">{tag_name}</a>'

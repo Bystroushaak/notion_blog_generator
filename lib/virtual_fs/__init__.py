@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 from lib.settings import settings
 from lib.virtual_fs.data import Data
+from lib.virtual_fs.directory import Tags
 from lib.virtual_fs.directory import Directory
 from lib.virtual_fs.directory import RootSection
 from lib.virtual_fs.html_page import HtmlPage
