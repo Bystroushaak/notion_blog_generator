@@ -23,7 +23,11 @@ class LoadMetadata(PreprocessorBase):
     def parse_metadata_in_page(cls, page):
         dhtmlparser.makeDoubleLinked(page.dom)
 
-        for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):
+        code_code = page.dom.match(["pre", {"class": "code"}], "code")
+        code_wrap = page.dom.match(["pre", {"class": "code code-wrap"}], "code")
+        codes = set(code_code + code_wrap)
+
+        for code_tag in codes:
             code_content = html.unescape(code_tag.getContent())
             code_content_lines = code_content.splitlines()
 
@@ -34,7 +38,12 @@ class LoadMetadata(PreprocessorBase):
         if not page.metadata.page_description:
             page.metadata.page_description = cls._parse_description(page)
 
-        page.metadata.date, page.metadata.last_mod = cls._parse_dates(page)
+        date, last_mod = cls._parse_dates(page)
+        if not page.metadata.date:
+            page.metadata.date = date
+
+        if not page.metadata.last_mod:
+            page.metadata.last_mod = last_mod
 
     @classmethod
     def _parse_description(cls, page):
