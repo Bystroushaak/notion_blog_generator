@@ -14,11 +14,12 @@ from lib.html_transformers.fix_blockquotes import FixBlockquotes
 from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 from lib.html_transformers.add_meta_tags import AddMetaTags
+from lib.html_transformers.unroll_categories import UnrollCategories
 from lib.html_transformers.unroll_sections import UnrollSections
+from lib.html_transformers.unroll_subpage_descriptions import UnrollSubpageDescriptions
 from lib.html_transformers.add_sidebars import AddSidebarsToAllPages
 from lib.html_transformers.add_last_five_sidebars import AddLastFiveArticlesToSidebars
 from lib.html_transformers.add_backlinks import AddBacklinks
-from lib.html_transformers.unroll_subpage_descriptions import UnrollSubpageDescriptions
 from lib.html_transformers.add_image_links import AddImageLinks
 
 
@@ -41,6 +42,7 @@ def get_transformers():
         AddMetaTags,
         UnrollSections,
         UnrollSubpageDescriptions,
+        UnrollCategories,
         AddSidebarsToAllPages,
         AddLastFiveArticlesToSidebars,
         AddBacklinks,
