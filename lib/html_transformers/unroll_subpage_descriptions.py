@@ -1,6 +1,4 @@
-import re
 from typing import Iterator
-from collections import namedtuple
 
 import dhtmlparser
 
@@ -9,14 +7,11 @@ from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
-from .transformer_base import TransformerBase
+from lib.html_transformers.unroll_base import SubpageInfo
+from lib.html_transformers.unroll_base import UnrollTraits
 
 
-class SubpageInfo(namedtuple("SubpageInfo", "page ref_str html")):
-    pass
-
-
-class UnrollSubpageDescriptions(TransformerBase):
+class UnrollSubpageDescriptions(UnrollTraits):
     @classmethod
     def log_transformer(cls):
         settings.logger.info(
@@ -36,38 +31,9 @@ class UnrollSubpageDescriptions(TransformerBase):
 
     @classmethod
     def _unroll_to(cls, registry, page: HtmlPage):
-        pages_to_unroll = cls._get_pages_to_unroll(page)
+        pages_to_unroll = cls.yield_subpages(page)
         subpages_as_links = cls._pages_to_links(pages_to_unroll, registry)
         cls._insert_into(page, subpages_as_links)
-
-    @classmethod
-    def _get_pages_to_unroll(cls, page: HtmlPage):
-        def sortkey(page):
-            if not page.is_html:
-                return ""
-
-            if page.metadata.date:
-                return page.metadata.date + page.title
-
-            # for biweekly updates
-            dates = re.findall(r"[\d]{4}[/-][\d]{2}[/-][\d]{2}", page.title)
-            if dates:
-                return dates[0].replace("/", "-")
-
-            return page.title
-
-        for file_in_dir in sorted(page.is_index_to.files, key=sortkey, reverse=True):
-            if not file_in_dir.is_html:
-                continue
-
-            if file_in_dir is page:
-                continue
-
-            if file_in_dir is page.is_index_to.inner_index \
-                or file_in_dir is page.is_index_to.outer_index:
-                continue
-
-            yield file_in_dir
 
     @classmethod
     def _pages_to_links(cls, pages_to_unroll, registry) -> Iterator[SubpageInfo]:
