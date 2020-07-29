@@ -23,6 +23,7 @@ class Metadata:
         self.unroll_description = False
         self.unroll_subpages = False
         self.unroll_length = settings.number_of_subpages_in_unroll
+        self.unroll_categories = False
 
         self.date = None
         self.last_mod = None
