@@ -61,15 +61,18 @@ class Metadata:
         if last_mod:
             metadata.last_mod = last_mod.replace("/", "-")
 
-        metadata.unroll = data.get("unroll", metadata.unroll)
-        metadata.unroll_description = data.get("unroll-description",
-                                               metadata.unroll_description)
-        metadata.unroll_subpages = data.get("unroll-subpages",
-                                            metadata.unroll_subpages)
-        metadata.unroll_length = data.get("unroll-len", metadata.unroll_length)
-        metadata.unroll_length = data.get("unroll-length", metadata.unroll_length)
+        metadata.load_property(data, "unroll", "unroll")
+        metadata.load_property(data, "unroll_length", "unroll-len")
+        metadata.load_property(data, "unroll_length", "unroll-length")
+        metadata.load_property(data, "unroll_subpages", "unroll-subpages")
+        metadata.load_property(data, "unroll_categories", "unroll-categories")
+        metadata.load_property(data, "unroll_description", "unroll-description")
 
         return metadata
+
+    def load_property(self, data, property_name, name, default=None):
+        default_value = getattr(self, property_name) if default is None else default
+        setattr(self, property_name, data.get(name, default_value))
 
     def create_copy(self):
         metadata = Metadata()
