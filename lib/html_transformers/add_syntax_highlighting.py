@@ -29,7 +29,10 @@ class AddSyntaxHighlighting(TransformerBase):
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         made_doublelinked = False
         add_style_to_the_header = False
-        for code_tag in page.dom.match(["pre", {"class": "code"}], "code"):
+
+        code_code = page.dom.match(["pre", {"class": "code"}], "code")
+        code_wrap = page.dom.match(["pre", {"class": "code code-wrap"}], "code")
+        for code_tag in code_code + code_wrap:
             code_content, lang = cls._parse_code_content_and_lang(code_tag)
 
             if not made_doublelinked:
