@@ -17,6 +17,7 @@ class AddSidebarsToAllPages(TransformerBase):
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         if not page.is_embeddable:
+            page.sidebar = None
             return
 
         cls._add_sidebars_to_page(page)
@@ -42,5 +43,3 @@ class AddSidebarsToAllPages(TransformerBase):
         body_tag = page.dom.find("body")[0]
         body_tag.childs.insert(0, top_tag)
         body_tag.childs.append(bottom_tag)
-
-        page.sidebar = Sidebar()

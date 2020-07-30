@@ -100,8 +100,9 @@ class Sidebar:
         self.ad_code = None
         self.last_five_html = None
         self.backlinks_html = None
+        self.tagbox_html = None
 
-    def last_five_tags(self):
+    def _get_last_five_tags(self):
         top_tag_code = '<div id="last_five_top">\n%s\n</div>' % self.last_five_html
         top_tag = dhtmlparser.parseString(top_tag_code).find("div")[0]
 
@@ -110,29 +111,35 @@ class Sidebar:
 
         return top_tag, bottom_tag
 
-    def advertisement_code_tag(self):
+    def _get_advertisement_code_tag(self):
         return dhtmlparser.parseString(self.ad_code)
 
-    def backlinks_tags(self):
+    def _get_backlinks_tags(self):
         top_tag = dhtmlparser.parseString(self.backlinks_html).find("div")[0]
         bottom_tag = dhtmlparser.parseString(self.backlinks_html).find("div")[0]
 
         return top_tag, bottom_tag
 
+    def _get_tagbox_tag(self):
+        return dhtmlparser.parseString(self.tagbox_html).find("div")[0]
+
     def add_to_page(self, page):
         top_div = page.dom.find("div", {"id": "sidebar_top"})[0]
         bottom_div = page.dom.find("div", {"id": "sidebar_bottom"})[0]
 
-        last_five_top, last_five_bottom = self.last_five_tags()
+        last_five_top, last_five_bottom = self._get_last_five_tags()
         top_div.childs.insert(0, last_five_top)
         bottom_div.childs.insert(0, last_five_bottom)
 
         if self.backlinks_html:
-            backlinks_top, backlinks_bottom = self.backlinks_tags()
+            backlinks_top, backlinks_bottom = self._get_backlinks_tags()
             top_div.childs.append(backlinks_top)
             bottom_div.childs.append(backlinks_bottom)
 
-        top_div.childs.append(self.advertisement_code_tag())
+        if self.tagbox_html:
+            top_div.childs.append(self._get_tagbox_tag())
+
+        top_div.childs.append(self._get_advertisement_code_tag())
 
 
 class HtmlPage(FileBase):
@@ -148,7 +155,7 @@ class HtmlPage(FileBase):
 
         self.metadata = Metadata()
         self.alt_title = None
-        self.sidebar = None
+        self.sidebar = Sidebar()  # may be replaced with None in add_sidebars.py!
 
         self.is_index_to = None
 
@@ -329,6 +336,7 @@ class HtmlPage(FileBase):
         copy.filename = self.filename
         copy.is_index_to = self.is_index_to
         copy.metadata = self.metadata.create_copy()
+        copy.sidebar = self.sidebar
 
         return copy
 

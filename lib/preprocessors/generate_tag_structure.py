@@ -114,9 +114,6 @@ class GenerateTagStructure(PreprocessorBase):
         root.add_subdir(tag_directory)
         root.add_file(tag_index_outer)
 
-        # tag_index_inner = HtmlPage(tag_index_html, "index.html")
-        # tag_index_inner.alt_title = tag_manager.alt_title
-        # tag_directory.add_file(tag_index_inner)
         tag_directory.add_copy_as_index(tag_index_outer)
 
         return tag_to_ref_str_map
@@ -136,14 +133,16 @@ class GenerateTagStructure(PreprocessorBase):
     def _add_tags_to_all_pages(cls, tag_manager, tag_to_ref_str_map):
         for page in tag_manager.pages_with_tags:
             body = page.dom.find("body")[0]
-            tag_box = cls._get_tagbox(tag_manager.dirname, page.metadata.tags,
-                                      tag_to_ref_str_map)
-            body.childs.append(tag_box)
+            tag_box_html = cls._get_tagbox(tag_manager.dirname, page.metadata.tags,
+                                           tag_to_ref_str_map)
+            body.childs.append(dhtmlparser.parseString(tag_box_html))
+
+            page.sidebar.tagbox_html = tag_box_html
 
     @classmethod
     def _get_tagbox(cls, title, tags, tag_to_ref_str_map):
         if not tags:
-            return dhtmlparser.parseString("")
+            return ""
 
         out = "<hr><div><h3>%s</h3><p>" % title
         all_tags = []
@@ -156,4 +155,4 @@ class GenerateTagStructure(PreprocessorBase):
         out += ", ".join(all_tags)
         out += "</p></div>"
 
-        return dhtmlparser.parseString(out)
+        return out
