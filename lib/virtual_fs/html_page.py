@@ -101,6 +101,7 @@ class Sidebar:
         self.last_five_html = None
         self.backlinks_html = None
         self.tagbox_html = None
+        self.sections_html = None
 
     def _get_last_five_tags(self):
         top_tag_code = '<div id="last_five_top">\n%s\n</div>' % self.last_five_html
@@ -123,13 +124,16 @@ class Sidebar:
     def _get_tagbox_tag(self):
         return dhtmlparser.parseString(self.tagbox_html).find("div")[0]
 
+    def _get_sections_tag(self):
+        return dhtmlparser.parseString(self.sections_html).find("div")[0]
+
     def add_to_page(self, page):
         top_div = page.dom.find("div", {"id": "sidebar_top"})[0]
         bottom_div = page.dom.find("div", {"id": "sidebar_bottom"})[0]
 
         last_five_top, last_five_bottom = self._get_last_five_tags()
-        top_div.childs.insert(0, last_five_top)
-        bottom_div.childs.insert(0, last_five_bottom)
+        top_div.childs.append(last_five_top)
+        bottom_div.childs.append(last_five_bottom)
 
         if self.backlinks_html:
             backlinks_top, backlinks_bottom = self._get_backlinks_tags()
@@ -139,6 +143,7 @@ class Sidebar:
         if self.tagbox_html:
             top_div.childs.append(self._get_tagbox_tag())
 
+        top_div.childs.append(self._get_sections_tag())
         top_div.childs.append(self._get_advertisement_code_tag())
 
 

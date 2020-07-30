@@ -188,6 +188,11 @@ ul.unroll li:before {
 ul.unroll li.unroll_last:before {
     content: '└» ';
 }
+ul.no_icon > li {
+    list-style: none;
+    margin-left: -1em;
+    margin-top: 0.2em;
+}
 
 a.unroll_link,
 a.visited {
