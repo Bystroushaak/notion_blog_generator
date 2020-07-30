@@ -83,7 +83,7 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
 
         feed.add(
             title=title,
-            content=post.description or "No description.",
+            content=post.description_clean or "No description.",
             content_type="text",
             author=settings.twitter_handle.replace("@", ""),
             url=url,

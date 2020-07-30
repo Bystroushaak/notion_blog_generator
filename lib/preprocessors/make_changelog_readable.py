@@ -10,7 +10,7 @@ from lib.virtual_fs import VirtualFS
 from .preprocessor_base import PreprocessorBase
 
 
-class Post(namedtuple("Post", "timestamp title description")):
+class Post(namedtuple("Post", "timestamp title description description_clean")):
     pass
 
 
@@ -45,9 +45,9 @@ class Changelog:
         for tr in reversed(tbody.find("tr")):
             td_date, td_title, td_content = tr.find("td")
 
-            content = self._parse_content(td_content)
+            content, content_clean = self._parse_content(td_content)
             date = self._parse_date(td_date)
-            post = Post(date, td_title.getContent(), content)
+            post = Post(date, td_title.getContent(), content, content_clean)
 
             tr_line = tr_line_template % (post.title, post.timestamp, post.description)
             content_element += tr_line
@@ -65,13 +65,15 @@ class Changelog:
         content = td_content.find("a")
         if content and content[0].getContent() == "Untitled":
             content = ""
+            content_clean = ""
         elif not content:
             raise ValueError("Changelog doesn't contain link. Please add it.")
         else:
+            content_clean = content[0].getContent()
             content_template = "<p class=\"changelog_description\"><em>%s</em></p>\n"
-            content = content_template % content[0].getContent()
+            content = content_template % content_clean
 
-        return content
+        return content, content_clean
 
     def _parse_date(self, td_date):
         time_tags = td_date.find("time")
