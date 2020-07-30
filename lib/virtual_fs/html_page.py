@@ -128,8 +128,7 @@ class Sidebar:
         return dhtmlparser.parseString(self.sections_html).find("div")[0]
 
     def add_to_page(self, page):
-        top_div = page.dom.find("div", {"id": "sidebar_top"})[0]
-        bottom_div = page.dom.find("div", {"id": "sidebar_bottom"})[0]
+        top_div, bottom_div = self._add_sidebars_to_page(page)
 
         last_five_top, last_five_bottom = self._get_last_five_tags()
         top_div.childs.append(last_five_top)
@@ -145,6 +144,19 @@ class Sidebar:
 
         top_div.childs.append(self._get_sections_tag())
         top_div.childs.append(self._get_advertisement_code_tag())
+
+    def _add_sidebars_to_page(self, page):
+        top_tag_code = """<div id="sidebar_top"></div>"""
+        bottom_tag_code = '<div id="sidebar_bottom">\n</div>'
+
+        top_tag = dhtmlparser.parseString(top_tag_code).find("div")[0]
+        bottom_tag = dhtmlparser.parseString(bottom_tag_code).find("div")[0]
+
+        body_tag = page.dom.find("body")[0]
+        body_tag.childs.insert(0, top_tag)
+        body_tag.childs.append(bottom_tag)
+
+        return top_tag, bottom_tag
 
 
 class HtmlPage(FileBase):
@@ -259,9 +271,6 @@ class HtmlPage(FileBase):
                         continue
 
     def convert_resources_to_paths(self, resource_registry: ResourceRegistry):
-        if self.sidebar:
-            self.sidebar.add_to_page(self)
-
         resources = self._collect_resources()
 
         html_dir = os.path.dirname(self.path)

@@ -1,17 +1,12 @@
-import dhtmlparser
-
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
-from .add_sidebars import AddSidebarsToAllPages
 
 
 class AddBacklinksToSidebars(TransformerBase):
-    requires = [AddSidebarsToAllPages]
-
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding table with backlinks to all HTML pages..")

@@ -1,18 +1,15 @@
-import dhtmlparser
-
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
 from .transformer_base import TransformerBase
-from .add_sidebars import AddSidebarsToAllPages
 
 from lib.preprocessors.make_changelog_readable import LoadChangelogsAndMakeThemReadable
 
 
 class AddLastFiveArticlesToSidebars(TransformerBase):
-    requires = [LoadChangelogsAndMakeThemReadable, AddSidebarsToAllPages]
+    requires = [LoadChangelogsAndMakeThemReadable]
 
     @classmethod
     def log_transformer(cls):
