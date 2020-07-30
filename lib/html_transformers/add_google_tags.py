@@ -91,8 +91,12 @@ window.cookieconsent.initialise({
         body = page.dom.find("body")[0]
         dhtmlparser.makeDoubleLinked(body)
 
+        is_category_page = any((page.metadata.unroll_categories,
+                                page.metadata.unroll_subpages,
+                                page.metadata.unroll))
+
         p_tags = body.find("p")
-        if len(p_tags) > 8:
+        if len(p_tags) > 8 and not is_category_page:
             selected_tag = p_tags[4]
 
             h1_tags = body.find("h1")

@@ -37,7 +37,7 @@ class UnrollSubpageDescriptions(UnrollTraits):
 
     @classmethod
     def _pages_to_links(cls, pages_to_unroll, registry) -> Iterator[SubpageInfo]:
-        description_template = '<p>%s</p><hr />'
+        description_template = '<p style="margin-top: -1em;"><em>%s</em></p><hr />'
 
         for page in pages_to_unroll:
             page_ref = registry.register_item_as_ref_str(page)
@@ -58,11 +58,11 @@ class UnrollSubpageDescriptions(UnrollTraits):
 
             date = subpage_info.page.metadata.date
             if date:
-                link_html_template = '<h3><a href="%s">%s</a> <time>(@%s)</time></h3>\n'
+                link_html_template = '<h4><a href="%s">%s</a> <time>(@%s)</time></h4>\n'
                 link_html = link_html_template % (href, a_tag.getContent(),
                                                   date)
             else:
-                link_html_template = '<h3><a href="%s">%s</a></h3>\n'
+                link_html_template = '<h4><a href="%s">%s</a></h4>\n'
                 link_html = link_html_template % (href, a_tag.getContent())
 
             a_tag.replaceWith(dhtmlparser.parseString(link_html + subpage_info.html))

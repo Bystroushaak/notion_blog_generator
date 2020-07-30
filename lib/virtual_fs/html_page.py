@@ -82,8 +82,9 @@ class Metadata:
         metadata.tags = self.tags
 
         metadata.unroll = self.unroll
-        metadata.unroll_description = self.unroll_description
         metadata.unroll_subpages = self.unroll_subpages
+        metadata.unroll_categories = self.unroll_categories
+        metadata.unroll_description = self.unroll_description
 
         metadata.date = self.date
         metadata.last_mod = self.last_mod
@@ -119,6 +120,26 @@ class HtmlPage(FileBase):
     @property
     def is_index(self):
         return bool(self.is_index_to)
+
+    @property
+    def is_category(self):
+        if self.is_index_to:
+            if self.is_index_to.subdirs:
+                return True
+
+            htmls = [file for file in self.is_index_to.walk_htmls()
+                     if not file.is_index]
+            if htmls:
+                return True
+
+        return False
+
+    @property
+    def icon(self):
+        if self.is_category:
+            return "📂"
+
+        return "🗎"
 
     @property
     @lru_cache()

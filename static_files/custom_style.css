@@ -194,6 +194,13 @@ a.visited {
     text-decoration-color: #bbbbbb;
 }
 
+a.unroll_category {
+    text-decoration: none;
+}
+a.unroll_category:hover {
+    text-decoration: underline;
+}
+
 @font-face {
     font-family: "NotoEmojiSubset";
     src: url(NotoEmojiSubset.ttf) format("ttf");

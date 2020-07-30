@@ -1,6 +1,7 @@
 from typing import Iterator
 
 import dhtmlparser
+from jinja2 import Template
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -34,59 +35,75 @@ class UnrollCategories(UnrollTraits):
             cls._insert_into(page, category_si, subpages)
 
     @classmethod
-    def _to_subpage_infos(cls, pages_to_unroll, registry) -> Iterator[SubpageInfo]:
-        description_template = '<p>%s</p>'
-
-        for page in pages_to_unroll:
+    def _to_subpage_infos(cls, subpages, registry) -> Iterator[SubpageInfo]:
+        for page in subpages:
             page_ref = registry.register_item_as_ref_str(page)
-            description_html = description_template % page.metadata.page_description
+            description = page.metadata.page_description
+            if not description:
+                description = "&nbsp;"
 
-            yield SubpageInfo(page, page_ref, description_html)
+            yield SubpageInfo(page, page_ref, description)
 
     @classmethod
     def _insert_into(cls, target: HtmlPage, category: SubpageInfo,
                      subpages: Iterator[SubpageInfo]):
+        limit = 10
+        limit_to = 3
+        and_more = 0
         subpages = list(subpages)
+        if len(subpages) > limit:
+            and_more = len(subpages) - limit_to
+            subpages = subpages[:limit_to]
 
         for a_tag in target.dom.find("a"):
             href = a_tag.params.get("href")
             if href != category.ref_str:
                 continue
 
-            cls._insert_html_instead_of(a_tag, category, subpages)
+            cls._insert_html_instead_of(a_tag, category, subpages, and_more)
 
     @classmethod
-    def _insert_html_instead_of(cls, a_tag, category, subpages):
-        html = cls._generate_html(category, subpages)
+    def _insert_html_instead_of(cls, a_tag, category, subpages, and_more=0):
+        html = cls._generate_html(category, subpages, and_more)
         a_tag.replaceWith(dhtmlparser.parseString(html))
 
     @classmethod
-    def _generate_html(cls, category, subpages):
+    def _generate_html(cls, category, subpages, and_more):
         subpages_htmls = [cls._subpage_to_html(subpage_info)
                           for subpage_info in subpages]
 
-        html = """
-        <h2><a href="{category_link}">{category_name}</a></h2>
-        {subpages}
-        """
-        return html.format(category_name=category.page.title,
-                           category_link=category.ref_str,
-                           subpages="\n".join(subpages_htmls))
+        jinja_template = Template("""
+<h1><a href="{{ category_link }}" class="unroll_category">
+    Category: {{ category_name }}
+</a></h1>
+{{ subpages }}
+{% if and_more > 0: %}
+<h4 style="text-align: right;"><a href="{{ category_link }}">
+    {% if and_more > 1: %}
+        & {{ and_more }} more blogposts
+    {% else: %}
+        & 1 more blogpost
+    {% endif %}
+</a></h4>
+{% endif %}
+""")
+
+        return jinja_template.render(category_link=category.ref_str,
+                                     category_name=category.page.title,
+                                     subpages="\n".join(subpages_htmls),
+                                     and_more=and_more)
 
     @classmethod
     def _subpage_to_html(cls, subpage_info):
-        date = subpage_info.page.metadata.date
-
-        if date:
-            link_html_template = (
-                '<h4><a href="{link}">{name}</a> <time>(@{date})</time></h4>\n'
-            )
-            link_html = link_html_template.format(name=subpage_info.page.title,
-                                                  link=subpage_info.ref_str,
-                                                  date=date)
-        else:
-            link_html_template = '<h4><a href="{link}">{name}</a></h4>\n'
-            link_html = link_html_template.format(name=subpage_info.page.title,
-                                                  link=subpage_info.ref_str)
-
-        return link_html + subpage_info.html
+        jinja_template = Template("""
+<div style="margin-left: 1em">
+<h4><a href="{{ link }}" class="">{{ page.icon }} {{ page.title }}</a>
+{% if date: %} <time>(@{{ date }})</time>{% endif %}
+</h4>
+<p style="margin-top: -1em;"><em>{{ description }}</em></p>
+</div>
+""")
+        return jinja_template.render(page=subpage_info.page,
+                                     date=subpage_info.page.metadata.date,
+                                     link=subpage_info.ref_str,
+                                     description=subpage_info.html)
