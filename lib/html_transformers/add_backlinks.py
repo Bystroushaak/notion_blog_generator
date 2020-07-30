@@ -9,7 +9,7 @@ from .transformer_base import TransformerBase
 from .add_sidebars import AddSidebarsToAllPages
 
 
-class AddBacklinks(TransformerBase):
+class AddBacklinksToSidebars(TransformerBase):
     requires = [AddSidebarsToAllPages]
 
     @classmethod
