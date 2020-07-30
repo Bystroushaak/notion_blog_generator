@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import dhtmlparser
 
 from lib.settings import settings
