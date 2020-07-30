@@ -42,7 +42,41 @@ class UnrollCategories(UnrollTraits):
             if not description:
                 description = "&nbsp;"
 
-            yield SubpageInfo(page, page_ref, description)
+            subpage_info = SubpageInfo(page, page_ref, description)
+
+            date, number_of_subsubpages = cls._date_from_subsubpage(subpage_info)
+            page.metadata.date = date
+            page.metadata.number_of_subsubpages = number_of_subsubpages
+
+            yield subpage_info
+
+
+    @classmethod
+    def _date_from_subsubpage(cls, subpage_info):
+        def is_not_inner_index(page):
+            if not page.is_index:
+                return True
+
+            if page.is_index_to.inner_index is not page:
+                return True
+
+            return False
+
+        date = subpage_info.page.metadata.date
+        number_of_subsubpages = 0
+        if subpage_info.page.is_category:
+            subsubpages = subpage_info.page.is_index_to.files
+            number_of_subsubpages = len([x for x in subsubpages
+                                         if x.is_html and is_not_inner_index(x)])
+
+            if not date:
+                dates = sorted([subpage.metadata.date
+                                for subpage in subsubpages
+                                if subpage.is_html and subpage.metadata.date])
+                if dates:
+                    date = dates[-1]
+
+        return date, number_of_subsubpages
 
     @classmethod
     def _insert_into(cls, target: HtmlPage, category: SubpageInfo,
@@ -74,8 +108,7 @@ class UnrollCategories(UnrollTraits):
 
         jinja_template = Template("""
 <h1><a href="{{ category_link }}" class="unroll_category">
-    Category: {{ category_name }}
-</a></h1>
+    Category: <em>{{ category_name }}</em></a></h1>
 {{ subpages }}
 {% if and_more > 0: %}
 <h4 style="text-align: right;"><a href="{{ category_link }}">
@@ -95,15 +128,37 @@ class UnrollCategories(UnrollTraits):
 
     @classmethod
     def _subpage_to_html(cls, subpage_info):
+        number_of_subsubpages = subpage_info.page.metadata.number_of_subsubpages
+
         jinja_template = Template("""
 <div style="margin-left: 1em">
 <h4><a href="{{ link }}" class="">{{ page.icon }} {{ page.title }}</a>
-{% if date: %} <time>(@{{ date }})</time>{% endif %}
+{% if number_of_subsubpages > 0 %}
+    {% if date: %}
+        <time>(last update @{{ date }},
+    {% else: %}
+        <time>(
+    {% endif %}
+    {{ number_of_subsubpages }}
+        {% if number_of_subsubpages > 1 %}
+            subpages)</time>
+        {% else %}
+            subpage)</time>
+        {% endif %}
+{% else %}
+    {% if last_mod: %}
+        <time>(last modified @{{ last_mod }})</time>
+    {% else: %}
+        {% if date: %} <time>(@{{ date }})</time>{% endif %}
+    {% endif %}
+{% endif %}
 </h4>
 <p style="margin-top: -1em;"><em>{{ description }}</em></p>
 </div>
 """)
-        return jinja_template.render(page=subpage_info.page,
-                                     date=subpage_info.page.metadata.date,
+        return jinja_template.render(date=subpage_info.page.metadata.date,
+                                     last_mod=subpage_info.page.metadata.last_mod,
+                                     page=subpage_info.page,
                                      link=subpage_info.ref_str,
-                                     description=subpage_info.html)
+                                     description=subpage_info.html,
+                                     number_of_subsubpages=number_of_subsubpages)
