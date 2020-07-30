@@ -28,6 +28,9 @@ class AddBacklinks(TransformerBase):
         if not page.metadata.refs_from_other_pages:
             return
 
+        if not page.sidebar:
+            return
+
         html = """
         <div id="links_from_other_pages">
             <h3>Links to this page:</h3>
@@ -41,15 +44,7 @@ class AddBacklinks(TransformerBase):
         if not links_code:
             return
 
-        top_code = html % links_code
-        top_tag = dhtmlparser.parseString(top_code).find("div")[0]
-        top_div = page.dom.find("div", {"id": "sidebar_top"})[0]
-        top_div.childs.append(top_tag)
-
-        bottom_code = html % links_code
-        bottom_tag = dhtmlparser.parseString(bottom_code).find("div")[0]
-        bottom_div = page.dom.find("div", {"id": "sidebar_bottom"})[0]
-        bottom_div.childs.append(bottom_tag)
+        page.sidebar.backlinks_html = html % links_code
 
     @classmethod
     def _yield_links(cls, page):

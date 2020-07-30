@@ -53,6 +53,13 @@ class AddGoogleTags(TransformerBase):
      data-full-width-responsive="true"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 """
+    sidebar_ad_code = """<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-8322439660353685"
+     data-ad-slot="8589969791"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>"""
     cookie_consent_code = """
 <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
 <script>
@@ -87,6 +94,9 @@ window.cookieconsent.initialise({
 
         if settings.google_adsense_code:
             head.childs.append(cls.adsense_tag)
+
+        if page.sidebar:
+            page.sidebar.ad_code = cls.sidebar_ad_code
 
         body = page.dom.find("body")[0]
         dhtmlparser.makeDoubleLinked(body)

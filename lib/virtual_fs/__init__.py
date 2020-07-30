@@ -8,6 +8,7 @@ from lib.virtual_fs.data import Data
 from lib.virtual_fs.directory import Tags
 from lib.virtual_fs.directory import Directory
 from lib.virtual_fs.directory import RootSection
+from lib.virtual_fs.html_page import Sidebar
 from lib.virtual_fs.html_page import HtmlPage
 from lib.virtual_fs.resource_registry import ResourceRegistry
 
