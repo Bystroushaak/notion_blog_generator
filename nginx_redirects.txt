@@ -2347,9 +2347,6 @@ location '/cz/Elon_Musk_d_l_po_d_to_sam.html' {
 location '/cz/H_bitov/index.html' {
     return 301 '/cz/Hrbitov/';
 }
-location '/cz/Library_at_Mount_Char.html' {
-    return 301 '/cz/Library_at_Mount_Char/';
-}
 location '/cz/Jak_se_p_e_programovac_jazyk/Jak_se_p_e_programovac_jazyk_6_Kompil_tor_AST_do_b.html' {
     return 301 '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_6_Kompilator_AST_do_bytecode.html';
 }
@@ -2977,4 +2974,211 @@ location '/en/Books_that_changed_my_point_of_view.html' {
 }
 location '/en/Book_generators.html' {
     return 301 '/en/Books/Book_generators.html';
+}
+location '/cz/Umira_abicko_ano_a_drsne.html' {
+    return 301 '/cz/Abclinuxu/Umira_abicko_ano_a_drsne.html';
+}
+location '/cz/Umira_abicko_ano_a_drsne/index.html' {
+    return 301 '/cz/Abclinuxu/Umira_abicko_ano_a_drsne.html';
+}
+location '/cz/Knizni_recenze_Firefall_Slepozrakost_a_Echopraxie.html' {
+    return 301 '/cz/Knihy/Knizni_recenze_Firefall_Slepozrakost_a_Echopraxie.html';
+}
+location '/cz/Vypustene_knihy.html' {
+    return 301 '/cz/Knihy/Vypustene_knihy.html';
+}
+location '/cz/Vypustene_knihy/index.html' {
+    return 301 '/cz/Knihy/Vypustene_knihy.html';
+}
+location '/cz/Library_at_Mount_Char.html' {
+    return 301 '/cz/Knihy/Library_at_Mount_Char.html';
+}
+location '/cz/Library_at_Mount_Char/index.html' {
+    return 301 '/cz/Knihy/Library_at_Mount_Char.html';
+}
+location '/cz/Vypustene_knihy/Tabulka_knih.html' {
+    return 301 '/cz/Knihy/Vypustene_knihy/Tabulka_knih.html';
+}
+location '/cz/Vypustene_knihy/Tabulka_knih/index.html' {
+    return 301 '/cz/Knihy/Vypustene_knihy/Tabulka_knih.html';
+}
+location '/cz/Packet_radio.html' {
+    return 301 '/cz/Predstaveni/Packet_radio.html';
+}
+location '/cz/umami_youtube_kanal.html' {
+    return 301 '/cz/Predstaveni/umami_youtube_kanal.html';
+}
+location '/cz/umami_youtube_kanal/index.html' {
+    return 301 '/cz/Predstaveni/umami_youtube_kanal.html';
+}
+location '/cz/Racionalni_priprava_na_virus.html' {
+    return 301 '/cz/Ostatni/Racionalni_priprava_na_virus.html';
+}
+location '/cz/Racionalni_priprava_na_virus/index.html' {
+    return 301 '/cz/Ostatni/Racionalni_priprava_na_virus.html';
+}
+location '/cz/Elon_Musk_dela_porad_to_same.html' {
+    return 301 '/cz/Ostatni/Elon_Musk_dela_porad_to_same.html';
+}
+location '/cz/Programatorova_kritika_chybejici_struktury_operacnich_systemu.html' {
+    return 301 '/cz/Programovani/Programatorova_kritika_chybejici_struktury_operacnich_systemu.html';
+}
+location '/cz/Programatorova_kritika_chybejici_struktury_operacnich_systemu/index.html' {
+    return 301 '/cz/Programovani/Programatorova_kritika_chybejici_struktury_operacnich_systemu.html';
+}
+location '/cz/Jak_se_stat_hackerem.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_hackerem.html';
+}
+location '/cz/Jak_se_stat_programatorem.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem.html';
+}
+location '/cz/Jak_se_stat_programatorem/index.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem.html';
+}
+location '/cz/Cracking_telefonnich_karet.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet.html';
+}
+location '/cz/Cracking_telefonnich_karet/index.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/index.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk.html';
+}
+location '/cz/Moldable_tools_kniha_a_hnuti.html' {
+    return 301 '/cz/Programovani/Moldable_tools_kniha_a_hnuti.html';
+}
+location '/cz/Moldable_tools_kniha_a_hnuti/index.html' {
+    return 301 '/cz/Programovani/Moldable_tools_kniha_a_hnuti.html';
+}
+location '/cz/Serial_o_Selfu.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu.html';
+}
+location '/cz/Serial_o_Selfu/index.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_6_Kompilator_AST_do_bytecode.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_6_Kompilator_AST_do_bytecode.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_5_Bajtkod_a_literaly.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_5_Bajtkod_a_literaly.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_5_Bajtkod_a_literaly/index.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_5_Bajtkod_a_literaly.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_4_Objektovy_layout.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_4_Objektovy_layout.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_4_Objektovy_layout/index.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_4_Objektovy_layout.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_35_RPython.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_35_RPython.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_35_RPython/index.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_35_RPython.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_3_Parser_a_AST.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_3_Parser_a_AST.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_3_Parser_a_AST/index.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_3_Parser_a_AST.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_2_Lexer.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_2_Lexer.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_2_Lexer/index.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_2_Lexer.html';
+}
+location '/cz/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_1_Motivace.html' {
+    return 301 '/cz/Programovani/Jak_se_pise_programovaci_jazyk/Jak_se_pise_programovaci_jazyk_1_Motivace.html';
+}
+location '/cz/Cracking_telefonnich_karet/AdvancedTCardReader.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/AdvancedTCardReader.html';
+}
+location '/cz/Cracking_telefonnich_karet/Homemade_ctecka_telefonnich_karet.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/Homemade_ctecka_telefonnich_karet.html';
+}
+location '/cz/Cracking_telefonnich_karet/Homemade_ctecka_telefonnich_karet/index.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/Homemade_ctecka_telefonnich_karet.html';
+}
+location '/cz/Cracking_telefonnich_karet/Odkrytovani_cipu_telefonni_karty.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/Odkrytovani_cipu_telefonni_karty.html';
+}
+location '/cz/Cracking_telefonnich_karet/Odkrytovani_cipu_telefonni_karty/index.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/Odkrytovani_cipu_telefonni_karty.html';
+}
+location '/cz/Cracking_telefonnich_karet/Cesta_k_emulatoru_telefonni_karty.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/Cesta_k_emulatoru_telefonni_karty.html';
+}
+location '/cz/Cracking_telefonnich_karet/Cesta_k_emulatoru_telefonni_karty/index.html' {
+    return 301 '/cz/Programovani/Cracking_telefonnich_karet/Cesta_k_emulatoru_telefonni_karty.html';
+}
+location '/cz/Jak_se_stat_programatorem/Jeste_jednou_o_motivaci.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Jeste_jednou_o_motivaci.html';
+}
+location '/cz/Jak_se_stat_programatorem/Editor.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Editor.html';
+}
+location '/cz/Jak_se_stat_programatorem/Editor/index.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Editor.html';
+}
+location '/cz/Jak_se_stat_programatorem/Scriptovaci_versus_kompilovane_jazyky.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Scriptovaci_versus_kompilovane_jazyky.html';
+}
+location '/cz/Jak_se_stat_programatorem/Neucte_se_do_zacatku_plejadu_jazyku.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Neucte_se_do_zacatku_plejadu_jazyku.html';
+}
+location '/cz/Jak_se_stat_programatorem/Neucte_se_do_zacatku_plejadu_jazyku/index.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Neucte_se_do_zacatku_plejadu_jazyku.html';
+}
+location '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti.html';
+}
+location '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/index.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti.html';
+}
+location '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/Nahoru.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/Nahoru.html';
+}
+location '/cz/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/Dolu.html' {
+    return 301 '/cz/Programovani/Jak_se_stat_programatorem/Editor/Obvykle_klavesove_zkratky_pro_posunuti/Dolu.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_prvni_prostredi.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_prvni_prostredi.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_prvni_prostredi/index.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_prvni_prostredi.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/index.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_ctvrty_komunita_historie.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_ctvrty_komunita_historie.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_ctvrty_komunita_historie/index.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_ctvrty_komunita_historie.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_treti_debugger_transporter_a.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_treti_debugger_transporter_a.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_treti_debugger_transporter_a/index.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_treti_debugger_transporter_a.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/index.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/atPut.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/atPut.html';
+}
+location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/do___.html' {
+    return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/do___.html';
 }
