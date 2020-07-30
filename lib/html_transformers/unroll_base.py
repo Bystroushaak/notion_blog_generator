@@ -51,6 +51,9 @@ class UnrollTraits(TransformerBase):
     @classmethod
     def _to_subpage_infos(cls, subpages, registry) -> Iterator[SubpageInfo]:
         for page in subpages:
+            if not page.is_html:
+                continue
+
             page_ref = registry.register_item_as_ref_str(page)
             description = page.metadata.page_description
             if not description:
