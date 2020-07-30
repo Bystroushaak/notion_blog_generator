@@ -39,7 +39,7 @@ class UnrollSubpageDescriptions(UnrollTraits):
         subpages_as_links = list(subpages_as_links)
         ref_to_subpage_info = {si.ref_str: si for si in subpages_as_links}
 
-        for a_tag in target.dom.find("a"):
+        for a_tag in target.dom.match(["figure", {"class": "link-to-page"}], "a"):
             href = a_tag.params.get("href")
             subpage_info = ref_to_subpage_info.get(href)
             if subpage_info is None:
