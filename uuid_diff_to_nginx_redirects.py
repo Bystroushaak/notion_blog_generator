@@ -1,34 +1,40 @@
 #! /usr/bin/env python3
-import sys
 import os
 import os.path
+import sys
 import hashlib
 import argparse
-
-from lib.virtual_fs import HtmlPage
+from collections import defaultdict
 
 import tqdm
+
+from lib.virtual_fs import HtmlPage
 
 
 def do_diff_and_print_redirects(old_dir, new_dir, redirect_images=False):
     hash_to_blog_path_old = _generate_hash_to_blog_map(old_dir, redirect_images)
     hash_to_blog_path_new = _generate_hash_to_blog_map(new_dir, redirect_images)
 
-    for hash, new_path in hash_to_blog_path_new.items():
-        old_path = hash_to_blog_path_old.get(hash)
+    for hash, new_paths in hash_to_blog_path_new.items():
+        new_path = new_paths[0]
+        old_paths = hash_to_blog_path_old.get(hash)
 
-        if old_path is None:
+        if not old_paths:
             continue
 
-        if old_path == new_path:
+        if set(old_paths) == set(new_paths):
             continue
 
-        _print_as_nginx_redirect(old_path, new_path)
+        for old_path in old_paths:
+            if old_path == new_path:
+                continue
+
+            _print_as_nginx_redirect(old_path, new_path)
 
 
-def _generate_hash_to_blog_map(old_dir, redirect_images=False):
-    hash_to_blog_path = {}
-    for path, blog_path in tqdm.tqdm(list(_walk_blog(old_dir))):
+def _generate_hash_to_blog_map(blog_path, redirect_images=False):
+    hash_to_blog_path = defaultdict(list)
+    for path, blog_path in tqdm.tqdm(list(_walk_blog(blog_path))):
         if path.endswith(".html"):
             hash = _get_html_content_independent_hash(path)
         elif redirect_images:
@@ -36,7 +42,7 @@ def _generate_hash_to_blog_map(old_dir, redirect_images=False):
         else:
             continue
 
-        hash_to_blog_path[hash] = blog_path
+        hash_to_blog_path[hash].append(blog_path)
 
     return hash_to_blog_path
 
