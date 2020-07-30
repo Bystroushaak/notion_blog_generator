@@ -2833,3 +2833,157 @@ location '/Paperclips_-_Utrzky/Yurtas_with_satellite_connection/index.html' {
 location '/Paperclips_-_Utrzky/Sunburst_for_PyCharm_-_Idea/index.html' {
     return 301 '/Paperclips/Sunburst_for_PyCharm_-_Idea/';
 }
+
+location '/en/My_Greenspuns_counter.html' {
+    return 301 '/en/Programming/My_Greenspuns_counter.html';
+}
+location '/en/My_Greenspuns_counter/index.html' {
+    return 301 '/en/Programming/My_Greenspuns_counter.html';
+}
+location '/en/Python.html' {
+    return 301 '/en/Programming/Python.html';
+}
+location '/en/Python/index.html' {
+    return 301 '/en/Programming/Python.html';
+}
+location '/en/tinySelf.html' {
+    return 301 '/en/Programming/tinySelf.html';
+}
+location '/en/tinySelf/index.html' {
+    return 301 '/en/Programming/tinySelf.html';
+}
+location '/en/Moldable_tools_a_book_and_a_movement.html' {
+    return 301 '/en/Programming/Moldable_tools_a_book_and_a_movement.html';
+}
+location '/en/Moldable_tools_a_book_and_a_movement/index.html' {
+    return 301 '/en/Programming/Moldable_tools_a_book_and_a_movement.html';
+}
+location '/en/objWiki.html' {
+    return 301 '/en/Programming/objWiki.html';
+}
+location '/en/objWiki/index.html' {
+    return 301 '/en/Programming/objWiki.html';
+}
+location '/en/Series_about_Self.html' {
+    return 301 '/en/Programming/Series_about_Self.html';
+}
+location '/en/Series_about_Self/index.html' {
+    return 301 '/en/Programming/Series_about_Self.html';
+}
+location '/en/Programmers_critique_of_missing_structure_of_operating_systems.html' {
+    return 301 '/en/Programming/Programmers_critique_of_missing_structure_of_operating_systems.html';
+}
+location '/en/Programmers_critique_of_missing_structure_of_operating_systems/index.html' {
+    return 301 '/en/Programming/Programmers_critique_of_missing_structure_of_operating_systems.html';
+}
+location '/en/Python/Installation_of_pip_packages_on_offline_computer.html' {
+    return 301 '/en/Programming/Python/Installation_of_pip_packages_on_offline_computer.html';
+}
+location '/en/Python/Active_widget_in_PyQT5_-_QTextEdit.html' {
+    return 301 '/en/Programming/Python/Active_widget_in_PyQT5_-_QTextEdit.html';
+}
+location '/en/Python/Active_widget_in_PyQT5_-_QTextEdit/index.html' {
+    return 301 '/en/Programming/Python/Active_widget_in_PyQT5_-_QTextEdit.html';
+}
+location '/en/Python/Dont_use_Shelve_use_sqlitedict.html' {
+    return 301 '/en/Programming/Python/Dont_use_Shelve_use_sqlitedict.html';
+}
+location '/en/tinySelf/tinySelf_performance_gains_2019-4.html' {
+    return 301 '/en/Programming/tinySelf/tinySelf_performance_gains_2019-4.html';
+}
+location '/en/tinySelf/tinySelf_performance_gains_2019-4/index.html' {
+    return 301 '/en/Programming/tinySelf/tinySelf_performance_gains_2019-4.html';
+}
+location '/en/tinySelf/Simple_while_benchmark_20190106.html' {
+    return 301 '/en/Programming/tinySelf/Simple_while_benchmark_20190106.html';
+}
+location '/en/tinySelf/Simple_while_benchmark_20190106/index.html' {
+    return 301 '/en/Programming/tinySelf/Simple_while_benchmark_20190106.html';
+}
+location '/en/tinySelf/The_traits_float_bug_2020-1.html' {
+    return 301 '/en/Programming/tinySelf/The_traits_float_bug_2020-1.html';
+}
+location '/en/tinySelf/The_traits_float_bug_2020-1/index.html' {
+    return 301 '/en/Programming/tinySelf/The_traits_float_bug_2020-1.html';
+}
+location '/en/tinySelf/Speedups_of_the_interpreter_2019-1.html' {
+    return 301 '/en/Programming/tinySelf/Speedups_of_the_interpreter_2019-1.html';
+}
+location '/en/tinySelf/Speedups_of_the_interpreter_2019-1/index.html' {
+    return 301 '/en/Programming/tinySelf/Speedups_of_the_interpreter_2019-1.html';
+}
+location '/en/objWiki/Transaction_support_for_simple_in-memory_database.html' {
+    return 301 '/en/Programming/objWiki/Transaction_support_for_simple_in-memory_database.html';
+}
+location '/en/objWiki/Transaction_support_for_simple_in-memory_database/index.html' {
+    return 301 '/en/Programming/objWiki/Transaction_support_for_simple_in-memory_database.html';
+}
+location '/en/Series_about_Self/Self_mail_conference_in_mbox.html' {
+    return 301 '/en/Programming/Series_about_Self/Self_mail_conference_in_mbox.html';
+}
+location '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive.html' {
+    return 301 '/en/Programming/Series_about_Self/Lessons_learnt_from_the_Self_archive.html';
+}
+location '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive/index.html' {
+    return 301 '/en/Programming/Series_about_Self/Lessons_learnt_from_the_Self_archive.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/index.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/index.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/index.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger/index.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger.html';
+}
+location '/en/Series_about_Self/Improvement_proposals.html' {
+    return 301 '/en/Programming/Series_about_Self/Improvement_proposals.html';
+}
+location '/en/Disadvantages_of_notionso.html' {
+    return 301 '/en/Organization_of_information/Disadvantages_of_notionso.html';
+}
+location '/en/Microblog_Stephen_Wolframs_infrastructure.html' {
+    return 301 '/en/Organization_of_information/Microblog_Stephen_Wolframs_infrastructure.html';
+}
+location '/en/Sam_Harris__Jordan_Peterson_-_what_just_happened.html' {
+    return 301 '/en/Philosophy/Sam_Harris__Jordan_Peterson_-_what_just_happened.html';
+}
+location '/en/The_beauty_of_a_fusion_reactor.html' {
+    return 301 '/en/Technological_marvels/The_beauty_of_a_fusion_reactor.html';
+}
+location '/en/The_beauty_of_a_fusion_reactor/index.html' {
+    return 301 '/en/Technological_marvels/The_beauty_of_a_fusion_reactor.html';
+}
+location '/en/LVR-15_research_reactor_near_Prague.html' {
+    return 301 '/en/Technological_marvels/LVR-15_research_reactor_near_Prague.html';
+}
+location '/en/LVR-15_research_reactor_near_Prague/index.html' {
+    return 301 '/en/Technological_marvels/LVR-15_research_reactor_near_Prague.html';
+}
+location '/en/Improvements/Report_Monkey_occupiers/Parameters_2/Usefulness.html' {
+    return 301 '/en/Improvements/Report_Monkey_occupiers/Parameters_1/Usefulness.html';
+}
+location '/en/Improvements/Report_Monkey_occupiers/Parameters_1/Price.html' {
+    return 301 '/en/Improvements/Report_Monkey_occupiers/Parameters/Price.html';
+}
+location '/en/Books_that_changed_my_point_of_view.html' {
+    return 301 '/en/Books/Books_that_changed_my_point_of_view.html';
+}
+location '/en/Book_generators.html' {
+    return 301 '/en/Books/Book_generators.html';
+}
