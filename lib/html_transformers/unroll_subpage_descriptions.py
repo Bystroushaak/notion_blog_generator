@@ -7,7 +7,6 @@ from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
 from lib.virtual_fs import Directory
 
-from lib.html_transformers.unroll_base import SubpageInfo
 from lib.html_transformers.unroll_base import UnrollTraits
 
 
@@ -32,18 +31,8 @@ class UnrollSubpageDescriptions(UnrollTraits):
     @classmethod
     def _unroll_to(cls, registry, page: HtmlPage):
         pages_to_unroll = cls.yield_subpages(page)
-        subpages_as_links = cls._pages_to_links(pages_to_unroll, registry)
+        subpages_as_links = cls._to_subpage_infos(pages_to_unroll, registry)
         cls._insert_into(page, subpages_as_links)
-
-    @classmethod
-    def _pages_to_links(cls, pages_to_unroll, registry) -> Iterator[SubpageInfo]:
-        description_template = '<p style="margin-top: -1em;"><em>%s</em></p><hr />'
-
-        for page in pages_to_unroll:
-            page_ref = registry.register_item_as_ref_str(page)
-            page_html = description_template % page.metadata.page_description
-
-            yield SubpageInfo(page, page_ref, page_html)
 
     @classmethod
     def _insert_into(cls, target: HtmlPage, subpages_as_links):
@@ -56,13 +45,5 @@ class UnrollSubpageDescriptions(UnrollTraits):
             if subpage_info is None:
                 continue
 
-            date = subpage_info.page.metadata.date
-            if date:
-                link_html_template = '<h4><a href="%s">%s</a> <time>(@%s)</time></h4>\n'
-                link_html = link_html_template % (href, a_tag.getContent(),
-                                                  date)
-            else:
-                link_html_template = '<h4><a href="%s">%s</a></h4>\n'
-                link_html = link_html_template % (href, a_tag.getContent())
-
-            a_tag.replaceWith(dhtmlparser.parseString(link_html + subpage_info.html))
+            html = cls._subpage_to_html(subpage_info)
+            a_tag.replaceWith(dhtmlparser.parseString(html))
