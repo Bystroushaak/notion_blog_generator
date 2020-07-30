@@ -2116,9 +2116,6 @@ location '/Interesting_articles/https_writings_stephenwolfram_com_2020_04_finall
 location '/Interesting_articles/https_fs_blog_category_mental_models.html' {
     return 301 '/Interesting_articles/https_fs_blog_category_mental_models_d91ea7dcfd0c4f23958ad3b45767582b.html';
 }
-location '/en/The_beauty_of_a_fusion_reactor.html' {
-    return 301 '/en/The_beauty_of_a_fusion_reactor/';
-}
 location '/en/LVR_15_research_reactor_near_Prague.html' {
     return 301 '/en/LVR-15_research_reactor_near_Prague/';
 }
@@ -2127,9 +2124,6 @@ location '/en/Active_widget_in_PyQT5_QTextEdit.html' {
 }
 location '/en/Sam_Harris_Jordan_Peterson_what_just_happened.html' {
     return 301 '/en/Sam_Harris__Jordan_Peterson_-_what_just_happened.html';
-}
-location '/en/Moldable_tools_a_book_and_a_movement.html' {
-    return 301 '/en/Moldable_tools_a_book_and_a_movement/';
 }
 location '/en/Disadvantages_of_notion_so.html' {
     return 301 '/en/Disadvantages_of_notionso.html';
@@ -2262,9 +2256,6 @@ location '/en/objWiki/Transaction_support_for_simple_in_memory_database.html' {
 }
 location '/en/Active_widget_in_PyQT5_QTextEdit/out.gif' {
     return 301 '/en/Active_widget_in_PyQT5_-_QTextEdit/out.gif';
-}
-location '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive.html' {
-    return 301 '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/index.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/';
