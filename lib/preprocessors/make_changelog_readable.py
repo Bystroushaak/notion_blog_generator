@@ -43,7 +43,7 @@ class Changelog:
 
         tbody = changelog_page.dom.find("tbody")[0]
         for tr in reversed(tbody.find("tr")):
-            td_date, td_title, td_content = tr.find("td")
+            td_date, td_title, td_content = tr.find("td")[:3]
 
             content, content_clean = self._parse_content(td_content)
             date = self._parse_date(td_date)
