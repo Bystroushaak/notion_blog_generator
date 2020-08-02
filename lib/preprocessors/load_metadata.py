@@ -8,7 +8,7 @@ from .preprocessor_base import PreprocessorBase
 
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
-from lib.virtual_fs.html_page import Metadata
+from ..virtual_fs.metadata import Metadata
 
 
 class LoadMetadata(PreprocessorBase):
