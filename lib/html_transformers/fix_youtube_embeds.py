@@ -34,20 +34,9 @@ class FixYoutubeEmbeds(TransformerBase):
             if "youtu" not in video_url:
                 continue
 
-            if "?v=" in video_url or "&v=" in video_url:
-                query = urlparse(video_url).query
-                video_hash = parse_qs(query)["v"][0]
-
-            elif "youtu.be" in video_url and "t=" in video_url and "&v=" not in video_url:
-                parsed = urlparse(video_url)
-                video_hash = parsed.path
-                if video_hash.startswith("/"):
-                    video_hash = video_hash[1:]
-
-                if parsed.query:
-                    video_hash += "?" + parsed.query.replace("t=", "start=")
-
-            else:
+            try:
+                video_hash = cls._parse_yt_embed_url(video_url)
+            except TypeError:
                 video_hash = urlparse(video_url).path[0]
                 settings.logger.error("Unparsed alt video `%s` hash: `%s`",
                                       video_url, video_hash)
@@ -56,3 +45,31 @@ class FixYoutubeEmbeds(TransformerBase):
             tag = dhtmlparser.parseString(html)
 
             link.replaceWith(tag)
+
+    @classmethod
+    def _parse_yt_embed_url(cls, video_url):
+        video_url = video_url.replace("&amp;", "&")
+        video_url = video_url.replace("#t=", "&t=")
+
+        if "?v=" in video_url or "&v=" in video_url:
+            query_str = urlparse(video_url).query
+            parsed_query = parse_qs(query_str)
+            video_hash = parsed_query["v"][0]
+
+            if "t" in parsed_query:
+                video_hash += "?start=" + parsed_query["t"][0]
+
+            return video_hash
+
+        if "youtu.be" in video_url and "t=" in video_url and "&v=" not in video_url:
+            parsed = urlparse(video_url)
+            video_hash = parsed.path
+            if video_hash.startswith("/"):
+                video_hash = video_hash[1:]
+
+            if parsed.query:
+                video_hash += "?" + parsed.query.replace("t=", "start=")
+
+            return video_hash
+
+        raise TypeError("Can't parse URL: %s" % video_url, video_url)
