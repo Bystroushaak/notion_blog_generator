@@ -24,8 +24,7 @@ class AddRobotsAndSitemap(PostprocessorBase):
     <loc>{loc}</loc>
   </url>"""
 
-    _robots = """
-"""
+    _robots = """Sitemap: https://blog.rfox.eu/sitemap.xml"""
 
     @classmethod
     def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
