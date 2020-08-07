@@ -49,7 +49,9 @@ class Sidebar:
             top_div.childs.append(self._get_tagbox_tag())
 
         top_div.childs.append(self._get_sections_tag())
-        top_div.childs.append(self._get_advertisement_code_tag())
+
+        if self.ad_code:
+            top_div.childs.append(self._get_advertisement_code_tag())
 
     def _add_sidebars_to_page(self, page):
         top_tag_code = """<div id="sidebar_top"></div>"""
