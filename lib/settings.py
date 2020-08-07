@@ -13,7 +13,7 @@ logger.setLevel(logging.INFO)
 class Settings:
     def __init__(self):
         self.logger = logger
-        self.blog_url = "http://blog.rfox.eu"
+        self.blog_url = "https://blog.rfox.eu"
         self.blog_name = "Bystroushaak's blog"
         self.patreon_url = "https://www.patreon.com/bePatron?u=2618881"
         self.google_analytics_code = "UA-142545439-1"
