@@ -34,16 +34,6 @@ class AddGoogleTags(TransformerBase):
      data-full-width-responsive="true"></ins>
 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 """
-
-    in_article_vertical_ad_code = """
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-8322439660353685"
-     data-ad-slot="8927869381"></ins>
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-"""
     bottom_vertical_ad_code = """
     <ins class="adsbygoogle"
      style="display:block"
@@ -92,6 +82,8 @@ window.cookieconsent.initialise({
         if settings.google_analytics_code:
             head.childs.append(cls.analytics_tag)
 
+        return
+
         if settings.google_adsense_code:
             head.childs.append(cls.adsense_tag)
 
@@ -105,18 +97,8 @@ window.cookieconsent.initialise({
                                 page.metadata.unroll_subpages,
                                 page.metadata.unroll))
 
-        p_tags = body.find("p")
-        if len(p_tags) > 8 and not is_category_page:
-            selected_tag = p_tags[4]
-
-            h1_tags = body.find("h1")
-            if len(h1_tags) > 4:
-                selected_tag = h1_tags[2]
-
-            cls._add_ad_before(selected_tag)
-        else:
-            top_vertical_ad_tag = dhtmlparser.parseString(cls.top_vertical_ad_code)
-            body.childs.insert(0, top_vertical_ad_tag)
+        top_vertical_ad_tag = dhtmlparser.parseString(cls.top_vertical_ad_code)
+        body.childs.insert(0, top_vertical_ad_tag)
 
         bottom_vertical_ad_tag = dhtmlparser.parseString(cls.bottom_vertical_ad_code)
         body.childs.append(bottom_vertical_ad_tag)
@@ -125,10 +107,21 @@ window.cookieconsent.initialise({
         body.childs.append(cookie_consent_tag)
         head.childs.append(cls.cookie_consent_css_tag)
 
-    @classmethod
-    def _add_ad_before(cls, selected_tag):
-        parent = selected_tag.parent
-        index = parent.childs.index(selected_tag)
-
-        in_article_ad_tag = dhtmlparser.parseString(cls.in_article_vertical_ad_code)
-        parent.childs.insert(index, in_article_ad_tag)
+    # @classmethod
+    # def _add_ad_before(cls, selected_tag):
+    #     p_tags = body.find("p")
+    #     if len(p_tags) > 8 and not is_category_page:
+    #         selected_tag = p_tags[4]
+    #
+    #         h1_tags = body.find("h1")
+    #         if len(h1_tags) > 4:
+    #             selected_tag = h1_tags[2]
+    #
+    #         cls._add_ad_before(selected_tag)
+    #     else:
+    #
+    #     parent = selected_tag.parent
+    #     index = parent.childs.index(selected_tag)
+    #
+    #     in_article_ad_tag = dhtmlparser.parseString(cls.in_article_vertical_ad_code)
+    #     parent.childs.insert(index, in_article_ad_tag)
