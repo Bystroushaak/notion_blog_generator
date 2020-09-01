@@ -43,6 +43,8 @@ class Settings:
 
         self.lang_classificator_enabled = False
 
+        self.check()
+
     def check(self):
         if self.twitter_handle and "@" not in self.twitter_handle:
             self.twitter_handle = "@" + self.twitter_handle
