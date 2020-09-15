@@ -2129,7 +2129,7 @@ location '/en/Disadvantages_of_notion_so.html' {
     return 301 '/en/Disadvantages_of_notionso.html';
 }
 location '/en/Programmer_s_critique_of_missing_structure_of_oper.html' {
-    return 301 '/en/Programmers_critique_of_missing_structure_of_operating_systems/';
+    return 301 '/en/Programming/Programmers_critique_of_missing_structure_of_operating_systems.html';
 }
 location '/en/Sunburst_for_PyCharm_Idea.html' {
     return 301 '/en/Sunburst_for_PyCharm_-_Idea/';
@@ -3181,4 +3181,7 @@ location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazy
 }
 location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/do___.html' {
     return 301 '/cz/Programovani/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazyk/Nejdulezitejsi_zpravy/do___.html';
+}
+location '/en/Programmers_critique_of_missing_structure_of_operating_systems/' {
+    return 301 '/en/Programming/Programmers_critique_of_missing_structure_of_operating_systems.html';
 }
