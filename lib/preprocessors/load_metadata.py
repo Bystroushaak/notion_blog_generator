@@ -42,7 +42,7 @@ class LoadMetadata(PreprocessorBase):
         if not page.metadata.date:
             page.metadata.date = date
 
-        if not page.metadata.last_mod:
+        if not page.metadata.last_mod and last_mod:
             page.metadata.last_mod = last_mod
 
     @classmethod

@@ -46,11 +46,11 @@ class Metadata:
 
         date = data.get("date")
         if date:
-            metadata.date = date.replace("/", "-")
+            metadata.date = str(date).replace("/", "-")
 
         last_mod = data.get("last-mod")
         if last_mod:
-            metadata.last_mod = last_mod.replace("/", "-")
+            metadata.last_mod = str(last_mod).replace("/", "-")
 
         metadata.load_property(data, "unroll", "unroll")
         metadata.load_property(data, "unroll_length", "unroll-len")
@@ -73,6 +73,7 @@ class Metadata:
         metadata.tags = self.tags
 
         metadata.unroll = self.unroll
+        metadata.unroll_length = self.unroll_length
         metadata.unroll_subpages = self.unroll_subpages
         metadata.unroll_categories = self.unroll_categories
         metadata.unroll_description = self.unroll_description

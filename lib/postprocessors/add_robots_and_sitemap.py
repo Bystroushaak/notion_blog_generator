@@ -54,7 +54,7 @@ class AddRobotsAndSitemap(PostprocessorBase):
             changefreq = "yearly"
 
             lastmod = page.metadata.date
-            if page.metadata.last_mod:
+            if page.metadata.last_mod is not None:
                 lastmod = page.metadata.last_mod
                 changefreq = "monthly"
 
