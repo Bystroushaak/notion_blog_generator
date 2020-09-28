@@ -19,7 +19,7 @@ from lib.html_transformers.unroll_sections import UnrollSections
 from lib.html_transformers.unroll_subpage_descriptions import UnrollSubpageDescriptions
 from lib.html_transformers.add_last_five_sidebars import AddLastFiveArticlesToSidebars
 from lib.html_transformers.add_backlinks import AddBacklinksToSidebars
-from lib.html_transformers.add_image_links import AddImageLinks
+from lib.html_transformers.process_images import ProcessImages
 from lib.html_transformers.add_sections_to_sidebars import AddSectionsToSidebars
 
 
@@ -47,5 +47,5 @@ def get_transformers():
         AddSectionsToSidebars,
         AddBacklinksToSidebars,
         AddGoogleTags,
-        AddImageLinks,
+        ProcessImages,
     )
