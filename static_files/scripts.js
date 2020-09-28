@@ -49,6 +49,10 @@ function add_image_overlays() {
                    href.endsWith(".svg"))){
                 return;
             }
+
+            if (href.startsWith("http")) {
+                return;
+            }
         }
 
         if (!imgs[0].src.includes("_thumb.") && imgs[0].naturalWidth == imgs[0].clientWidth) {
