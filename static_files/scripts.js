@@ -50,8 +50,11 @@ function add_image_overlays() {
                 return;
             }
 
-            if (href.startsWith("http")) {
-                return;
+            if (href.startsWith("http://") || href.startsWith("https://")) {
+                if (! (href.startsWith("http://blog.rfox.eu") || href.startsWith("https://blog.rfox.eu") ||
+                       href.startsWith("http://rfox.eu"))) {
+                    return;
+                }
             }
         }
 
