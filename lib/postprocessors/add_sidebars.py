@@ -16,7 +16,7 @@ class AddSidebarsToAllPages(PostprocessorBase):
                 continue
 
             if page.sidebar is not None:
-                page.sidebar.add_to_page(page)
+                page.sidebar.add_to_page(page, root)
 
     @classmethod
     def is_sidebarable(cls, page, root):
