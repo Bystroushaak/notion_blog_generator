@@ -102,7 +102,7 @@ class Changelog:
 
     @lru_cache()
     def get_last_n_for_sidebars(self, how_many=5):
-        output = "<h3>New posts:</h3>\n<ul>\n"
+        output = "<h3>New posts</h3>\n<ul>\n"
 
         for cnt, post in enumerate(self.posts):
             if cnt >= how_many:

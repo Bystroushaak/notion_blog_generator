@@ -27,7 +27,7 @@ class AddSectionsToSidebars(TransformerBase):
             page.sidebar.sections_html = html
             return
 
-        html = '<div>\n<h3>Blog categories:</h3>\n<ul class="no_icon">'
+        html = '<div>\n<h3>Blog categories</h3>\n<ul class="no_icon">'
         for page_link in cls._yield_links(root_section, virtual_fs):
             html += page_link
         html += "</ul>\n</div>\n"
