@@ -41,9 +41,11 @@ class Sidebar:
         # tagbox
         if self.tagbox_html:
             top_div.childs.append(self._get_tagbox_tag())
+            bottom_div.childs.append(self._get_tagbox_tag())
 
         # sections
         top_div.childs.append(self._get_sections_tag())
+        bottom_div.childs.append(self._get_sections_tag())
 
         # ads
         if self.ad_code:
