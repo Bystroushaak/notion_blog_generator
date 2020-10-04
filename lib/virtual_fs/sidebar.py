@@ -1,5 +1,3 @@
-from functools import lru_cache
-
 from typing import Tuple
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -88,7 +86,6 @@ class Sidebar:
     def _get_sections_tag(self):
         return dhtmlparser.parseString(self.sections_html).find("div")[0]
 
-    @lru_cache()
     def _get_feed_icons(self, root):
         from lib.preprocessors.add_static_files import AddStaticFiles
 
