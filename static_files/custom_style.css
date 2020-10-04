@@ -108,7 +108,7 @@ figure iframe {
     width: 5em;
 }
 
-@media screen and (max-width: 1000px) {
+/*@media screen and (max-width: 1000px) {
     body {
         font-size: 40px;
     }
@@ -127,7 +127,7 @@ figure iframe {
     .corner-ribbon, .corner-ribbon.top-right{
       font-size: 25px;
     }
-}
+}*/
 
 figure.image img {
   border-radius: 5px;
