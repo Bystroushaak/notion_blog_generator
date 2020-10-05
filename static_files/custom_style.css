@@ -67,17 +67,22 @@ figure iframe {
     a {
         font-size: 130%;
     }
-    body {
-        max-width: 1260px;
-    }
     .code {
         font-size: 130%;
     }
     img {
         max-width: 900px;
     }
+    body {
+        max-width: 1260px;
+    }
     p a,
     figure a,
+    figure p,
+    figure h1,
+    figure h2,
+    figure h3,
+    figure h4,
     div h4 a {
         font-size: 100%;
     }
