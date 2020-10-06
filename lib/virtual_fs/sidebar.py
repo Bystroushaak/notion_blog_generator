@@ -18,12 +18,12 @@ class Sidebar:
         self.tagbox_html = None
         self.sections_html = None
 
-    def add_to_page(self, page: 'HtmlPage', root: 'Directory') -> None:
+    def add_to_page(self, page: 'HtmlPage') -> None:
         top_div, bottom_div = self._add_sidebar_skeletons_to_page(page)
 
         # twitter / rss buttons
-        top_div.childs.append(self._get_feed_icons(root))
-        bottom_div.childs.append(self._get_feed_icons(root))
+        top_div.childs.append(self._get_feed_icons(page.root_section))
+        bottom_div.childs.append(self._get_feed_icons(page.root_section))
 
         # last five
         last_five_top, last_five_bottom = self._get_last_five_tags()
