@@ -121,7 +121,43 @@ function add_image_overlays() {
 }
 
 
+function replace_thumbs_in_4k_displays() {
+    var figures = document.getElementsByTagName("figure");
+    var figures_list = Array.prototype.slice.call(figures);
+
+    figures_list.forEach(function (figure){
+        var links = figure.getElementsByTagName("a");
+        var links_list = Array.prototype.slice.call(links);
+        links_list.forEach(function (link){
+            var imgs = link.getElementsByTagName("img");
+
+            if (imgs.lenght === 0) {
+                return;
+            }
+
+            if (imgs[0].src.includes("_thumb.")) {
+                imgs[0].src = link.href;
+            }
+        });
+
+        var imgs = figure.getElementsByTagName("img");
+        var imgs_list = Array.prototype.slice.call(imgs);
+        imgs_list.forEach(function (img){
+            if (img.src.includes("_thumb.")) {
+                img.src = img.src.replace("_thumb.", ".");
+            }
+        });
+    });
+}
+
+
 function on_body_load() {
     add_image_overlays();
     add_twitter_link();
+
+    if (window.innerWidth > 3000) {
+        console.log("Updating images for 4k displays.");
+        replace_thumbs_in_4k_displays();
+        console.log("4k image update done.");
+    }
 }
