@@ -29,7 +29,7 @@ class AddMinichangelogToIndex(PostprocessorBase):
         mew_content_el = dhtmlparser.parseString(changelog + content_el.__str__())
         content_el.replaceWith(mew_content_el)
 
-        cls._insert_twitter_and_rss_buttons(root_index_page.dom, root)
+        # cls._insert_twitter_and_rss_buttons(root_index_page.dom, root)
 
     @classmethod
     def _insert_twitter_and_rss_buttons(cls, dom, root):
