@@ -2,9 +2,9 @@ import pytz
 import tzlocal
 import datetime
 
-import pyatom
 import dateparser
 import dhtmlparser
+from feedgen.feed import FeedGenerator
 
 from lib.settings import settings
 from lib.virtual_fs import Data
@@ -32,30 +32,26 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
             virtual_fs.resource_registry,
             settings.number_of_items_in_feed
         )
-        xml_item = Data(changelog.feed_name, bytes(xml, "utf-8"))
+        xml_item = Data(changelog.feed_name, xml)
         root.add_file(xml_item)
 
     @classmethod
     def _generate_feed_from_last_articles(cls, changelog, registry, how_many=10):
-        # bleh
-        my_timezone = pytz.timezone(str(tzlocal.get_localzone()))
-        timezone = datetime.datetime.now(my_timezone).strftime('%z')
-
-        feed = pyatom.AtomFeed(
-            title=settings.blog_name,
-            feed_url=changelog.atom_feed_url,
-            url=settings.blog_url,
-            author=settings.twitter_handle.replace("@", ""),
-            timezone=timezone,
-        )
+        fg = FeedGenerator()
+        fg.title(settings.blog_name)
+        fg.author({'name': settings.twitter_handle.replace("@", "")})
+        fg.link(href=settings.blog_url, rel='alternate')
+        fg.link(href=changelog.atom_feed_url, rel='self')
+        fg.id(changelog.atom_feed_url)
+        fg.language('en')
 
         for cnt, post in enumerate(changelog.posts):
             if cnt >= how_many:
                 break
 
-            cls._add_item_to_feed(registry, feed, post)
+            cls._add_item_to_feed(registry, fg, post)
 
-        return feed.to_string()
+        return fg.atom_str(pretty=True)
 
     @classmethod
     def _add_item_to_feed(cls, registry, feed, post):
@@ -79,13 +75,19 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
             url = href
             title = dhtmlparser.removeTags(link.getContent())
 
-        raw_date = dhtmlparser.removeTags(post.timestamp).replace("@", "")
+        # bleh
+        my_timezone = pytz.timezone(str(tzlocal.get_localzone()))
+        timezone = datetime.datetime.now(my_timezone).strftime('%z')
 
-        feed.add(
-            title=title,
-            content=post.description_clean or "No description.",
-            content_type="text",
-            author=settings.twitter_handle.replace("@", ""),
-            url=url,
-            updated=dateparser.parse(raw_date)
-        )
+        raw_date = dhtmlparser.removeTags(post.timestamp).replace("@", "")
+        pub_date = dateparser.parse(raw_date, settings={'TIMEZONE': 'CET',
+                                                        'RETURN_AS_TIMEZONE_AWARE': True})
+
+        entry = feed.add_entry()
+        entry.id(url)
+        entry.title(title)
+        entry.link(href=url)
+        entry.updated(pub_date)
+        entry.published(pub_date)
+        entry.author({'name': settings.twitter_handle.replace("@", "")})
+        entry.summary(post.description_clean or "No description.", type="text")
