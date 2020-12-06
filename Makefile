@@ -2,8 +2,8 @@
 
 .DEFAULT: build
 build:
-	./convert_export.py --zipfile ~/Plocha/Export*.zip \
-                        --blogroot /home/bystrousak/Plocha/xlit/notion_blog_content
+	./convert_export.py --zipfile ${HOME}/Plocha/Export*.zip \
+                        --blogroot ${HOME}/Plocha/xlit/notion_blog_content
 
 
 help:
@@ -16,6 +16,6 @@ test:
 	python3 -m pytest
 
 no_thumbs:
-	./convert_export.py --zipfile ~/Plocha/Export*.zip \
-                        --blogroot /home/bystrousak/Plocha/xlit/notion_blog_content \
+	./convert_export.py --zipfile ${HOME}/Plocha/Export*.zip \
+                        --blogroot ${HOME}/Plocha/xlit/notion_blog_content \
                         --no-thumbs
