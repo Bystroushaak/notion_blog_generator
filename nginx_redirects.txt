@@ -3185,3 +3185,9 @@ location '/cz/Serial_o_Selfu/Prostredi_a_programovaci_jazyk_Selfu_dil_druhy_jazy
 location '/en/Programmers_critique_of_missing_structure_of_operating_systems/' {
     return 301 '/en/Programming/Programmers_critique_of_missing_structure_of_operating_systems.html';
 }
+location '/en/Data_hoarding/Where_is_Johnny_K9/' {
+    return 301 '/Paperclips/Things_that_disappeared/Where_is_Johnny_K9.html';
+}
+location '/en/Data_hoarding/Where_is_Johnny_K9/index.html' {
+    return 301 '/Paperclips/Things_that_disappeared/Where_is_Johnny_K9.html';
+}
