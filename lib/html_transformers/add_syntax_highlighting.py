@@ -1,7 +1,7 @@
 import html
 
 import dhtmlparser
-from prog_lang_detector.classify import classify
+# from prog_lang_detector.classify import classify
 
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
@@ -86,7 +86,7 @@ class AddSyntaxHighlighting(TransformerBase):
         if "lang:" in code_content_lines[0]:
             lang = code_content_lines[0].split("lang:", 1)[-1].strip()
             code_content = "\n".join(code_content_lines[1:])
-        elif settings.lang_classificator_enabled:
-            lang = classify(code_content, print_details=False)
+        # elif settings.lang_classificator_enabled:
+        #     lang = classify(code_content, print_details=False)
 
         return code_content, lang
