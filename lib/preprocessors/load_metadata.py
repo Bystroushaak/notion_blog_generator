@@ -28,6 +28,9 @@ class LoadMetadata(PreprocessorBase):
         codes = set(code_code + code_wrap)
 
         for code_tag in codes:
+            for span in code_tag.find("span"):
+                span.replaceWith(dhtmlparser.HTMLElement(span.getContent()))
+
             code_content = html.unescape(code_tag.getContent())
             code_content_lines = code_content.splitlines()
 
