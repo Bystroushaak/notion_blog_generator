@@ -18,7 +18,7 @@ class HtmlPage(FileBase):
     def __init__(self, content, original_fn=None):
         super().__init__()
 
-        self.content = content
+        self.content = content.replace("🗎", "📄")
         self.dom = dhtmlparser.parseString(self.content)
 
         self.original_fn = os.path.basename(original_fn)
@@ -60,7 +60,7 @@ class HtmlPage(FileBase):
         if self.is_category:
             return "📂"
 
-        return "🗎"
+        return "📄"
 
     @property
     @lru_cache()
