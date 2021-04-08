@@ -1,5 +1,5 @@
 pillow>=8.0.1
-pygments==2.6.1
+pygments==2.7.4
 pyDHTMLParser~=2.2.3
 prog_lang_detector
 feedgen~=0.9.0
