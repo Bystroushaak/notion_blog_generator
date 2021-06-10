@@ -155,7 +155,7 @@ function on_body_load() {
     add_image_overlays();
     add_twitter_link();
 
-    if (window.innerWidth > 3000) {
+    if (window.outerWidth > 3000) {
         console.log("Updating images for 4k displays.");
         replace_thumbs_in_4k_displays();
         console.log("4k image update done.");
