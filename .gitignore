@@ -103,3 +103,4 @@ venv.bak/
 
 .idea
 redirects_for_nginx.txt
+/venv_py/
