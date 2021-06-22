@@ -1,10 +1,13 @@
 import sys
+import os.path
 import logging
 
 logger = logging.getLogger("objWiki")
 stderr_logger = logging.StreamHandler(sys.stderr)
-log_fmt = ("\033[90m%(asctime)s %(levelname)s %(filename)s:%(lineno)s;\033[0m\n"
-           "%(message)s\n")
+log_fmt = (
+    "\033[90m%(asctime)s %(levelname)s %(filename)s:%(lineno)s;\033[0m\n"
+    "%(message)s\n"
+)
 stderr_logger.setFormatter(logging.Formatter(log_fmt))
 logger.addHandler(stderr_logger)
 logger.setLevel(logging.INFO)
@@ -43,6 +46,9 @@ class Settings:
 
         self.lang_classificator_enabled = False
 
+        self.notion_token_path = os.path.expanduser("~/.config/notion_api/blog.txt")
+        self.notion_api_token = self._load_token()
+
         self.check()
 
     def check(self):
@@ -52,6 +58,12 @@ class Settings:
         if self.twitter_handle and not self.twitter_url:
             twitter_username = self.twitter_handle.replace("@", "")
             self.twitter_url = "https://twitter.com/" + twitter_username
+
+    def _load_token(self):
+        if os.path.exists(self.notion_token_path):
+            self.logger.info("Notion token loaded from `%s`.", self.notion_token_path)
+            with open(self.notion_token_path) as f:
+                return f.read().strip()
 
 
 settings = Settings()
