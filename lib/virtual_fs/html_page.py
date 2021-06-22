@@ -34,6 +34,22 @@ class HtmlPage(FileBase):
     def __repr__(self):
         return "HtmlPage(%s)" % self.filename
 
+    @staticmethod
+    def normalize_block_id(block_id):
+        without_dashes = "".join([x for x in block_id if x != "-"])
+        correctly_formatted = "%s-%s-%s-%s-%s" % (
+            without_dashes[0:8],
+            without_dashes[8:12],
+            without_dashes[12:16],
+            without_dashes[16:20],
+            without_dashes[20:],
+        )
+        return correctly_formatted
+
+    @property
+    def pretty_hash(self):
+        return self.normalize_block_id(self.hash)
+
     @property
     def is_html(self):
         return True
