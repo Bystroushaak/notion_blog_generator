@@ -11,6 +11,7 @@ from lib.html_transformers.add_breadcrumbs import AddBreadcrumbs
 from lib.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
 from lib.html_transformers.fix_inlined_styles import FixInlinedStyles
 from lib.html_transformers.fix_blockquotes import FixBlockquotes
+from lib.html_transformers.fix_file_uploads import FixFileUploads
 from lib.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from lib.html_transformers.generate_thumbnails import GenerateThumbnails
 from lib.html_transformers.add_meta_tags import AddMetaTags
@@ -35,6 +36,7 @@ def get_transformers():
         FixYoutubeEmbeds,
         FixInlinedStyles,
         FixBlockquotes,
+        FixFileUploads,
         MakeNotionLinksLocal,
         GenerateThumbnails,
         AddTwitterCards,
