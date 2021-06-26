@@ -23,7 +23,7 @@ class Metadata:
 
     @classmethod
     def from_yaml(cls, yaml_str):
-        data = yaml.load(yaml_str)
+        data = yaml.load(yaml_str, Loader=yaml.FullLoader)
         if data is None:
             data = {}
 
