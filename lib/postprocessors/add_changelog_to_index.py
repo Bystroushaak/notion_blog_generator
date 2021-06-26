@@ -4,8 +4,6 @@ from lib.settings import settings
 from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
-from lib.preprocessors.add_static_files import AddStaticFiles
-
 from .postprocessor_base import PostprocessorBase
 from lib.preprocessors.make_changelog_readable import LoadChangelogsAndMakeThemReadable
 
