@@ -92,7 +92,7 @@ class Changelog:
             if cnt >= how_many:
                 break
 
-            updates.append(template % (post.title, post.timestamp, post.description))
+            updates.append(template % (post.title, post.timestamp, post.description or "No description."))
 
         output += "\n".join(updates)
 
