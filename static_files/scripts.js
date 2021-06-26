@@ -113,6 +113,13 @@ function add_image_overlays() {
                     window.event.cancelBubble = true;
             };
 
+            document.onkeydown = function(evt) {
+                evt = evt || window.event;
+                if (evt.keyCode == 27) {
+                    modal_close.onclick();
+                }
+            };
+
             add_image_overlays();
 
             return false;
