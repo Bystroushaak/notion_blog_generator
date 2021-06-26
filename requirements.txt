@@ -1,13 +1,13 @@
 pillow>=8.0.1
-pygments==2.7.4
+pygments==2.9.0
 pyDHTMLParser~=2.2.3
 prog_lang_detector
 feedgen~=0.9.0
 dateparser~=1.0.0
-tqdm~=4.51.0
+tqdm==4.61.1
 sh~=1.14.1
-PyYAML~=5.3.1
+PyYAML==5.4.1
 pytz~=2021.1
 tzlocal~=2.1
-Jinja2~=2.11.2
+Jinja2==3.0.1
 pytest==6.2.4
