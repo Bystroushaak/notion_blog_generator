@@ -27,8 +27,9 @@ class AddMetaTags(TransformerBase):
             head.childs.append(meta)
 
         if page.metadata.tags:
-            meta = cls._add_meta_tag("keywords", ",".join(page.metadata.tags),
-                                     escape_html=False)
+            tags = page.metadata.tags[:]
+            tags.append("m0wFG3PRCoJVTs7JcgBwsOXb3U7yPxBB")
+            meta = cls._add_meta_tag("keywords", ",".join(tags), escape_html=False)
             head.childs.append(meta)
 
     @classmethod

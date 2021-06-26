@@ -24,6 +24,7 @@ class AddMetadataToRoot(PostprocessorBase):
             <li>Generated: {time.strftime("%Y-%m-%d %H:%M")}</li>
             <li>Generator: <a href="https://github.com/Bystroushaak/notion_blog_generator">https://github.com/Bystroushaak/notion_blog_generator</a></li>
         </ul>
+        <span style="visibility: hidden;">m0wFG3PRCoJVTs7JcgBwsOXb3U7yPxBB</span>
         """
 
         body_container.childs.append(dhtmlparser.parseString(meta_info_html))
