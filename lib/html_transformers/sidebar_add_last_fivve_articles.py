@@ -8,7 +8,7 @@ from .transformer_base import TransformerBase
 from lib.preprocessors.make_changelog_readable import LoadChangelogsAndMakeThemReadable
 
 
-class AddLastFiveArticlesToSidebars(TransformerBase):
+class SidebarAddLastFiveArticles(TransformerBase):
     requires = [LoadChangelogsAndMakeThemReadable]
 
     @classmethod

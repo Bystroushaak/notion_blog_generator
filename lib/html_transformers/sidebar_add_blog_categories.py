@@ -9,7 +9,7 @@ from .transformer_base import TransformerBase
 from .unroll_base import UnrollTraits
 
 
-class AddSectionsToSidebars(TransformerBase):
+class SidebarAddBlogCategories(TransformerBase):
     section_to_html_map = {}
 
     @classmethod

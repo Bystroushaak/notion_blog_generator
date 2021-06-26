@@ -6,7 +6,7 @@ from lib.virtual_fs import Directory
 from .transformer_base import TransformerBase
 
 
-class AddBacklinksToSidebars(TransformerBase):
+class SidebarsAddBacklinks(TransformerBase):
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding table with backlinks to all HTML pages..")

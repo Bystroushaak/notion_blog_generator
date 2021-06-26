@@ -133,7 +133,6 @@ class GenerateTagStructure(PreprocessorBase):
             body = page.dom.find("body")[0]
             tag_box_html = cls._get_tagbox(tag_manager.dirname, page.metadata.tags,
                                            tag_to_ref_str_map)
-            # body.childs.append(dhtmlparser.parseString(tag_box_html))
 
             page.sidebar.tagbox_html = tag_box_html
 
