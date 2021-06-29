@@ -5,6 +5,8 @@ import dhtmlparser
 
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
+from pygments.lexers.c_cpp import CLexer
+from pygments.lexers.c_cpp import CppLexer
 from pygments.lexers.css import CssLexer
 from pygments.lexers.data import YamlLexer
 from pygments.lexers.html import XmlLexer
@@ -43,6 +45,10 @@ class AddSyntaxHighlighting(TransformerBase):
             add_style_to_the_header = True
             if lang == "python" or lang == "python3" or lang == "py":
                 cls._add_syntax_highlight_for(PythonLexer, code_tag, code_content)
+            elif lang == "c":
+                cls._add_syntax_highlight_for(CLexer, code_tag, code_content)
+            elif lang == "c++" or lang == "cpp":
+                cls._add_syntax_highlight_for(CppLexer, code_tag, code_content)
             elif lang == "smalltalk":
                 cls._add_syntax_highlight_for(SmalltalkLexer, code_tag, code_content)
             elif lang == "xml":
