@@ -6,6 +6,7 @@ import dhtmlparser
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers.css import CssLexer
+from pygments.lexers.data import YamlLexer
 from pygments.lexers.html import XmlLexer
 from pygments.lexers.html import HtmlLexer
 from pygments.lexers.python import PythonLexer
@@ -50,6 +51,8 @@ class AddSyntaxHighlighting(TransformerBase):
                 cls._add_syntax_highlight_for(HtmlLexer, code_tag, code_content)
             elif lang == "css":
                 cls._add_syntax_highlight_for(CssLexer, code_tag, code_content)
+            elif lang == "yaml":
+                cls._add_syntax_highlight_for(YamlLexer, code_tag, code_content)
             elif lang:
                 settings.logger.error("Unknown lang definition: %s, skipping.", lang)
                 add_style_to_the_header = False
