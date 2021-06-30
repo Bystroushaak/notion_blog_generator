@@ -884,7 +884,7 @@ location '/Bystroushaak s blog/English section/Series about Self/Lessons learnt 
     return 301 '/en/Series_about_Self/Lessons_learnt_from_the_Self_archive';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/environment_and_programming_language_self_2019_cleaned.epub' {
     return 301 '/en/Series_about_Self/environment_and_programming_language_self_2019_cleaned.epub';
@@ -932,31 +932,31 @@ location '/Bystroushaak s blog/English section/Series about Self/Environment and
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part/out_1.gif';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/at Put.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at_Put.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/at.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/addAll.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/addAll.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/do.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/do.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important messages/add.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/add.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report Monkey occupiers' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers';
@@ -1838,19 +1838,19 @@ location '/Bystroushaak s blog/English section/Series about Self/Environment%20a
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%201/Important%20messages/at.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%201/Important%20messages/at%20Put.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at_Put.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%201/Important%20messages/add.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/add.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%201/Important%20messages/addAll.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/addAll.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%201/Important%20messages/do.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/do.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%202.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_2.html';
@@ -1886,19 +1886,19 @@ location '/Bystroushaak%20s%20blog/Czech%20section/Seri%20l%20o%20Selfu/Prost%20
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_t_et_debugg.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important%20messages/at.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important%20messages/at%20Put.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at_Put.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important%20messages/add.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/add.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important%20messages/addAll.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/addAll.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1/Important%20messages/do.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/do.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Practical experiments/Report%20Monkey%20occupiers/Parameters/Usefulness.html' {
     return 301 '/en/Practical_experiments/Report_Monkey_occupiers/Parameters/Usefulness.html';
@@ -2254,56 +2254,17 @@ location '/en/tinySelf/tinySelf_performance_gains_2019_4/different_kind_of_light
 location '/en/objWiki/Transaction_support_for_simple_in_memory_database.html' {
     return 301 '/en/objWiki/Transaction_support_for_simple_in-memory_database/';
 }
-location '/en/Active_widget_in_PyQT5_QTextEdit/out.gif' {
-    return 301 '/en/Active_widget_in_PyQT5_-_QTextEdit/out.gif';
-}
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_2.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger/';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3/parser.gif' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/parser.gif';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3/finder.gif' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_four_community/finder.gif';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/index.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/addAll.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/addAll.html';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at_Put.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/atPut.html';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/add.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/add.html';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/at.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/at.html';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1/Important_messages/do.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language/Important_messages/do___.html';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part/out_1.gif' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/out 1.gif';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part/out.gif' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/out.gif';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part/radarView_from_factory_window.gif' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/radarView_from_factory_window.gif';
-}
-location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part/directness.gif' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/directness.gif';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_two_language.html';
 }
 location '/cz/Program_torova_kritika_chyb_j_c_struktury_opera_n_.html' {
     return 301 '/cz/Programatorova_kritika_chybejici_struktury_operacnich_systemu/';
@@ -2931,6 +2892,8 @@ location '/en/Series_about_Self/Environment_and_the_programming_language_Self_pa
     return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/index.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
+}location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment/' {
     return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_three_debugger.html' {
