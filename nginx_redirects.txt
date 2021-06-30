@@ -893,7 +893,7 @@ location '/Bystroushaak s blog/English section/Series about Self/Self mail confe
     return 301 '/en/Series_about_Self/Self_mail_conference_in_mbox.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 1.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment and the programming language Self part 3.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3.html';
@@ -1706,7 +1706,7 @@ location '/Bystroushaak s blog/English section/Series%20about%20Self/Environment
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part.html';
 }
 location '/Bystroushaak s blog/English section/Series%20about%20Self/Environment%20and%20the%20programming%20language%20Self%20part%201.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series%20about%20Self/Environment%20and%20the%20programming%20language%20Self%20part%202.html' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_2.html';
@@ -1859,7 +1859,7 @@ location '/Bystroushaak%20s%20blog/Czech%20section/Seri%20l%20o%20Selfu/Prost%20
     return 301 '/cz/Seri_l_o_Selfu/Prost_ed_a_programovac_jazyk_Selfu_d_l_tvrt_komuni.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%201.html' {
-    return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1.html';
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
 location '/Bystroushaak s blog/English section/Series about Self/Environment%20and%20the%20programming%20language%20Self%20part%203/finder.gif' {
     return 301 '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_3/finder.gif';
@@ -3190,4 +3190,7 @@ location '/en/Data_hoarding/Where_is_Johnny_K9/' {
 }
 location '/en/Data_hoarding/Where_is_Johnny_K9/index.html' {
     return 301 '/Paperclips/Things_that_disappeared/Where_is_Johnny_K9.html';
+}
+location '/en/Series_about_Self/Environment_and_the_programming_language_Self_part_1.html' {
+    return 301 '/en/Programming/Series_about_Self/Environment_and_the_programming_language_Self_part_one_environment.html';
 }
