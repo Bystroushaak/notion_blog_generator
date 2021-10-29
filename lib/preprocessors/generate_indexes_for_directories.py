@@ -32,6 +32,10 @@ class GenerateIndexesForDirectories(PreprocessorBase):
     def _files_with_dirname(cls, dir, dirname):
         for file in dir.parent.files:
             filename = os.path.basename(file.filename)
+
+            if not filename.endswith(".html"):
+                continue
+
             if "." in filename:
                 filename = filename.rsplit(".", 1)[0].strip()
 
