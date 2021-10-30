@@ -64,7 +64,8 @@ class UnrollCategories(UnrollTraits):
 
         jinja_template = Template("""
 <h1><a href="{{ category_link }}" class="unroll_category">
-    Category: <em>{{ category_name }}</em></a></h1>
+    📂 <u>Category: <em>{{ category_name }}</em></u>
+</a></h1>
 {{ subpages }}
 {% if and_more > 0: %}
 <h4 style="text-align: right;"><a href="{{ category_link }}">
