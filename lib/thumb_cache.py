@@ -76,15 +76,16 @@ class ThumbCache:
 
 
 class StoredThumbCache(ThumbCache):
-    def __init__(self, storage_path):
+    def __init__(self, blog_root):
         super().__init__()
 
-        self.storage_path = storage_path
+        self.blog_root = blog_root
+        self.storage_path = os.path.join(blog_root, settings.thumb_cache_name)
         self.load_from_storage()
 
     @staticmethod
     def _instance(blog_root):
-        return StoredThumbCache(os.path.join(blog_root, settings.thumb_cache_name))
+        return StoredThumbCache(blog_root)
 
     def load_from_storage(self, storage_path=None):
         if not storage_path:
@@ -112,6 +113,12 @@ class StoredThumbCache(ThumbCache):
     def save_to_storage(self, storage_path=None):
         if not storage_path:
             storage_path = self.storage_path
+
+        # so that you don't have to wait for another run to generate the cache
+        if not self.hash_to_thumb_map:
+            thumb_cache = self.create_thumb_cache(self.blog_root)
+            thumb_cache.save_to_storage(storage_path)
+            return
 
         settings.logger.info("Storing thumbnail cache in `%s`..", storage_path)
 
