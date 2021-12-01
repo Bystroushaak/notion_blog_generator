@@ -4,6 +4,7 @@ import dhtmlparser
 from PIL import Image
 
 from lib.settings import settings
+from lib.settings import ThumbFormat
 from lib.virtual_fs import Data
 from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
@@ -23,7 +24,9 @@ class GenerateThumbnails(TransformerBase):
     @classmethod
     def log_transformer(cls):
         if settings.generate_thumbnails:
-            settings.logger.info("Generating thumbnails for all images..")
+            settings.logger.info(
+                "Generating %s thumbnails for all images..", settings.thumb_format
+            )
         else:
             settings.logger.info("settings.generate_thumbnails == False")
 
@@ -87,14 +90,20 @@ class GenerateThumbnails(TransformerBase):
         img_tag.params["src"] = cls._get_ref_str_for_img(thumb_img)
         cls._put_into_same_directory_as_img(img, thumb_img)
 
-
     @classmethod
     def parse_width(cls, tag):
+        def width_percent(style):
+            style = style.strip().lower()
+            if not style.startswith("width:"):
+                return False
+            if not style.endswith("%"):
+                return False
+            return True
+
         widths = [
-            elem.strip().split(":")[-1].replace("%", "")
-            for elem in tag.params.get("style", "").split(";")
-            if elem.strip().lower().startswith("width:") \
-               and elem.strip().lower().endswith("%")
+            styles.strip().split(":")[-1].replace("%", "")
+            for styles in tag.params.get("style", "").split(";")
+            if width_percent(styles)
         ]
 
         if not widths:
@@ -118,16 +127,16 @@ class GenerateThumbnails(TransformerBase):
 
         thumb_img_as_io = cls._generate_thumb_to_io(full_img_as_io, width)
 
-        thumb_img = Data(full_img.original_path,
-                         content=thumb_img_as_io.getvalue())
+        thumb_img = Data(full_img.original_path, content=thumb_img_as_io.getvalue())
 
         full_img_name_tokens = full_img.filename.rsplit(".", 1)
+        suffix = ThumbFormat.thumb_format_to_suffix(settings.thumb_format)
         if len(full_img_name_tokens) == 2:
             name_base = full_img_name_tokens[0].strip()
             name_base = name_base.replace(" ", "_")
-            thumb_img.filename = "%s_thumb.jpg" % name_base
+            thumb_img.filename = f"{name_base}_thumb.{suffix}"
         else:
-            thumb_img.filename = full_img.filename + "_thumb"
+            thumb_img.filename = f"{full_img.filename}_thumb.{suffix}"
 
         return thumb_img
 
@@ -135,21 +144,21 @@ class GenerateThumbnails(TransformerBase):
     def _generate_thumb_to_io(cls, full_img_as_io, width):
         img = Image.open(full_img_as_io)
 
-        if img.mode in ('RGBA', 'LA'):  # sigh..
-            background = Image.new(img.mode[:-1], img.size, 'white')
+        if img.mode in ("RGBA", "LA"):  # sigh..
+            background = Image.new(img.mode[:-1], img.size, "white")
             background.paste(img, img.split()[-1])
             img = background
 
-        img = img.convert('RGB')
+        img = img.convert("RGB")
 
         if img.size[0] < settings.page_width:
             raise SmallerThanRequired("Already smaller than required.")
 
         height = img.size[1] * (img.size[0] / width)
-        img.thumbnail((width, height), Image.ANTIALIAS)
+        img.thumbnail((width, height))
 
         thumb_img_as_io = io.BytesIO()
-        img.save(thumb_img_as_io, "JPEG")
+        img.save(thumb_img_as_io, settings.thumb_format)
         img.close()
 
         return thumb_img_as_io
