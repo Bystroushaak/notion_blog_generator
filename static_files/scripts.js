@@ -75,11 +75,11 @@ function add_image_overlays() {
             if (window.event)
                 window.event.cancelBubble = true;
 
-            var modal_html = "<div id=\"myModal\" class=\"modal\">\
-  <span class=\"close\" id=\"modal_close\">&times;</span>\
-  <img class=\"modal-content\" id=\"modal_image\">\
-  <div id=\"caption_text\"></div>\
-</div>";
+            var modal_html = `<div id="myModal" class="modal">
+  <span class="close" id="modal_close">&times;</span>
+  <img class="modal-content" id="modal_image">
+  <div id="caption_text"></div>
+</div>`;
             document.body.innerHTML += modal_html;
 
             var modal_element = document.getElementById("myModal");
@@ -111,11 +111,12 @@ function add_image_overlays() {
                     modal_event.stopPropagation();
                 if (window.event)
                     window.event.cancelBubble = true;
+                modal_close.onclick();
             };
 
             document.onkeydown = function(evt) {
                 evt = evt || window.event;
-                if (evt.keyCode == 27) {
+                if (evt.keyCode === 27) {
                     modal_close.onclick();
                 }
             };
@@ -128,43 +129,7 @@ function add_image_overlays() {
 }
 
 
-function replace_thumbs_in_4k_displays() {
-    var figures = document.getElementsByTagName("figure");
-    var figures_list = Array.prototype.slice.call(figures);
-
-    figures_list.forEach(function (figure){
-        var links = figure.getElementsByTagName("a");
-        var links_list = Array.prototype.slice.call(links);
-        links_list.forEach(function (link){
-            var imgs = link.getElementsByTagName("img");
-
-            if (imgs.lenght === 0) {
-                return;
-            }
-
-            if (imgs[0].src.includes("_thumb.")) {
-                imgs[0].src = link.href;
-            }
-        });
-
-        var imgs = figure.getElementsByTagName("img");
-        var imgs_list = Array.prototype.slice.call(imgs);
-        imgs_list.forEach(function (img){
-            if (img.src.includes("_thumb.")) {
-                img.src = img.src.replace("_thumb.", ".");
-            }
-        });
-    });
-}
-
-
 function on_body_load() {
     add_image_overlays();
     add_twitter_link();
-
-    if (window.outerWidth > 3000) {
-        console.log("Updating images for 4k displays.");
-        replace_thumbs_in_4k_displays();
-        console.log("4k image update done.");
-    }
 }
