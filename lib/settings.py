@@ -13,6 +13,20 @@ logger.addHandler(stderr_logger)
 logger.setLevel(logging.INFO)
 
 
+class ThumbFormat:
+    PNG = "PNG"
+    JPG = "JPEG"
+
+    @staticmethod
+    def thumb_format_to_suffix(format):
+        if format == ThumbFormat.PNG:
+            return "png"
+        elif format == ThumbFormat.JPG:
+            return "jpg"
+        else:
+            raise ValueError(f"Invalid thumb format: `{format}`")
+
+
 class Settings:
     def __init__(self):
         self.logger = logger
@@ -32,7 +46,8 @@ class Settings:
         self.number_of_subpages_in_unroll = 3
         self.unrolls_with_descriptions = False  # can be allowed by page metadata
 
-        self.page_width = 900
+        self.page_width = 1200
+        self.thumb_format = ThumbFormat.JPG
 
         self.generate_thumbnails = True
         self.thumb_cache_name = ".thumb_cache"
