@@ -2,7 +2,7 @@ import re
 import unicodedata
 from functools import lru_cache
 
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import VirtualFS
@@ -54,12 +54,13 @@ class UnfuckFilenames(PreprocessorBase):
                 new_filename = new_filename.rsplit("_", 1)[0]
             elif " " in new_filename:
                 new_filename = new_filename.rsplit(" ", 1)[0]
+
         return new_filename
 
     @classmethod
     def _normalize_fn(cls, filename):
-        filename_dom = dhtmlparser.parseString(filename)
-        new_filename = dhtmlparser.removeTags(filename_dom).strip()
+        filename_dom = dhtmlparser3.parse(filename)
+        new_filename = filename_dom.content_without_tags().strip()
 
         new_filename = cls.normalize(new_filename)
         new_filename = cls._remove_html_entities(new_filename)
@@ -142,7 +143,7 @@ class UnfuckFilenames(PreprocessorBase):
         counter = 1
         working_fn_copy = new_filename
         while cls._parent_already_has_item_named(item, working_fn_copy):
-            working_fn_copy = new_filename + ("_%d" % counter)
+            working_fn_copy = f"{new_filename}_{counter}"
             counter += 1
 
         return working_fn_copy

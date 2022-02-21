@@ -1,7 +1,7 @@
-from collections import namedtuple
 from functools import lru_cache
+from collections import namedtuple
 
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import Directory
@@ -47,7 +47,7 @@ class Changelog:
 
             content, content_clean = self._parse_content(td_content)
             date = self._parse_date(td_date)
-            post = Post(date, td_title.getContent(), content, content_clean)
+            post = Post(date, td_title.content_str(), content, content_clean)
 
             tr_line = tr_line_template % (post.title, post.timestamp, post.description)
             content_element += tr_line
@@ -58,18 +58,18 @@ class Changelog:
 
         content_element += "</div>\n"
 
-        table_content_el = dhtmlparser.parseString(content_element).find("div")[0]
-        changelog_page.dom.find("table")[0].replaceWith(table_content_el)
+        table_content_el = dhtmlparser3.parse(content_element).find("div")[0]
+        changelog_page.dom.find("table")[0].replace_with(table_content_el)
 
     def _parse_content(self, td_content):
         content = td_content.find("a")
-        if content and content[0].getContent() == "Untitled":
+        if content and content[0].content_str().strip() == "Untitled":
             content = ""
             content_clean = ""
         elif not content:
             raise ValueError("Changelog doesn't contain link. Please add it.")
         else:
-            content_clean = content[0].getContent()
+            content_clean = content[0].content_str()
             content_template = "<p class=\"changelog_description\"><em>%s</em></p>\n"
             content = content_template % content_clean
 
@@ -78,9 +78,9 @@ class Changelog:
     def _parse_date(self, td_date):
         time_tags = td_date.find("time")
         if not time_tags:
-            return td_date.getContent().replace("/", "-")
+            return td_date.content_str().replace("/", "-")
 
-        time_content = time_tags[0].getContent().replace("/", "-")
+        time_content = time_tags[0].content_str().replace("/", "-")
         return "<time>%s</time>" % time_content
 
     def get_articles_as_html_for_root_index(self, how_many=5):

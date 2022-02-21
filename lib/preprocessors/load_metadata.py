@@ -1,6 +1,6 @@
 import html
 
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 
@@ -21,22 +21,20 @@ class LoadMetadata(PreprocessorBase):
 
     @classmethod
     def parse_metadata_in_page(cls, page):
-        dhtmlparser.makeDoubleLinked(page.dom)
-
         code_code = page.dom.match(["pre", {"class": "code"}], "code")
         code_wrap = page.dom.match(["pre", {"class": "code code-wrap"}], "code")
         codes = set(code_code + code_wrap)
 
         for code_tag in codes:
             for span in code_tag.find("span"):
-                span.replaceWith(dhtmlparser.HTMLElement(span.getContent()))
+                span.replace_with(dhtmlparser3.Tag(span.content_str()))
 
-            code_content = html.unescape(code_tag.getContent())
+            code_content = html.unescape(code_tag.content_str())
             code_content_lines = code_content.splitlines()
 
             if code_content_lines and code_content_lines[0] == "#lang:metadata":
                 page.metadata = Metadata.from_yaml("\n".join(code_content_lines[1:]))
-                code_tag.parent.replaceWith(dhtmlparser.parseString(""))
+                code_tag.parent.replace_with(dhtmlparser3.Tag(""))
 
         if not page.metadata.page_description:
             page.metadata.page_description = cls._parse_description(page)
@@ -57,7 +55,7 @@ class LoadMetadata(PreprocessorBase):
         )
 
         possible_descriptions = [
-            dhtmlparser.removeTags(p.getContent())
+            p.content_without_tags()
             for p in p_tags if not cls._is_unwanted_element(p)
         ]
         if possible_descriptions:
@@ -70,13 +68,13 @@ class LoadMetadata(PreprocessorBase):
         if p.find("time"):
             return True
 
-        if p.params.get("class") == "column":
+        if p["class"] == "column":
             return True
 
-        if len(dhtmlparser.removeTags(p.getContent())) <= 30:
+        if len(p.content_without_tags()) <= 30:
             return True
 
-        if p.parent.params.get("class") != "page-body":
+        if p.parent.parameters.get("class") != "page-body":
             return True
 
         return False
@@ -100,5 +98,5 @@ class LoadMetadata(PreprocessorBase):
 
     @classmethod
     def _normalize_date_str(cls, date_tag):
-        date_str = dhtmlparser.removeTags(date_tag.getContent()).replace("/", "-")
+        date_str = date_tag.content_without_tags().replace("/", "-")
         return date_str.replace("@", "")

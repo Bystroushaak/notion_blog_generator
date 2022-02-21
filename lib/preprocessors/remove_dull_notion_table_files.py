@@ -17,7 +17,7 @@ class RemoveDullNotionTableFiles(PreprocessorBase):
 
         for page in root.walk_htmls():
             page_body_tags = page.dom.find("div", {"class": "page-body"})
-            if page_body_tags and not page_body_tags[0].getContent().strip():
+            if page_body_tags and not page_body_tags[0].content_str().strip():
                 page.parent.files.remove(page)
 
     @classmethod

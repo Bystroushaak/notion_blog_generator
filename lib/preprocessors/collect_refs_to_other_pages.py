@@ -28,7 +28,7 @@ class CollectRefsToOtherPages(PreprocessorBase):
 
         own_ref_str = registry.register_item_as_ref_str(page)
         for link in page._collect_local_links():
-            ref_str = link.params.get("href")
+            ref_str = link["href"]
             if not ref_str:
                 continue
 
