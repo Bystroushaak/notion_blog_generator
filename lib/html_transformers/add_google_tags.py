@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -20,10 +20,10 @@ class AddGoogleTags(TransformerBase):
       gtag('config', '%s');
     </script>
     """ % (settings.google_analytics_code, settings.google_analytics_code)
-    analytics_tag = dhtmlparser.parseString(analytics_code)
+    analytics_tag = dhtmlparser3.parse(analytics_code)
 
-    adsense_code = """<script data-ad-client="%s" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script>"""
-    adsense_tag = dhtmlparser.parseString(adsense_code % settings.google_adsense_code)
+    adsense_code = f"""<script data-ad-client="{settings.google_adsense_code}" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async></script>"""
+    adsense_tag = dhtmlparser3.parse(adsense_code)
 
     top_vertical_ad_code = """
     <ins class="adsbygoogle"
@@ -69,7 +69,7 @@ window.cookieconsent.initialise({
     cookie_consent_css_code = """
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 """
-    cookie_consent_css_tag = dhtmlparser.parseString(cookie_consent_css_code)
+    cookie_consent_css_tag = dhtmlparser3.parse(cookie_consent_css_code)
 
     @classmethod
     def log_transformer(cls):
@@ -80,32 +80,31 @@ window.cookieconsent.initialise({
         head = page.dom.find("head")[0]
 
         if settings.google_analytics_code:
-            head.childs.append(cls.analytics_tag)
+            head[-1:] = cls.analytics_tag
 
         return
 
         if settings.google_adsense_code:
-            head.childs.append(cls.adsense_tag)
+            head[-1:] = cls.adsense_tag
 
         if page.sidebar:
             page.sidebar.ad_code = cls.sidebar_ad_code
 
         body = page.dom.find("body")[0]
-        dhtmlparser.makeDoubleLinked(body)
 
         is_category_page = any((page.metadata.unroll_categories,
                                 page.metadata.unroll_subpages,
                                 page.metadata.unroll))
 
-        top_vertical_ad_tag = dhtmlparser.parseString(cls.top_vertical_ad_code)
-        body.childs.insert(0, top_vertical_ad_tag)
+        top_vertical_ad_tag = dhtmlparser3.parse(cls.top_vertical_ad_code)
+        body[0:] = top_vertical_ad_tag
 
-        bottom_vertical_ad_tag = dhtmlparser.parseString(cls.bottom_vertical_ad_code)
-        body.childs.append(bottom_vertical_ad_tag)
+        bottom_vertical_ad_tag = dhtmlparser3.parse(cls.bottom_vertical_ad_code)
+        body[-1:] = bottom_vertical_ad_tag
 
-        cookie_consent_tag = dhtmlparser.parseString(cls.cookie_consent_code)
-        body.childs.append(cookie_consent_tag)
-        head.childs.append(cls.cookie_consent_css_tag)
+        cookie_consent_tag = dhtmlparser3.parse(cls.cookie_consent_code)
+        body[-1:] = cookie_consent_tag
+        head[-1:] = cls.cookie_consent_css_tag
 
     # @classmethod
     # def _add_ad_before(cls, selected_tag):

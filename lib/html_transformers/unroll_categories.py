@@ -1,6 +1,6 @@
 from typing import Iterator
 
-import dhtmlparser
+import dhtmlparser3
 from jinja2 import Template
 
 from lib.settings import settings
@@ -46,7 +46,7 @@ class UnrollCategories(UnrollTraits):
             subpages = subpages[:limit_to]
 
         for a_tag in target.dom.find("a"):
-            href = a_tag.params.get("href")
+            href = a_tag.parameters.get("href")
             if href != category.ref_str:
                 continue
 
@@ -55,7 +55,7 @@ class UnrollCategories(UnrollTraits):
     @classmethod
     def _insert_html_instead_of(cls, a_tag, category, subpages, and_more=0):
         html = cls._generate_html(category, subpages, and_more)
-        a_tag.replaceWith(dhtmlparser.parseString(html))
+        a_tag.replace_with(dhtmlparser3.parse(html))
 
     @classmethod
     def _generate_html(cls, category, subpages, and_more):

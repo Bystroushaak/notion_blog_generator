@@ -1,6 +1,6 @@
 from html import escape
 
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -24,23 +24,27 @@ class AddMetaTags(TransformerBase):
 
         if page.metadata.page_description:
             meta = cls._add_meta_tag("description", page.metadata.page_description)
-            head.childs.append(meta)
+            head[-1:] = meta
 
         if page.metadata.tags:
             tags = page.metadata.tags[:]
             tags.append("m0wFG3PRCoJVTs7JcgBwsOXb3U7yPxBB")
             meta = cls._add_meta_tag("keywords", ",".join(tags), escape_html=False)
-            head.childs.append(meta)
+            head[-1:] = meta
 
     @classmethod
-    def _add_meta_tag(cls, name, content, escape_html=True):
-        template = '<meta name="%s" content="%s" />'
-
+    def _add_meta_tag(cls, name, content, escape_html=True) -> dhtmlparser3.Tag:
         content = content.replace('"', "&quote;")
 
         if escape_html:
-            meta_str = template % (escape(name), content)
-        else:
-            meta_str = template % (name, content)
+            return dhtmlparser3.Tag(
+                "meta",
+                parameters={"name": escape(name), "content": content},
+                is_non_pair=True,
+            )
 
-        return dhtmlparser.parseString(meta_str).find("meta")[0]
+        return dhtmlparser3.Tag(
+            "meta",
+            parameters={"name": name, "content": content},
+            is_non_pair=True,
+        )

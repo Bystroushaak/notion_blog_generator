@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -21,14 +21,14 @@ class AddBreadcrumbs(TransformerBase):
         bread_crumbs = cls._collect_parents_to_list(virtual_fs.resource_registry,
                                                     page)
 
-        items = ["<a href='%s' class='breadcrumb'>%s</a>" % (ref_str, title)
+        items = [f"<a href='{ref_str}' class='breadcrumb'>{title}</a>"
                  for ref_str, title in bread_crumbs]
         items.append(page.title)
 
         all_items = " / ".join(items) + "\n\n"
-        all_items_tag = dhtmlparser.parseString(all_items)
+        all_items_tag = dhtmlparser3.parse(all_items)
 
-        page.dom.find("body")[0].childs.insert(0, all_items_tag)
+        page.dom.find("body")[0][0:] = all_items_tag
 
     @classmethod
     def _collect_parents_to_list(cls, resource_registry, page):

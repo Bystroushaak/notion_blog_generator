@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -15,6 +15,9 @@ class AddFaviconLinkTags(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
-        favicon_code = '<link rel="shortcut icon" href="/favicon.ico">'
-        favicon_tag = dhtmlparser.parseString(favicon_code)
-        page.dom.find("head")[0].childs.append(favicon_tag)
+        favicon_tag = dhtmlparser3.Tag(
+            "link",
+            parameters={"rel": "shortcut icon", "href": "/favicon.ico"},
+            is_non_pair=True,
+        )
+        page.dom.find("head")[0][-1:] = favicon_tag

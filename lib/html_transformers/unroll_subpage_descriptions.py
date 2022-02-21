@@ -1,6 +1,4 @@
-from typing import Iterator
-
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -40,10 +38,10 @@ class UnrollSubpageDescriptions(UnrollTraits):
         ref_to_subpage_info = {si.ref_str: si for si in subpages_as_links}
 
         for a_tag in target.dom.match(["figure", {"class": "link-to-page"}], "a"):
-            href = a_tag.params.get("href")
+            href = a_tag.parameters.get("href")
             subpage_info = ref_to_subpage_info.get(href)
             if subpage_info is None:
                 continue
 
             html = cls._subpage_to_html(subpage_info)
-            a_tag.replaceWith(dhtmlparser.parseString(html))
+            a_tag.replace_with(dhtmlparser3.parse(html))

@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -39,7 +39,7 @@ class UnrollSections(UnrollTraits):
     def _insert_into(cls, target: HtmlPage, page_ref_str, subpages_as_links,
                      max_unroll):
         def find_links_to_the_subsection(x):
-            return x.params.get("href") == page_ref_str
+            return x.parameters.get("href") == page_ref_str
 
         links = target.dom.find("a", fn=find_links_to_the_subsection)
         if not links:
@@ -72,7 +72,7 @@ class UnrollSections(UnrollTraits):
         link_html = link_html_template % (page_ref_str, link.getContent())
         subpages_html = '<ul class="unroll">\n%s\n</ul>\n' % subpages_html
 
-        link.replaceWith(dhtmlparser.parseString(link_html + subpages_html))
+        link.replace_with(dhtmlparser3.parse(link_html + subpages_html))
 
     @classmethod
     def _pages_to_links(cls, pages_to_unroll, registry, show_description):

@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -21,13 +21,13 @@ class ReplaceInlinedStyles(TransformerBase):
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         style = page.dom.match("head", "style")[0]
 
-        cls._initialize(style.getContent())
+        cls._initialize(style.content_str())
 
-        style_str = '<link rel="stylesheet" type="text/css" href="%s">'
-        style_str = style_str % AddStaticFiles.css_ref
-
-        new_style = dhtmlparser.parseString(style_str).find("link")[0]
-        style.replaceWith(new_style)
+        new_style = dhtmlparser3.Tag(
+            "link",
+            {"rel": "stylesheet", "type": "text/css", "href": AddStaticFiles.css_ref},
+        )
+        style.replace_with(new_style)
 
     @classmethod
     def _initialize(cls, original_css):

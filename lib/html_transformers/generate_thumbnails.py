@@ -1,6 +1,6 @@
 import io
 
-import dhtmlparser
+import dhtmlparser3
 from PIL import Image
 
 from lib.settings import settings
@@ -38,14 +38,12 @@ class GenerateThumbnails(TransformerBase):
         if cls.resource_registry is None:
             cls.resource_registry = virtual_fs.resource_registry
 
-        dhtmlparser.makeDoubleLinked(page.dom)
-
         for img in page.dom.find("img"):
             if not img.params.get("src"):
-                settings.logger.warning("Image without src: `%s`", img.tagToString())
+                settings.logger.warning("Image without src: `%s`", img.to_string())
                 continue
 
-            src = img.params["src"]
+            src = img["src"]
             if src.startswith("http://") or src.startswith("https://"):
                 continue
 
@@ -57,8 +55,8 @@ class GenerateThumbnails(TransformerBase):
         if img.filename.lower().endswith(".svg"):
             return
 
-        alt_style = img_tag.parent.parent.parent.params.get("style", "")
-        img_tag_style = img_tag.params.get("style", "")
+        alt_style = img_tag.parent.parent.parent.parameters.get("style", "")
+        img_tag_style = img_tag.parameters.get("style", "")
         if "width:" in img_tag_style and "%" in img_tag_style:
             width = cls.parse_width(img_tag)
             width = int(settings.page_width / 100.0 * width) + 5
@@ -74,7 +72,7 @@ class GenerateThumbnails(TransformerBase):
 
         if thumb is not None:
             settings.logger.debug("Thumbnail `%s` found in cache.", img.path)
-            img_tag.params["src"] = cls._get_ref_str_for_img(thumb)
+            img_tag["src"] = cls._get_ref_str_for_img(thumb)
             cls._put_into_same_directory_as_img(img, thumb)
             return
 
@@ -87,7 +85,7 @@ class GenerateThumbnails(TransformerBase):
             settings.logger.exception("Can't convert %s: %s", img.path, str(e))
             return
 
-        img_tag.params["src"] = cls._get_ref_str_for_img(thumb_img)
+        img_tag["src"] = cls._get_ref_str_for_img(thumb_img)
         cls._put_into_same_directory_as_img(img, thumb_img)
 
     @classmethod
@@ -102,7 +100,7 @@ class GenerateThumbnails(TransformerBase):
 
         widths = [
             styles.strip().split(":")[-1].replace("%", "")
-            for styles in tag.params.get("style", "").split(";")
+            for styles in tag.parameters.get("style", "").split(";")
             if width_percent(styles)
         ]
 

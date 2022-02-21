@@ -26,20 +26,18 @@ class SidebarsAddBacklinks(TransformerBase):
         if not page.sidebar:
             return
 
-        html = """
+        links_html = "\n".join(cls._yield_links(page))
+        if not links_html:
+            return
+
+        page.sidebar.backlinks_html = f"""
         <div id="links_from_other_pages">
             <h3>Links to this page:</h3>
             <ul>
-            %s
+            {links_html}
             </ul>
         </div>
         """
-        links_code = "\n".join(cls._yield_links(page))
-
-        if not links_code:
-            return
-
-        page.sidebar.backlinks_html = html % links_code
 
     @classmethod
     def _yield_links(cls, page):
@@ -56,4 +54,4 @@ class SidebarsAddBacklinks(TransformerBase):
             if "Changelog" in parents or "Changelog.html" in parents:
                 continue
 
-            yield '<li><a href="%s">%s</a></li>' % (ref, title)
+            yield f'<li><a href="{ref}">{title}</a></li>'

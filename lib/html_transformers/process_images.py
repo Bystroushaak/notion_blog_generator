@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -25,8 +25,8 @@ class ProcessImages(TransformerBase):
 
             first_caption = figcaptions[0]
 
-            if first_caption.getContent().strip() == "!ignore":
-                figure.replaceWith(dhtmlparser.parseString(""))
+            if first_caption.content_str().strip() == "!ignore":
+                figure.replace_with(dhtmlparser3.Tag(""))
                 continue
 
             hrefs = first_caption.find("a", fn=lambda x: "href" in x.params)
@@ -39,10 +39,10 @@ class ProcessImages(TransformerBase):
         if not images:
             return
 
-        figcontent = first_caption.getContent().strip()
+        figcontent = first_caption.content_str().strip()
         if figcontent.startswith("<a href=") and figcontent.endswith("</a>"):
-            link_html = '<a href="%s"></a>' % hrefs[0].params["href"]
-            link_el = dhtmlparser.parseString(link_html).find("a")[0]
-            link_el.childs.append(images[0])
+            link_el = dhtmlparser3.Tag("a", {"href": hrefs[0]["href"]})
+            link_el[-1:] = images[0]
 
-            figure.childs = [link_el]
+            figure.content = []
+            figure[0:] = link_el

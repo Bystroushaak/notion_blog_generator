@@ -22,8 +22,8 @@ class MakeNotionLinksLocal(TransformerBase):
             cls.initialize(virtual_fs.resource_registry, root)
 
         for a in page.dom.find("a"):
-            link_content = a.getContent().strip()
-            original_href = a.params.get("href", "")
+            link_content = a.content_str().strip()
+            original_href = a.parameters.get("href", "")
             if not original_href.startswith("https://www.notion.so"):
                 continue
 
@@ -38,12 +38,12 @@ class MakeNotionLinksLocal(TransformerBase):
             hash = cls._hash_from_link(original_href)
             if hash in cls.hash_to_ref_map:
                 ref_str = cls.hash_to_ref_map[hash]
-                a.params["href"] = ref_str
+                a["href"] = ref_str
                 continue
 
             if link_content in cls.title_to_ref_map:
                 ref_str = cls.title_to_ref_map[link_content]
-                a.params["href"] = ref_str
+                a["href"] = ref_str
                 continue
 
             settings.logger.error("Couldn't patch %s in %s.", original_href,

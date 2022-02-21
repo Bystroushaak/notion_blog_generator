@@ -2,7 +2,7 @@ import os.path
 from typing import List
 from urllib.parse import urlparse
 
-import dhtmlparser
+from dhtmlparser3 import Tag
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -33,7 +33,7 @@ class FixFileUploads(TransformerBase):
                 continue
 
             first_link = links[0]
-            href = first_link.getContent().strip()
+            href = first_link.content_str().strip()
 
             if not href.startswith("http"):
                 continue
@@ -43,29 +43,31 @@ class FixFileUploads(TransformerBase):
     @classmethod
     def _replace_with_file_link(
         cls,
-        figure_el: dhtmlparser.HTMLElement,
+        figure_el: Tag,
         href: str,
-        figcaption: List[dhtmlparser.HTMLElement],
+        figcaption: List[Tag],
     ):
         if figcaption:
             href = cls._parse_figcaption(figcaption[0])
 
-        link_html = f'<p><a href="{href}">📎 {cls._get_name(href)}</a></p>'
-        link_el = dhtmlparser.parseString(link_html).find("p")[0]
+        link_el = Tag("p")
+        link_el[0:] = Tag(
+            "a", parameters={"href": href}, content=[f"📎 {cls._get_name(href)}"]
+        )
 
-        figure_el.replaceWith(link_el)
+        figure_el.replace_with(link_el)
 
     @classmethod
-    def _parse_figcaption(cls, figcaption):
+    def _parse_figcaption(cls, figcaption: Tag) -> str:
         """
         Because notion retards removed access to aws files, and API doesn't
         support downloading files (not even unofficial ones).
 
         TODO: check sometime in future: https://developers.notion.com/reference/block
         """
-        return figcaption.find("a")[0].params["href"]
+        return figcaption.find("a")[0]["href"]
 
     @classmethod
-    def _get_name(cls, href):
+    def _get_name(cls, href: str) -> str:
         parsed_url = urlparse(href)
         return os.path.basename(parsed_url.path)

@@ -1,7 +1,7 @@
 from urllib.parse import parse_qs
 from urllib.parse import urlparse
 
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -12,12 +12,6 @@ from .transformer_base import TransformerBase
 
 
 class FixYoutubeEmbeds(TransformerBase):
-    embed_html = (
-        '<iframe width="100%%" height="50%%" frameborder="0" src="https://www.youtube.com/embed/%s"'
-        'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" '
-        'allowfullscreen></iframe>\n\n'
-    )
-
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Embedding youtube videos..")
@@ -30,7 +24,7 @@ class FixYoutubeEmbeds(TransformerBase):
             "a"
         )
         for link in youtube_links:
-            video_url = link.params.get("href", "")
+            video_url = link.parameters.get("href", "")
             if "youtu" not in video_url:
                 continue
 
@@ -41,10 +35,19 @@ class FixYoutubeEmbeds(TransformerBase):
                 settings.logger.error("Unparsed alt video `%s` hash: `%s`",
                                       video_url, video_hash)
 
-            html = cls.embed_html % video_hash
-            tag = dhtmlparser.parseString(html)
+            video_tag = dhtmlparser3.Tag(
+                "iframe",
+                parameters={
+                    "width": "100%",
+                    "height": "50%",
+                    "frameborder": "0",
+                    "src": f"https://www.youtube.com/embed/{video_hash}",
+                    "allow": "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture",
+                    "allowfullscreen": "",
+                }
+            )
 
-            link.replaceWith(tag)
+            link.replace_with(video_tag)
 
     @classmethod
     def _parse_yt_embed_url(cls, video_url):

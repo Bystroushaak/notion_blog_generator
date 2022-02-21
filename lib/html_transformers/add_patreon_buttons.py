@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -18,11 +18,13 @@ class AddPatreonButtons(TransformerBase):
         if not settings.patreon_url:
             return
 
-        html_code = (
-            '<div class="corner-ribbon top-right red">'
-            '<a href="%s">Become a Patron</a>'
-            '</div>'
+        button_tag = dhtmlparser3.Tag(
+            "div",
+            parameters={"class": "corner-ribbon top-right red"},
         )
-        button_tag = dhtmlparser.parseString(html_code % settings.patreon_url)
+        link_tag = dhtmlparser3.Tag(
+            "a", parameters={"href": settings.patreon_url}, content=["Become a Patron"]
+        )
+        button_tag[0:] = link_tag
 
-        page.dom.find("body")[0].childs.append(button_tag)
+        page.dom.find("body")[0][-1:] = button_tag

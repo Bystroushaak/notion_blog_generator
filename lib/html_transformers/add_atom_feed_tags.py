@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -17,12 +17,14 @@ class AddAtomFeedTags(TransformerBase):
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         head = page.dom.find("head")[0]
 
-        atom_tag_str = (
-            '<link rel="alternate" type="application/atom+xml" '
-            'href="%s" />'
+        atom_tag = dhtmlparser3.Tag(
+            "link",
+            parameters={
+                "rel": "alternate",
+                "type": "application/atom+xml",
+                "href": page.root_section.changelog.atom_feed_url,
+            },
+            is_non_pair=True,
         )
 
-        atom_tag_str = atom_tag_str % page.root_section.changelog.atom_feed_url
-        atom_tag = dhtmlparser.parseString(atom_tag_str).find("link")[0]
-
-        head.childs.append(atom_tag)
+        head[-1] = atom_tag

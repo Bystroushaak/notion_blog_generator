@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -20,26 +20,30 @@ class AddScriptsAndTwitterButtons(TransformerBase):
             return
 
         head = page.dom.find("head")[0]
-        head.childs.append(cls._get_load_script_tag())
+        head[-1:] = cls._get_load_script_tag()
 
         body_tag = page.dom.find("body")[0]
         if page.is_embeddable:
-            body_tag.childs.append(cls._get_twitter_button_tag())
+            body_tag[-1:] = cls._get_twitter_button_tag()
 
-        body_tag.params["onload"] = "on_body_load();"
+        body_tag["onload"] = "on_body_load();"
 
     @classmethod
     def _get_load_script_tag(cls):
-        load_script_code = """<script src="%s"></script>""" % AddStaticFiles.js_ref
-        return dhtmlparser.parseString(load_script_code)
+        return dhtmlparser3.Tag("script", parameters={"src": AddStaticFiles.js_ref})
 
     @classmethod
     def _get_twitter_button_tag(cls):
-        twitter_button_tag = (
-            '<a class="twitter-share-button" id="twitter_button" href="#">'
-            '<img src="%s" />'
-            '</a>\n'
+        twitter_button_tag = dhtmlparser3.Tag(
+            "a",
+            parameters={
+                "class": "twitter-share-button",
+                "id": "twitter_button",
+                "href": "#",
+            },
         )
-        twitter_button_tag = twitter_button_tag % AddStaticFiles.tweet_button_ref
+        twitter_button_tag[0:] = dhtmlparser3.Tag(
+            "img", parameters={"src": AddStaticFiles.tweet_button_ref}, is_non_pair=True
+        )
 
-        return dhtmlparser.parseString(twitter_button_tag)
+        return twitter_button_tag

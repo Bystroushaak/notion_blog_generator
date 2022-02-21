@@ -1,4 +1,4 @@
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
@@ -31,7 +31,6 @@ class AddTwitterCards(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
-        dhtmlparser.makeDoubleLinked(page.dom)
         description = page.metadata.page_description
 
         if not description:
@@ -46,9 +45,9 @@ class AddTwitterCards(TransformerBase):
                                                      description=description,
                                                      user=settings.twitter_handle)
 
-        meta_tags = dhtmlparser.parseString(meta_html)
-
-        page.dom.find("head")[0].childs.extend(meta_tags.find("meta"))
+        head = page.dom.find("head")[0]
+        for meta_tag in dhtmlparser3.parse(meta_html).find("meta"):
+            head[-1:] = meta_tag
 
     @classmethod
     def _large_image_card(cls, description, page):
@@ -56,7 +55,7 @@ class AddTwitterCards(TransformerBase):
         if page.metadata.image_index >= 0:
             image_index = page.metadata.image_index
 
-        first_image_path = page.dom.find("img")[image_index].params["src"]
+        first_image_path = page.dom.find("img")[image_index]["src"]
 
         return cls.large_image_card_html.format(title=page.title,
                                                 description=description,

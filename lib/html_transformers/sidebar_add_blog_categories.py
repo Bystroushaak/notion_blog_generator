@@ -1,5 +1,3 @@
-import dhtmlparser
-
 from lib.settings import settings
 from lib.virtual_fs import HtmlPage
 from lib.virtual_fs import VirtualFS
@@ -41,4 +39,4 @@ class SidebarAddBlogCategories(TransformerBase):
                                                        virtual_fs.resource_registry)
         for subpage_info in subpage_infos:
             title = subpage_info.page.icon + " " + subpage_info.page.title
-            yield '  <li><a href="%s">%s</a></li>\n' % (subpage_info.ref_str, title)
+            yield f'  <li><a href="{subpage_info.ref_str}">{title}</a></li>\n'

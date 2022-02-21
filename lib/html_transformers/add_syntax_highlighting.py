@@ -1,6 +1,6 @@
 import html
 
-import dhtmlparser
+import dhtmlparser3
 # from prog_lang_detector.classify import classify
 
 from pygments import highlight
@@ -31,17 +31,12 @@ class AddSyntaxHighlighting(TransformerBase):
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
-        made_doublelinked = False
         add_style_to_the_header = False
 
         code_code = page.dom.match(["pre", {"class": "code"}], "code")
         code_wrap = page.dom.match(["pre", {"class": "code code-wrap"}], "code")
         for code_tag in code_code + code_wrap:
             code_content, lang = cls._parse_code_content_and_lang(code_tag)
-
-            if not made_doublelinked:
-                dhtmlparser.makeDoubleLinked(page.dom)
-                made_doublelinked = True
 
             add_style_to_the_header = True
             if lang == "python" or lang == "python3" or lang == "py":
@@ -70,28 +65,27 @@ class AddSyntaxHighlighting(TransformerBase):
 
         if add_style_to_the_header:
             style = HtmlFormatter().get_style_defs()
-            style_html = "<style>\n%s\n</style>" % style
-            style_tag = dhtmlparser.parseString(style_html)
-            page.dom.find("head")[0].childs.append(style_tag)
+            style_tag = dhtmlparser3.Tag("style", content=["\n", style, "\n"])
+            page.dom.find("head")[0][1:] = style_tag
 
     @classmethod
     def _add_syntax_highlight_for(cls, lexer, code, code_content):
         formatter = HtmlFormatter(wrapcode=False)
 
         colored_text = highlight(code_content, lexer(), formatter)
-        pre_tag = dhtmlparser.parseString(colored_text).find("pre")[0]
+        pre_tag = dhtmlparser3.parse(colored_text).find("pre")[0]
 
         # wrap content of the <pre> to the <code>
-        code_tag = dhtmlparser.parseString("<code></code>").find("code")[0]
-        code_tag.childs = pre_tag.childs
-        pre_tag.childs = [code_tag]
-        pre_tag.params["class"] = "code"
+        code_tag = dhtmlparser3.Tag("code")
+        code_tag.content = pre_tag.content
+        pre_tag.content = [code_tag]
+        pre_tag["class"] = "code"
 
-        code.parent.replaceWith(pre_tag)
+        code.parent.replace_with(pre_tag)
 
     @classmethod
     def _parse_code_content_and_lang(cls, code):
-        code_content = html.unescape(code.getContent())
+        code_content = html.unescape(code.content_str())
         code_content_lines = code_content.splitlines()
 
         lang = ""

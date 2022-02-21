@@ -50,7 +50,7 @@ class UnrollTraits(TransformerBase):
 
     @classmethod
     def _to_subpage_infos(cls, subpages, registry) -> Iterator[SubpageInfo]:
-        for page in subpages:
+        for page in sorted(subpages, key=lambda x: x.filename):
             if not page.is_html:
                 continue
 
