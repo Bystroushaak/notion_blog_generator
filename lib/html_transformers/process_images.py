@@ -29,7 +29,7 @@ class ProcessImages(TransformerBase):
                 figure.replace_with(dhtmlparser3.Tag(""))
                 continue
 
-            hrefs = first_caption.find("a", fn=lambda x: "href" in x.params)
+            hrefs = first_caption.find("a", fn=lambda x: "href" in x)
             if hrefs:
                 cls._add_link(figure, first_caption, hrefs)
 

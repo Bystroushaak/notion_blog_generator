@@ -119,23 +119,23 @@ class HtmlPage(FileBase):
 
         for resource_generator, src in resources:
             for resource_el in resource_generator:
-                if not resource_el.isTag():
+                if not isinstance(resource_el, dhtmlparser3.Tag):
                     continue
 
-                resource_path = resource_el.params[src]
+                resource_path = resource_el[src]
                 dirname = os.path.dirname(self.path)
                 full_resource_path = os.path.join(dirname, resource_path)
                 abs_path = os.path.abspath(full_resource_path)
 
                 try:
                     id = path_id_map[abs_path]
-                    resource_el.params[src] = ResourceRegistry.as_ref_str(id)
+                    resource_el[src] = ResourceRegistry.as_ref_str(id)
                 except KeyError:
                     unquoted = unquote(abs_path)
                     unquoted = unescape(unquoted)
                     try:
                         id = path_id_map[unquoted]
-                        resource_el.params[src] = ResourceRegistry.as_ref_str(id)
+                        resource_el[src] = ResourceRegistry.as_ref_str(id)
                     except KeyError:
                         settings.logger.error("%s: Link not found, skipping: %s",
                                               self.filename, unquoted)

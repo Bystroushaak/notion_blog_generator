@@ -20,7 +20,7 @@ class FixYoutubeEmbeds(TransformerBase):
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         youtube_links = page.dom.match(
             "figure",
-            {"tag_name": "div", "params": {"class": "source"}},
+            ["div", {"class": "source"}],
             "a"
         )
         for link in youtube_links:

@@ -50,7 +50,7 @@ class LoadMetadata(PreprocessorBase):
     def _parse_description(cls, page):
         p_tags = page.dom.match(
             "body",
-            {"tag_name": "div", "params": {"class": "page-body"}},
+            ["div", {"class": "page-body"}],
             "p"
         )
 

@@ -39,7 +39,7 @@ class GenerateThumbnails(TransformerBase):
             cls.resource_registry = virtual_fs.resource_registry
 
         for img in page.dom.find("img"):
-            if not img.params.get("src"):
+            if "src" not in img:
                 settings.logger.warning("Image without src: `%s`", img.to_string())
                 continue
 

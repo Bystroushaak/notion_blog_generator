@@ -1,6 +1,6 @@
 pillow>=8.0.1
 pygments==2.9.0
-dhtmlparser3~=3.0.1
+dhtmlparser3~=3.0.4
 prog_lang_detector
 feedgen~=0.9.0
 dateparser~=1.0.0
