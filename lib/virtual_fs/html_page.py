@@ -4,7 +4,7 @@ from urllib.parse import unquote
 from functools import lru_cache
 
 import sh
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 
@@ -19,7 +19,7 @@ class HtmlPage(FileBase):
         super().__init__()
 
         self.content = content.replace("🗎", "📄")
-        self.dom = dhtmlparser.parseString(self.content)
+        self.dom = dhtmlparser3.parse(self.content)
 
         self.original_fn = os.path.basename(original_fn)
         self.filename = self.original_fn
@@ -106,11 +106,11 @@ class HtmlPage(FileBase):
             return self.alt_title
 
         title_el = self.dom.find("h1", {"class": "page-title"})[0]
-        return dhtmlparser.removeTags(title_el.__str__()).strip()
+        return title_el.content_without_tags().strip()
 
     def _parse_hash(self, notion_fn):
-        without_html = notion_fn.rsplit(".", 1)[0]
-        hash_without_name = without_html.split()[-1]
+        without_html_suffix = notion_fn.rsplit(".", 1)[0]
+        hash_without_name = without_html_suffix.split()[-1]
 
         return hash_without_name.strip()
 
@@ -148,10 +148,10 @@ class HtmlPage(FileBase):
 
         for resource_generator, src in resources:
             for resource_el in resource_generator:
-                if not resource_el.isTag():
+                if not isinstance(resource_el, dhtmlparser3.Tag):
                     continue
 
-                resource_id_token = resource_el.params[src]
+                resource_id_token = resource_el[src]
 
                 if "://" in resource_id_token:
                     continue
@@ -161,30 +161,30 @@ class HtmlPage(FileBase):
 
                 resource = resource_registry.item_by_ref_str(resource_id_token)
                 resource_relpath = os.path.relpath(resource.path, html_dir)
-                resource_el.params[src] = resource_relpath
+                resource_el[src] = resource_relpath
 
                 # add title= to <a> for better SEO
-                if resource_el.getTagName() == "a":
+                if resource_el.name == "a":
                     if resource.is_html:
-                        resource_el.params["title"] = resource.title
+                        resource_el["title"] = resource.title
                     else:
-                        resource_el.params["title"] = resource.filename
+                        resource_el["title"] = resource.filename
 
     def _collect_resources(self):
         links = self._collect_local_links()
 
         images = (img for img in self.dom.find("img")
-                  if "://" not in img.params.get("src", ""))
+                  if "://" not in img)
 
         meta_links = (link for link in self.dom.find("link")
-                      if "href" in link.params and \
-                         "://" not in link.params.get("href", ""))
+                      if "href" in link and \
+                         "://" not in link.parameters.get("href", ""))
         scripts = (script for script in self.dom.find("script")
-                   if "src" in script.params and \
-                      "://" not in script.params.get("href", ""))
+                   if "src" in script and \
+                      "://" not in script.parameters.get("href", ""))
         twitter_images = (meta for meta in self.dom.find("meta",
                                                      {"name": "twitter:image"})
-                          if "://" not in meta.params.get("content", ""))
+                          if "://" not in meta.parameters.get("content", ""))
 
         resources = (
             (links, "href"),
@@ -198,7 +198,7 @@ class HtmlPage(FileBase):
 
     def _collect_local_links(self):
         return (a for a in self.dom.find("a")
-                if "://" not in a.params.get("href", ""))
+                if "://" not in a.parameters.get("href", ""))
 
     def save_as(self, file_path):
         with open(file_path, "wt") as f:
