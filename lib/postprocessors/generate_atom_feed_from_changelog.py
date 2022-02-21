@@ -3,7 +3,7 @@ import tzlocal
 import datetime
 
 import dateparser
-import dhtmlparser
+import dhtmlparser3
 from feedgen.feed import FeedGenerator
 
 from lib.settings import settings
@@ -55,10 +55,10 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
 
     @classmethod
     def _add_item_to_feed(cls, registry, feed, post):
-        title_dom = dhtmlparser.parseString(post.title)
+        title_dom = dhtmlparser3.parse(post.title)
 
         link = title_dom.find("a")[0]
-        href = link.params.get("href", "")
+        href = link.parameters.get("href", "")
 
         if registry.is_ref_str(href):
             item = registry.item_by_ref_str(href)
@@ -73,13 +73,14 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
             url += path
         else:
             url = href
-            title = dhtmlparser.removeTags(link.getContent())
+            title = link.content_without_tags()
 
         # bleh
         my_timezone = pytz.timezone(str(tzlocal.get_localzone()))
         timezone = datetime.datetime.now(my_timezone).strftime('%z')
 
-        raw_date = dhtmlparser.removeTags(post.timestamp).replace("@", "")
+        raw_date = dhtmlparser3.parse(post.timestamp).content_without_tags()
+        raw_date = raw_date.replace("@", "")
         pub_date = dateparser.parse(raw_date, settings={'TIMEZONE': 'CET',
                                                         'RETURN_AS_TIMEZONE_AWARE': True})
 

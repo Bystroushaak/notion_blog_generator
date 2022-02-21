@@ -23,4 +23,4 @@ class FixInterestingArticlesLinks(PostprocessorBase):
     @classmethod
     def _fix_links(cls, interesting_articles: HtmlPage):
         for a_tag in interesting_articles.dom.match("table", "td", "a"):
-            a_tag.params["href"] = a_tag.getContent()
+            a_tag["href"] = a_tag.content_str()

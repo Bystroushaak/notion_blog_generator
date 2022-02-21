@@ -1,6 +1,6 @@
 import time
 
-import dhtmlparser
+import dhtmlparser3
 
 from lib.settings import settings
 from lib.virtual_fs import Directory
@@ -27,4 +27,4 @@ class AddMetadataToRoot(PostprocessorBase):
         <span style="visibility: hidden;">m0wFG3PRCoJVTs7JcgBwsOXb3U7yPxBB</span>
         """
 
-        body_container.childs.append(dhtmlparser.parseString(meta_info_html))
+        body_container[-1:] = dhtmlparser3.parse(meta_info_html)
