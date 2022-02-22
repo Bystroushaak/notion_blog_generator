@@ -26,6 +26,7 @@ class ReplaceInlinedStyles(TransformerBase):
         new_style = dhtmlparser3.Tag(
             "link",
             {"rel": "stylesheet", "type": "text/css", "href": AddStaticFiles.css_ref},
+            is_non_pair=True,
         )
         style.replace_with(new_style)
 

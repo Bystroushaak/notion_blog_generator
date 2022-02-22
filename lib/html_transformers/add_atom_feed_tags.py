@@ -27,4 +27,4 @@ class AddAtomFeedTags(TransformerBase):
             is_non_pair=True,
         )
 
-        head[-1] = atom_tag
+        head[-1:] = atom_tag
