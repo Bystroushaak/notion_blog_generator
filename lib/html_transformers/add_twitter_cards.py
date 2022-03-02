@@ -9,22 +9,6 @@ from .transformer_base import TransformerBase
 
 
 class AddTwitterCards(TransformerBase):
-    summary_card_html = """
-     <meta name="twitter:card" content="summary" />
-     <meta name="twitter:site" content="{user}" />
-     <meta name="twitter:title" content="{title}" />
-     <meta name="twitter:description" content="{description}" />
-     """
-
-    large_image_card_html = """
-     <meta name="twitter:card" content="summary_large_image" />
-     <meta name="twitter:site" content="{user}" />
-     <meta name="twitter:creator" content="{user}" />
-     <meta name="twitter:title" content="{title}" />
-     <meta name="twitter:description" content="{description}" />
-     <meta name="twitter:image" content="{image}" />
-     """
-
     @classmethod
     def log_transformer(cls):
         settings.logger.info("Adding Twitter card to all pages..")
@@ -36,29 +20,72 @@ class AddTwitterCards(TransformerBase):
         if not description:
             description = ""
 
-        description = description.replace('"', "&quote;")
-
-        if page.dom.find("img") and page.metadata.image_index != -1:
-            meta_html = cls._large_image_card(description, page)
+        image_tags = page.dom.find("img")
+        head_tag = page.dom.find("head")[0]
+        if image_tags and page.metadata.image_index != -1:
+            cls._add_large_image_card(head_tag, image_tags, description, page)
         else:
-            meta_html = cls.summary_card_html.format(title=page.title,
-                                                     description=description,
-                                                     user=settings.twitter_handle)
-
-        head = page.dom.find("head")[0]
-        for meta_tag in dhtmlparser3.parse(meta_html).find("meta"):
-            head[-1:] = meta_tag
+            cls._add_summary_card(head_tag, description, page)
 
     @classmethod
-    def _large_image_card(cls, description, page):
+    def _add_large_image_card(cls, head_tag, image_tags, description, page):
         image_index = 0
         if page.metadata.image_index >= 0:
             image_index = page.metadata.image_index
 
-        first_image_path = page.dom.find("img")[image_index]["src"]
+        first_image_path = image_tags[image_index]["src"]
 
-        return cls.large_image_card_html.format(title=page.title,
-                                                description=description,
-                                                image=first_image_path,
-                                                user=settings.twitter_handle)
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:card", "content": "summary_large_image"},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:site", "content": settings.twitter_handle},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:creator", "content": settings.twitter_handle},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:title", "content": page.title},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:description", "content": description},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:image", "content": first_image_path},
+            is_non_pair=True,
+        )
 
+
+    @classmethod
+    def _add_summary_card(cls, head_tag, description, page):
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:card", "content": "summary"},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:site", "content": settings.twitter_handle},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:title", "content": page.title},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"name": "twitter:description", "content": description},
+            is_non_pair=True,
+        )
