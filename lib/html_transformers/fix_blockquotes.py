@@ -17,10 +17,9 @@ class FixBlockquotes(TransformerBase):
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
         # keep newlines in <blockquote> tags
         for blockquote_tag in page.dom.find("blockquote"):
-            content = blockquote_tag.content_str()
+            content = blockquote_tag.content_str(escape=True)
             if "\n" not in content:
                 continue
 
-            alt_content = content.replace("\n", "<br />")
-            blockquote_tag.content = []
-            blockquote_tag[0:] = dhtmlparser3.parse(alt_content)
+            alt_content = content.replace("\n", "<br />\n")
+            blockquote_tag.content = dhtmlparser3.parse(alt_content).content
