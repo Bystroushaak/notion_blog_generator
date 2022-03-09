@@ -66,7 +66,7 @@ class AddSyntaxHighlighting(TransformerBase):
         if add_style_to_the_header:
             style = HtmlFormatter().get_style_defs()
             style_tag = dhtmlparser3.Tag("style", content=["\n", style, "\n"])
-            page.dom.find("head")[0][1:] = style_tag
+            page.dom.find("head")[0][-1:] = style_tag
 
     @classmethod
     def _add_syntax_highlight_for(cls, lexer, code, code_content):
@@ -81,6 +81,7 @@ class AddSyntaxHighlighting(TransformerBase):
         pre_tag.content = [code_tag]
         pre_tag["class"] = "code"
 
+        pre_tag.double_link()
         code.parent.replace_with(pre_tag)
 
     @classmethod
