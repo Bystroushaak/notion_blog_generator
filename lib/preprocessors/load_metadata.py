@@ -1,5 +1,3 @@
-import html
-
 import dhtmlparser3
 
 from lib.settings import settings
@@ -29,7 +27,7 @@ class LoadMetadata(PreprocessorBase):
             for span in code_tag.find("span"):
                 span.replace_with(dhtmlparser3.Tag(span.content_str()))
 
-            code_content = html.unescape(code_tag.content_str())
+            code_content = code_tag.content_str()
             code_content_lines = code_content.splitlines()
 
             if code_content_lines and code_content_lines[0] == "#lang:metadata":
