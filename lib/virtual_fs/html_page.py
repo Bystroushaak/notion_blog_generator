@@ -1,3 +1,4 @@
+import copy
 import os.path
 from html import unescape
 from urllib.parse import unquote
@@ -214,16 +215,19 @@ class HtmlPage(FileBase):
                 pass
 
     def create_copy(self):
-        copy = HtmlPage(
-            self.dom.__str__(),
-            self.original_fn,
-        )
-        copy.filename = self.filename
-        copy.is_index_to = self.is_index_to
-        copy.metadata = self.metadata.create_copy()
-        copy.sidebar = self.sidebar
+        page_copy = HtmlPage("", self.original_fn)
+        page_copy.content = self.content
+        page_copy.dom = copy.deepcopy(self.dom)
+        page_copy.filename = self.filename
+        page_copy.hash = self.hash
+        page_copy.original_fn = self.original_fn
+        page_copy.is_index_to = self.is_index_to
+        page_copy.alt_title = self.alt_title
 
-        return copy
+        page_copy.metadata = self.metadata.create_copy()
+        page_copy.sidebar = self.sidebar
+
+        return page_copy
 
     @property
     def root_section(self):
