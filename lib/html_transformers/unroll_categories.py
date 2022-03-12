@@ -1,4 +1,5 @@
 from typing import Iterator
+from typing import List
 
 import dhtmlparser3
 from jinja2 import Template
@@ -32,11 +33,12 @@ class UnrollCategories(UnrollTraits):
         for category in cls.yield_subpages(page):
             category_si = list(cls._to_subpage_infos([category], registry))[0]
             subpages = cls._to_subpage_infos(cls.yield_subpages(category), registry)
+            subpages = sorted(subpages, key=lambda x: x.page.metadata.date or "", reverse=True)
             cls._insert_into(page, category_si, subpages)
 
     @classmethod
     def _insert_into(cls, target: HtmlPage, category: SubpageInfo,
-                     subpages: Iterator[SubpageInfo]):
+                     subpages: List[SubpageInfo]):
         limit = 10
         limit_to = 3
         and_more = 0

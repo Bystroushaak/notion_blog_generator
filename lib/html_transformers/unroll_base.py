@@ -125,10 +125,12 @@ class UnrollTraits(TransformerBase):
             subpage)</time>
         {% endif %}
 {% else %}
-    {% if last_mod: %}
+    {% if date and last_mod: %}
+        <time>(@{{ date }}, last modified @{{ last_mod }})</time>
+    {% elif date: %}
+        <time>(@{{ date }})</time>
+    {% elif last_mod: %}
         <time>(last modified @{{ last_mod }})</time>
-    {% else: %}
-        {% if date: %} <time>(@{{ date }})</time>{% endif %}
     {% endif %}
 {% endif %}
 </h4>
