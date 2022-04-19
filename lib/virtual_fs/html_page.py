@@ -180,18 +180,18 @@ class HtmlPage(FileBase):
                     else:
                         resource_el["title"] = resource.filename
 
-    def _collect_resources(self):
+    def  _collect_resources(self):
         links = self._collect_local_links()
 
         images = (img for img in self.dom.find("img")
-                  if "://" not in img)
+                  if "://" not in img.parameters.get("src", ""))
 
         meta_links = (link for link in self.dom.find("link")
                       if "href" in link and \
                          "://" not in link.parameters.get("href", ""))
         scripts = (script for script in self.dom.find("script")
                    if "src" in script and \
-                      "://" not in script.parameters.get("href", ""))
+                      "://" not in script.parameters.get("src", ""))
         twitter_images = (meta for meta in self.dom.find("meta",
                                                      {"name": "twitter:image"})
                           if "://" not in meta.parameters.get("content", ""))
