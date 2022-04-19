@@ -49,6 +49,9 @@ class HtmlPage(FileBase):
 
     @property
     def pretty_hash(self):
+        if len(self.hash) >= 36:
+            return self.hash
+
         return self.normalize_block_id(self.hash)
 
     @property
@@ -113,7 +116,13 @@ class HtmlPage(FileBase):
         without_html_suffix = notion_fn.rsplit(".", 1)[0]
         hash_without_name = without_html_suffix.split()[-1]
 
-        return hash_without_name.strip()
+        notion_hash = hash_without_name.strip()
+        if len(notion_hash) < 36:
+            article_tag = self.dom.find("article")
+            if article_tag:
+                return article_tag[0].parameters.get("id", self.filename)
+
+        return notion_hash
 
     def convert_resources_to_ids(self, path_id_map):
         resources = self._collect_resources()
