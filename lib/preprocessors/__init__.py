@@ -9,6 +9,7 @@ from .generate_tag_structure import GenerateTagStructure
 from .collect_refs_to_other_pages import CollectRefsToOtherPages
 from .make_changelog_readable import LoadChangelogsAndMakeThemReadable
 from .remove_dull_notion_table_files import RemoveDullNotionTableFiles
+from .fix_changelogs import FixChangelogs
 
 
 def get_preprocessors():
@@ -22,6 +23,7 @@ def get_preprocessors():
         MakeRootSections,
         GenerateTagStructure,
         AddStaticFiles,
+        FixChangelogs,
         LoadChangelogsAndMakeThemReadable,
         RemoveDullNotionTableFiles,
     )
