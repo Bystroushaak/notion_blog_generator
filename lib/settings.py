@@ -2,7 +2,7 @@ import sys
 import os.path
 import logging
 
-logger = logging.getLogger("objWiki")
+logger = logging.getLogger("NotionBloggenerator")
 stderr_logger = logging.StreamHandler(sys.stderr)
 log_fmt = (
     "\033[90m%(asctime)s %(levelname)s %(filename)s:%(lineno)s;\033[0m\n"
