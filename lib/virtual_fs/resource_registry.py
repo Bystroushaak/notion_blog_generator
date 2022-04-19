@@ -4,6 +4,7 @@ class ResourceRegistry:
 
         self._item_to_id = {}
         self._id_to_item = {}
+        self._hash_to_item = {}
 
     def register_item(self, item):
         item_id = self._item_to_id.get(item)
@@ -14,6 +15,9 @@ class ResourceRegistry:
 
         self._item_to_id[item] = item_id
         self._id_to_item[item_id] = item
+
+        if hasattr(item, "hash"):
+            self._hash_to_item[item.hash.replace("-", "").strip()] = item
 
         return item_id
 
@@ -30,6 +34,14 @@ class ResourceRegistry:
     def item_by_ref_str(self, ref_str):
         id = self.parse_ref_str(ref_str)
         return self.item_by_id(id)
+
+    def item_by_hash(self, notion_hash: str):
+        notion_hash = notion_hash.replace("-", "").strip()
+        return self._hash_to_item.get(notion_hash)
+
+    def id_by_hash(self, notion_hash: str):
+        item = self.item_by_hash(notion_hash)
+        return self.id_by_item(item)
 
     @staticmethod
     def as_ref_str(id):
