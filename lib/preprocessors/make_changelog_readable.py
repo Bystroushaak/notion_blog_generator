@@ -56,13 +56,14 @@ class Changelog:
                 self.posts_deduplication_cache.add(post)
 
         content_element = "<div>\n"
-        tr_line_template = "  <p><span class=\"changelog_short\"><a href=\"%s\">%s</a></span> (%s)</p>\n%s"
-        tr_line_template += "  <hr style=\"margin-bottom: 1em; margin-top: 1em;\"/>\n\n"
-
         for post in self.posts:
-            tr_line = tr_line_template % (post.link, post.title, post.timestamp, post.description)
-            content_element += tr_line
+            tr_line = f"""
+                <p><span class="changelog_short"><a href="{post.link}">{post.title}</a></span> ({post.timestamp})</p>
+                {post.description}
+                <hr style="margin-bottom: 1em; margin-top: 1em;"/>
 
+            """
+            content_element += tr_line
         content_element += "</div>\n"
 
         table_content_el = dhtmlparser3.parse(content_element).find("div")[0]
