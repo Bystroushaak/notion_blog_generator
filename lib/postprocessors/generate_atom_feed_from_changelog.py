@@ -12,6 +12,7 @@ from lib.virtual_fs import Directory
 from lib.virtual_fs import VirtualFS
 
 from .postprocessor_base import PostprocessorBase
+from lib.preprocessors.make_changelog_readable import Post
 from lib.preprocessors.make_changelog_readable import LoadChangelogsAndMakeThemReadable
 
 
@@ -54,14 +55,9 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
         return fg.atom_str(pretty=True)
 
     @classmethod
-    def _add_item_to_feed(cls, registry, feed, post):
-        title_dom = dhtmlparser3.parse(post.title)
-
-        link = title_dom.find("a")[0]
-        href = link.parameters.get("href", "")
-
-        if registry.is_ref_str(href):
-            item = registry.item_by_ref_str(href)
+    def _add_item_to_feed(cls, registry, feed, post: Post):
+        if registry.is_ref_str(post.link):
+            item = registry.item_by_ref_str(post.link)
 
             title = item.title
             url = settings.blog_url
@@ -72,8 +68,8 @@ class GenerateAtomFeedFromChangelog(PostprocessorBase):
 
             url += path
         else:
-            url = href
-            title = link.content_without_tags()
+            url = post.link
+            title = post.title
 
         # bleh
         my_timezone = pytz.timezone(str(tzlocal.get_localzone()))

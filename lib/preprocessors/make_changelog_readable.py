@@ -1,3 +1,4 @@
+from typing import List
 from functools import lru_cache
 from collections import namedtuple
 
@@ -10,7 +11,7 @@ from lib.virtual_fs import VirtualFS
 from .preprocessor_base import PreprocessorBase
 
 
-class Post(namedtuple("Post", "timestamp title description description_clean")):
+class Post(namedtuple("Post", "timestamp title link description description_clean")):
     pass
 
 
@@ -39,24 +40,28 @@ class Changelog:
         return settings.atom_feed_root_url + self.feed_name
 
     def make_changelog_readable(self, changelog_page):
-        content_element = "<div>\n"
-        tr_line_template = "  <p><span class=\"changelog_short\">%s</span> (%s)</p>\n%s"
-        tr_line_template += "  <hr style=\"margin-bottom: 1em; margin-top: 1em;\"/>\n\n"
-
         tbody = changelog_page.dom.find("tbody")[0]
         for tr in reversed(tbody.find("tr")):
             td_date, td_title, td_content = tr.find("td")[:3]
 
             content, content_clean = self._parse_content(td_content)
             date = self._parse_date(td_date)
-            post = Post(date, td_title.content_str(), content, content_clean)
-
-            tr_line = tr_line_template % (post.title, post.timestamp, post.description)
-            content_element += tr_line
+            link_tag = td_title.find("a")[0]
+            title = link_tag.content_without_tags()
+            link = link_tag["href"]
+            post = Post(date, title, link, content, content_clean)
 
             if post not in self.posts_deduplication_cache:
                 self.posts.append(post)
                 self.posts_deduplication_cache.add(post)
+
+        content_element = "<div>\n"
+        tr_line_template = "  <p><span class=\"changelog_short\"><a href=\"%s\">%s</a></span> (%s)</p>\n%s"
+        tr_line_template += "  <hr style=\"margin-bottom: 1em; margin-top: 1em;\"/>\n\n"
+
+        for post in self.posts:
+            tr_line = tr_line_template % (post.link, post.title, post.timestamp, post.description)
+            content_element += tr_line
 
         content_element += "</div>\n"
 
@@ -87,14 +92,14 @@ class Changelog:
 
     def get_articles_as_html_for_root_index(self, how_many=5):
         output = "<h1>Recent posts</h1>\n<div class=\"recent_posts\">\n"
-        template = "  <h4 class=\"changelog_short\">%s (%s)</h4>\n<p>%s</p>"
+        template = "  <h4 class=\"changelog_short\"><a href=\"%s\">%s</a> (%s)</h4>\n<p>%s</p>"
 
         updates = []
         for cnt, post in enumerate(self.posts):
             if cnt >= how_many:
                 break
 
-            updates.append(template % (post.title, post.timestamp, post.description or "No description."))
+            updates.append(template % (post.link, post.title, post.timestamp, post.description or "No description."))
 
         output += "\n".join(updates)
 
@@ -103,21 +108,11 @@ class Changelog:
         return output
 
     @lru_cache()
-    def get_last_n_for_sidebars(self, how_many=5):
-        output = "<h3>New posts</h3>\n<ul>\n"
-
-        for cnt, post in enumerate(self.posts):
-            if cnt >= how_many:
-                break
-
-            output += "  <li>%s</li>\n" % post.title
-
-        output += "</ul>\n"
-
+    def get_last_n_for_sidebars(self, how_many=5) -> List[Post]:
         if len(self.posts) > how_many:
-            output += '\n& <a href="%s">more</a>' % self.changelog_ref
+            return self.posts[:how_many]
 
-        return output
+        return self.posts
 
     def __repr__(self):
         return "Changelog(%s)" % self._changelog_dir_name
