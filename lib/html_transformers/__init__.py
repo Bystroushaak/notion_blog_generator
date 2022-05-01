@@ -19,7 +19,7 @@ from lib.html_transformers.add_meta_tags import AddMetaTags
 from lib.html_transformers.unroll_categories import UnrollCategories
 from lib.html_transformers.unroll_sections import UnrollSections
 from lib.html_transformers.unroll_subpage_descriptions import UnrollSubpageDescriptions
-from lib.html_transformers.sidebar_add_last_fivve_articles import SidebarAddLastFiveArticles
+from lib.html_transformers.sidebar_add_last_five_articles import SidebarAddLastFiveArticles
 from lib.html_transformers.sidebar_add_backlinks import SidebarsAddBacklinks
 from lib.html_transformers.process_images import ProcessImages
 from lib.html_transformers.sidebar_add_blog_categories import SidebarAddBlogCategories

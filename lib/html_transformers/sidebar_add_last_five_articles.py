@@ -25,3 +25,4 @@ class SidebarAddLastFiveArticles(TransformerBase):
         )
 
         page.sidebar.last_five_html = sidebar_content
+        page.sidebar.changelog_ref = page.root_section.changelog.changelog_ref
