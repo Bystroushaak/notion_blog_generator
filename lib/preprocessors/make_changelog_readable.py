@@ -40,20 +40,7 @@ class Changelog:
         return settings.atom_feed_root_url + self.feed_name
 
     def make_changelog_readable(self, changelog_page):
-        tbody = changelog_page.dom.find("tbody")[0]
-        for tr in reversed(tbody.find("tr")):
-            td_date, td_title, td_content = tr.find("td")[:3]
-
-            content, content_clean = self._parse_content(td_content)
-            date = self._parse_date(td_date)
-            link_tag = td_title.find("a")[0]
-            title = link_tag.content_without_tags()
-            link = link_tag["href"]
-            post = Post(date, title, link, content, content_clean)
-
-            if post not in self.posts_deduplication_cache:
-                self.posts.append(post)
-                self.posts_deduplication_cache.add(post)
+        self._parse_changelog(changelog_page)
 
         content_element = "<div>\n"
         for post in self.posts:
@@ -68,6 +55,22 @@ class Changelog:
 
         table_content_el = dhtmlparser3.parse(content_element).find("div")[0]
         changelog_page.dom.find("table")[0].replace_with(table_content_el)
+
+    def _parse_changelog(self, changelog_page):
+        tbody = changelog_page.dom.find("tbody")[0]
+        for tr in reversed(tbody.find("tr")):
+            td_date, td_title, td_content = tr.find("td")[:3]
+
+            content, content_clean = self._parse_content(td_content)
+            date = self._parse_date(td_date)
+            link_tag = td_title.find("a")[0]
+            title = link_tag.content_without_tags()
+            link = link_tag["href"]
+            post = Post(date, title, link, content, content_clean)
+
+            if post not in self.posts_deduplication_cache:
+                self.posts.append(post)
+                self.posts_deduplication_cache.add(post)
 
     def _parse_content(self, td_content):
         content = td_content.find("a")
