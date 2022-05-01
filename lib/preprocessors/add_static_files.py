@@ -27,6 +27,9 @@ class AddStaticFiles(PreprocessorBase):
     tweet_button = None
     tweet_button_ref = ""
 
+    patreon_icon = None
+    patreon_icon_ref = ""
+
     twitter_icon = None
     twitter_icon_ref = ""
 
@@ -63,6 +66,9 @@ class AddStaticFiles(PreprocessorBase):
         cls.tweet_button = cls._data_from_static_files("tweet_button.svg")
         cls.tweet_button_ref = registry.register_item_as_ref_str(cls.tweet_button)
 
+        cls.patreon_icon = cls._data_from_static_files("patreon.png")
+        cls.patreon_icon_ref = registry.register_item_as_ref_str(cls.patreon_icon)
+
         cls.twitter_icon = cls._data_from_static_files("twitter_icon.png")
         cls.twitter_icon_ref = registry.register_item_as_ref_str(cls.twitter_icon)
 
@@ -89,6 +95,7 @@ class AddStaticFiles(PreprocessorBase):
             cls.favicon,
             cls.rss_icon,
             cls.tweet_button,
+            cls.patreon_icon,
             cls.twitter_icon,
             cls.nginx_redirects,
             cls.noto_font_subset_ttf,
