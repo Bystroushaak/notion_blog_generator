@@ -1,5 +1,7 @@
+import queue
 import os.path
 import zipfile
+import threading
 
 from tqdm import tqdm
 
@@ -45,8 +47,7 @@ class VirtualFS:
 
     def _build_lookup_table(self, zipfile):
         lookup_table = {
-            filename: data
-            for filename, data in self._unpack_zipfile(zipfile)
+            filename: data for filename, data in self._unpack_zipfile(zipfile)
         }
 
         # to avoid big git changelogs when the zip file is randomly ordered
@@ -62,8 +63,9 @@ class VirtualFS:
 
         for zf, item in iterate_zipfile(zipfile):
             if item.filename.endswith(".html"):
-                object = HtmlPage(zf.read(item).decode("utf-8"),
-                                  original_fn=item.filename)
+                object = HtmlPage(
+                    zf.read(item).decode("utf-8"), original_fn=item.filename
+                )
             elif item.filename.endswith("/"):
                 continue  # dirs are created later
             else:
@@ -92,8 +94,7 @@ class VirtualFS:
 
     def _build_resource_registry(self):
 
-        full_path_lookup_table = {item.path: item
-                                  for item in self.root.walk_all()}
+        full_path_lookup_table = {item.path: item for item in self.root.walk_all()}
 
         # register all items to the registry
         path_id_map = {}
@@ -135,7 +136,9 @@ class VirtualFS:
             full_directory_path = os.path.join(blog_root_path, directory_path)
             os.makedirs(full_directory_path, exist_ok=True)
 
-        for file in tqdm(list(self.root.walk_files())):
+        worker_queue = queue.Queue()
+        all_files = list(self.root.walk_files())
+        for file in all_files:
             file_path = file.path
 
             # because os.path.join() doesn't work with second argument starting
@@ -145,4 +148,23 @@ class VirtualFS:
 
             full_file_path = os.path.join(blog_root_path, file_path)
 
-            file.save_as(full_file_path)
+            # file.save_as(full_file_path)
+            worker_queue.put((file.save_as, full_file_path))
+
+        threads = []
+        progress_bar = tqdm(total=len(all_files))
+        for _ in range(16):
+            thread = threading.Thread(
+                target=self._save_file_worker_thread, args=(worker_queue, progress_bar)
+            )
+            threads.append(thread)
+            thread.start()
+
+        for thread in threads:
+            thread.join()
+
+    def _save_file_worker_thread(self, queue: queue.Queue, progress_bar):
+        while not queue.empty():
+            method, arg = queue.get()
+            method(arg)
+            progress_bar.update(1)
