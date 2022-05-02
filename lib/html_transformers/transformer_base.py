@@ -6,6 +6,7 @@ from lib.virtual_fs import Directory
 class TransformerBase:
     requires = []
     did_run = False
+    paralelized = False
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
@@ -25,3 +26,8 @@ class TransformerBase:
                         cls.__name__,
                     )
                 )
+
+    @classmethod
+    def finish_paralelization(cls):
+        pass
+

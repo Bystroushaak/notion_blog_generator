@@ -1,7 +1,8 @@
 import io
+import threading
 
-import dhtmlparser3
 from PIL import Image
+from dhtmlparser3 import Tag
 
 from lib.settings import settings
 from lib.settings import ThumbFormat
@@ -18,8 +19,12 @@ class SmallerThanRequired(UserWarning):
 
 
 class GenerateThumbnails(TransformerBase):
+    paralelized = False
     thumb_cache = None
     resource_registry = None
+
+    threads = []
+    thread_done_events = []
 
     @classmethod
     def log_transformer(cls):
@@ -29,6 +34,15 @@ class GenerateThumbnails(TransformerBase):
             )
         else:
             settings.logger.info("settings.generate_thumbnails == False")
+
+    @classmethod
+    def finish_paralelization(cls):
+        settings.logger.info("Waiting for threads to convert images to thumbnails.")
+        for end_event in cls.thread_done_events:
+            end_event.wait()
+
+        for thread in cls.threads:
+            thread.join()
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
@@ -47,10 +61,22 @@ class GenerateThumbnails(TransformerBase):
             if src.startswith("http://") or src.startswith("https://"):
                 continue
 
-            cls._add_thumbnail_for_image(img, src)
+            if cls.paralelized:
+                end_event = threading.Event()
+                cls.thread_done_events.append(end_event)
+                thread = threading.Thread(target=cls._run_as_a_thread, args=(end_event, img, src))
+                cls.threads.append(thread)
+                thread.start()
+            else:
+                cls._add_thumbnail_for_image(img, src)
 
     @classmethod
-    def _add_thumbnail_for_image(cls, img_tag, src):
+    def _run_as_a_thread(cls, end_event: threading.Event, img_tag: Tag, src: str):
+        cls._add_thumbnail_for_image(img_tag, src)
+        end_event.set()
+
+    @classmethod
+    def _add_thumbnail_for_image(cls, img_tag: Tag, src: str):
         img = cls.resource_registry.item_by_ref_str(src)
         if img.filename.lower().endswith(".svg"):
             return

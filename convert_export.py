@@ -68,6 +68,9 @@ class BlogGenerator:
 
             transformer.did_run = True
 
+            if transformer.paralelized:
+                transformer.finish_paralelization()
+
     def _run_postprocessors(self):
         for postprocessor in get_postprocessors():
             postprocessor.validate_requirements()
