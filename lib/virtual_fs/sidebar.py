@@ -30,7 +30,7 @@ class Sidebar:
         # last five
         last_five_top, last_five_bottom = self._get_last_five_tags()
         top_div[-1:] = Tag("h3", content=["New posts"])
-        top_div.content.extend(last_five_top)
+        top_div[-1:] = last_five_top
         top_div.content.extend(
             [
                 "\n& ",
@@ -45,7 +45,7 @@ class Sidebar:
                 "Did you enjoy the blogpost? Here are other posts from this blog:"
             ],
         )
-        bottom_div.content.extend(last_five_bottom)
+        bottom_div[-1:] = last_five_bottom
         bottom_div[-1:] = Tag(
             "p",
             content=[
