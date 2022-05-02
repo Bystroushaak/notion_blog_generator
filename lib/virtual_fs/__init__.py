@@ -48,7 +48,14 @@ class VirtualFS:
             filename: data
             for filename, data in self._unpack_zipfile(zipfile)
         }
-        return lookup_table
+
+        # to avoid big git changelogs when the zip file is randomly ordered
+        # so it tends to go into different branches when it feels like it
+        sorted_lookup_table = {}
+        for fn in sorted(lookup_table.keys()):
+            sorted_lookup_table[fn] = lookup_table[fn]
+
+        return sorted_lookup_table
 
     def _unpack_zipfile(self, zipfile):
         settings.logger.info("Unpacking zipfile tree..")
