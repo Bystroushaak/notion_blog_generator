@@ -1,5 +1,5 @@
 import os.path
-from typing import List
+from typing import List, Optional
 from urllib.parse import urlparse
 
 from dhtmlparser3 import Tag
@@ -38,24 +38,42 @@ class FixFileUploads(TransformerBase):
             if not href.startswith("http"):
                 continue
 
-            cls._replace_with_file_link(figure, href, figcaption)
+            cls._replace_with_file_link(virtual_fs, page, figure, href, figcaption)
 
     @classmethod
     def _replace_with_file_link(
         cls,
+        virtual_fs: VirtualFS,
+        page: HtmlPage,
         figure_el: Tag,
         href: str,
         figcaption: List[Tag],
     ):
-        if figcaption:
+        ref_str = cls._look_for_file(virtual_fs, page, href)
+
+        if figcaption and not ref_str:
             href = cls._parse_figcaption(figcaption[0])
 
         link_el = Tag("p")
         link_el[0:] = Tag(
-            "a", parameters={"href": href}, content=[f"📎 {cls._get_name(href)}"]
+            "a", parameters={"href": ref_str or href}, content=[f"📎 {cls._get_name(href)}"]
         )
 
         figure_el.replace_with(link_el)
+
+    @classmethod
+    def _look_for_file(cls, virtual_fs: VirtualFS, page: HtmlPage, href: str) -> Optional[str]:
+        filename = cls._get_name(href)
+
+        if not page.is_index_to:
+            return None
+
+        matching_fns = [x for x in page.is_index_to.files if x.filename == filename]
+        if not matching_fns:
+            return None
+
+        file_obj = matching_fns[0]
+        return virtual_fs.resource_registry.register_item_as_ref_str(file_obj)
 
     @classmethod
     def _parse_figcaption(cls, figcaption: Tag) -> str:
