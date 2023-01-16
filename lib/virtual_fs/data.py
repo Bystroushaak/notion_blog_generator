@@ -18,3 +18,6 @@ class Data(FileBase):
     def save_as(self, file_path):
         with open(file_path, "wb") as f:
             f.write(self.content)
+
+    def __repr__(self):
+        return f"Data(filename={self.filename!r}, original_path={self.original_path!r})"
