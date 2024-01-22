@@ -1,4 +1,4 @@
-pillow==10.0.1
+pillow==10.2.0
 pygments==2.15.0
 dhtmlparser3>=3.0.12
 feedgen~=0.9.0
