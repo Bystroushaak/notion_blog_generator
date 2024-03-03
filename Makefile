@@ -2,7 +2,7 @@
 
 .DEFAULT: build
 build:
-	. venv/bin/activate; ./convert_export.py --zipfile ${HOME}/Plocha/Export*.zip \
+	. venv/bin/activate; ./convert_export.py --zipfile ${HOME}/Plocha/*Export*.zip \
                         --blogroot ${HOME}/Plocha/xlit/notion_blog_content
 
 

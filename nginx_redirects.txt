@@ -251,7 +251,7 @@ location '/Bystroushaak s blog/Czech section/Program torova kritika chyb j c str
     return 301 '/cz/Program_torova_kritika_chyb_j_c_struktury_opera_n_';
 }
 location '/Bystroushaak s blog/Czech section/Kni n recenze Firefall Slepozrakost a Echopraxie.html' {
-    return 301 '/cz/Kni_n_recenze_Firefall_Slepozrakost_a_Echopraxie.html';
+    return 301 '/cz/Knihy/Firefall_Slepozrakost_a_Echopraxie.html';
 }
 location '/Bystroushaak s blog/Czech section/Moldable tools kniha a hnut.html' {
     return 301 '/cz/Moldable_tools_kniha_a_hnut.html';
@@ -2276,7 +2276,7 @@ location '/cz/Jak_se_st_t_program_torem/index.html' {
     return 301 '/cz/Jak_se_stat_programatorem/';
 }
 location '/cz/Kni_n_recenze_Firefall_Slepozrakost_a_Echopraxie.html' {
-    return 301 '/cz/Knizni_recenze_Firefall_Slepozrakost_a_Echopraxie.html';
+    return 301 '/cz/Knihy/Firefall_Slepozrakost_a_Echopraxie.html';
 }
 location '/cz/Racion_ln_p_prava_na_virus.html' {
     return 301 '/cz/Racionalni_priprava_na_virus/';
@@ -2945,7 +2945,7 @@ location '/cz/Umira_abicko_ano_a_drsne/index.html' {
     return 301 '/cz/Abclinuxu/Umira_abicko_ano_a_drsne.html';
 }
 location '/cz/Knizni_recenze_Firefall_Slepozrakost_a_Echopraxie.html' {
-    return 301 '/cz/Knihy/Knizni_recenze_Firefall_Slepozrakost_a_Echopraxie.html';
+    return 301 '/cz/Knihy/Firefall_Slepozrakost_a_Echopraxie.html';
 }
 location '/cz/Vypustene_knihy.html' {
     return 301 '/cz/Knihy/Vypustene_knihy.html';
