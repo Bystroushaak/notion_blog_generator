@@ -20,13 +20,23 @@ def page():
 def test_metadata_parser_image_index(page):
     assert page.metadata.image_index == 1
 
+
 def test_metadata_parser_page_description(page):
-    assert page.metadata.page_description == """Patterns and structures of current operating systems and some thoughts about how that could be improved, with lessons learnt from Self, Smalltalk and other "structured" systems."""
+    assert (
+        page.metadata.page_description
+        == """Patterns and structures of current operating systems and some thoughts about how that could be improved, with lessons learnt from Self, Smalltalk and other "structured" systems."""
+    )
 
 
 def test_metadata_parser_tags(page):
-    assert page.metadata.tags == ["self", "python", "smalltalk", "programming_languages",
-                                  "quest_for_structure", "os"]
+    assert page.metadata.tags == [
+        "self",
+        "python",
+        "smalltalk",
+        "programming_languages",
+        "quest_for_structure",
+        "os",
+    ]
 
 
 def test_metadata_unroll(page):
