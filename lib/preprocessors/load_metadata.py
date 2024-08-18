@@ -31,8 +31,11 @@ class LoadMetadata(PreprocessorBase):
             code_content_lines = code_content.splitlines()
 
             if code_content_lines and code_content_lines[0] == "#lang:metadata":
-                page.metadata = Metadata.from_yaml("\n".join(code_content_lines[1:]))
-                code_tag.parent.replace_with(dhtmlparser3.Tag(""))
+                try:
+                    page.metadata = Metadata.from_yaml("\n".join(code_content_lines[1:]))
+                    code_tag.parent.replace_with(dhtmlparser3.Tag(""))
+                except Exception as e:
+                    raise Exception(f"Invalid metadata in: {page.title} {page.notion_link}") from e
 
         if not page.metadata.page_description:
             page.metadata.page_description = cls._parse_description(page)
