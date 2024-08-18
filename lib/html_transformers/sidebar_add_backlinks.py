@@ -54,7 +54,7 @@ class SidebarsAddBacklinks(TransformerBase):
             if "Changelog" in parents or "Changelog.html" in parents:
                 continue
 
-            if "Změny" in parents or "Zmeny.html" in parents:
+            if "Změny" in parents or "Zmeny.html" in parents or "Zmeny" in parents:
                 continue
 
             yield f'<li><a href="{ref}">{title}</a></li>'
