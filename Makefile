@@ -9,8 +9,13 @@ build:
 help:
 	@echo "make"
 	@echo "       Build the blog."
+	@echo
 	@echo "make test"
 	@echo "       Run tests."
+	@echo
+	@echo "make no_thumbs"
+	@echo "       Build the blog without thumbnails."
+	@echo
 
 test:
 	python3 -m pytest
