@@ -124,6 +124,10 @@ class HtmlPage(FileBase):
 
         return notion_hash
 
+    @property
+    def notion_link(self):
+        return f"https://www.notion.so/sharedmindspace/{self.hash.replace('-', '')}"
+
     def convert_resources_to_ids(self, path_id_map):
         resources = self._collect_resources()
 
