@@ -20,6 +20,8 @@ class AddTwitterCards(TransformerBase):
         if not description:
             description = ""
 
+        description = description.strip()
+
         image_tags = page.dom.find("img")
         head_tag = page.dom.find("head")[0]
         if image_tags and page.metadata.image_index != -1:
@@ -55,14 +57,37 @@ class AddTwitterCards(TransformerBase):
             {"name": "twitter:title", "content": page.title},
             is_non_pair=True,
         )
+        if description:
+            head_tag[-1:] = dhtmlparser3.Tag(
+                "meta",
+                {"name": "twitter:description", "content": description},
+                is_non_pair=True,
+            )
+            head_tag[-1:] = dhtmlparser3.Tag(
+                "meta",
+                {"property": "og:description", "content": description},
+                is_non_pair=True,
+            )
         head_tag[-1:] = dhtmlparser3.Tag(
             "meta",
-            {"name": "twitter:description", "content": description},
+            {"name": "twitter:image", "content": first_image_path},
+            is_non_pair=True,
+        )
+
+        # add also https://ogp.me/ / reddit image
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"property": "og:image", "content": first_image_path},
             is_non_pair=True,
         )
         head_tag[-1:] = dhtmlparser3.Tag(
             "meta",
-            {"name": "twitter:image", "content": first_image_path},
+            {"property": "og:image:width", "content": "440"},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
+            {"property": "og:image:height", "content": "220"},
             is_non_pair=True,
         )
 
@@ -84,8 +109,14 @@ class AddTwitterCards(TransformerBase):
             {"name": "twitter:title", "content": page.title},
             is_non_pair=True,
         )
-        head_tag[-1:] = dhtmlparser3.Tag(
-            "meta",
-            {"name": "twitter:description", "content": description},
-            is_non_pair=True,
-        )
+        if description:
+            head_tag[-1:] = dhtmlparser3.Tag(
+                "meta",
+                {"name": "twitter:description", "content": description},
+                is_non_pair=True,
+            )
+            head_tag[-1:] = dhtmlparser3.Tag(
+                "meta",
+                {"property": "og:description", "content": description},
+                is_non_pair=True,
+            )

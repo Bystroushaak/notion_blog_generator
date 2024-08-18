@@ -12,7 +12,12 @@ class ConvertTwitterCardsToAbsURL(PostprocessorBase):
         settings.logger.info("Converting twitter cards to abs url..")
 
         for page in root.walk_htmls():
-            for meta in page.dom.find("meta", {"name": "twitter:image"}):
+            for meta in page.dom.find("meta"):
+                meta_name = meta.p.get("name")
+                meta_property = meta.p.get("property")
+                if meta_name != "twitter:image" and meta_property != "og:image":
+                    continue
+
                 resource_id_token = meta["content"]
                 if not ResourceRegistry.is_ref_str(resource_id_token):
                     continue
