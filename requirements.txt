@@ -8,6 +8,6 @@ sh==2.0.3
 PyYAML==6.0
 pytz==2023.3
 tzlocal==4.3
-Jinja2==3.1.4
+Jinja2==3.1.6
 pytest==7.3.0
 requests
