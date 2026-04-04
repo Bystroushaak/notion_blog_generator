@@ -1,5 +1,5 @@
 pillow==12.1.1
-pygments==2.15.0
+pygments==2.20.0
 dhtmlparser3>=3.0.12
 feedgen~=0.9.0
 dateparser==1.1.8
