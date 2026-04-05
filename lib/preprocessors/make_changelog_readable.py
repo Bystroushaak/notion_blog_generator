@@ -132,7 +132,7 @@ class LoadChangelogsAndMakeThemReadable(PreprocessorBase):
         en_changelog.feed_name = "atom.xml"
         root.subdir_by_name("en").changelog = en_changelog
 
-        cz_changelog = Changelog(root.subdir_by_name("Zmeny"),
+        cz_changelog = Changelog(root.subdir_by_name("Změny"),
                                  virtual_fs.resource_registry)
         cz_changelog.feed_name = "atom_cz.xml"
         root.subdir_by_name("cz").changelog = cz_changelog
