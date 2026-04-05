@@ -2,8 +2,8 @@
 
 .DEFAULT: build
 build:
-	uv run ./convert_export.py --zipfile ${HOME}/Plocha/*Export*.zip \
-                               --blogroot ${HOME}/Plocha/xlit/notion_blog_content
+	uv run notion-blog-generator --zipfile ${HOME}/Plocha/*Export*.zip \
+                                 --blogroot ${HOME}/Plocha/xlit/notion_blog_content
 
 
 help:
@@ -21,6 +21,6 @@ test:
 	uv run python3 -m pytest
 
 no_thumbs:
-	uv run ./convert_export.py --zipfile ${HOME}/Plocha/Export*.zip \
-                               --blogroot ${HOME}/Plocha/xlit/notion_blog_content \
-                               --no-thumbs
+	uv run notion-blog-generator --zipfile ${HOME}/Plocha/Export*.zip \
+                                 --blogroot ${HOME}/Plocha/xlit/notion_blog_content \
+                                 --no-thumbs

@@ -257,7 +257,7 @@ wheels = [
 [[package]]
 name = "notion-blog-generator"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "dateparser" },
     { name = "dhtmlparser3" },

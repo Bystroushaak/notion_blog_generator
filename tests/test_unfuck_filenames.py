@@ -1,4 +1,4 @@
-from lib.preprocessors import UnfuckFilenames
+from notion_blog_generator.preprocessors import UnfuckFilenames
 
 
 def test_remove_html_entities():

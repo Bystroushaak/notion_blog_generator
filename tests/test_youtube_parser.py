@@ -1,4 +1,4 @@
-from lib.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
+from notion_blog_generator.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
 
 
 def test_long_url_parse():

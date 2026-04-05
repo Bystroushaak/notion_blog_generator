@@ -2,8 +2,8 @@ import os.path
 
 from pytest import fixture
 
-from lib.virtual_fs import HtmlPage
-from lib.preprocessors import LoadMetadata
+from notion_blog_generator.virtual_fs import HtmlPage
+from notion_blog_generator.preprocessors import LoadMetadata
 
 
 @fixture(scope="module")

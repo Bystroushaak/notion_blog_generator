@@ -3,13 +3,13 @@ import os.path
 
 from pytest import fixture
 
-from lib.virtual_fs import ResourceRegistry
-from lib.virtual_fs import VirtualFS
-from lib.preprocessors.unfuck_filenames import UnfuckFilenames
+from notion_blog_generator.virtual_fs import ResourceRegistry
+from notion_blog_generator.virtual_fs import VirtualFS
+from notion_blog_generator.preprocessors.unfuck_filenames import UnfuckFilenames
 
-from lib.virtual_fs import Data
-from lib.virtual_fs import HtmlPage
-from lib.virtual_fs import Directory
+from notion_blog_generator.virtual_fs import Data
+from notion_blog_generator.virtual_fs import HtmlPage
+from notion_blog_generator.virtual_fs import Directory
 
 
 @fixture()
