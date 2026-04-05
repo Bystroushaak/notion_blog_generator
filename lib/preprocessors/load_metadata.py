@@ -28,6 +28,7 @@ class LoadMetadata(PreprocessorBase):
                 span.replace_with(dhtmlparser3.Tag(span.content_str()))
 
             code_content = code_tag.content_str()
+            code_content = code_content.replace("\t", "  ")
             code_content_lines = code_content.splitlines()
 
             if code_content_lines and code_content_lines[0] == "#lang:metadata":
