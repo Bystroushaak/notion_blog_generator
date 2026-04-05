@@ -174,6 +174,13 @@ class HtmlPage(FileBase):
                     continue
 
                 resource = resource_registry.item_by_ref_str(resource_id_token)
+                if resource is None:
+                    settings.logger.error(
+                        "%s: Resource not found for ref %s (src=%s), context=%s, skipping.",
+                        self.path, resource_id_token, src,
+                        str(resource_el)[:200]
+                    )
+                    continue
                 resource_relpath = os.path.relpath(resource.path, html_dir)
                 resource_el[src] = resource_relpath
 

@@ -1,4 +1,5 @@
 import os.path
+import unicodedata
 
 from lib.settings import settings
 from lib.virtual_fs import VirtualFS
@@ -6,6 +7,12 @@ from lib.virtual_fs import Directory
 
 from .preprocessor_base import PreprocessorBase
 from .convert_spaces_to_underscores import ConvertSpacesToUnderscores
+
+
+def _strip_diacritics(text):
+    """Remove diacritics from text for comparison purposes."""
+    nfkd = unicodedata.normalize("NFKD", text)
+    return "".join(c for c in nfkd if not unicodedata.combining(c))
 
 
 class GenerateIndexesForDirectories(PreprocessorBase):
@@ -40,4 +47,6 @@ class GenerateIndexesForDirectories(PreprocessorBase):
                 filename = filename.rsplit(".", 1)[0].strip()
 
             if dirname == filename:
+                yield dir, file
+            elif _strip_diacritics(dirname) == _strip_diacritics(filename):
                 yield dir, file
