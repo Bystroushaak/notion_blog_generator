@@ -75,7 +75,7 @@ class FixChangelogs(PreprocessorBase):
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Fixing fucked up changelog tables..")
 
-        changelog_titles = {"Changelog", "Změny"}
+        changelog_titles = {"Changelog", "Změny", "Zmeny"}
         for page in root.walk_htmls():
             if not page.is_html:
                 continue

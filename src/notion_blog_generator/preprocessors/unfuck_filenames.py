@@ -37,6 +37,7 @@ class UnfuckFilenames(PreprocessorBase):
 
         for item in root.walk_dirs():
             new_filename = cls._unfuck_filename(item.filename)
+            new_filename = cls.normalize(new_filename)
             item.filename = cls._make_sure_filename_is_unique(item, new_filename)
 
     @classmethod
