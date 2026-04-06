@@ -16,7 +16,13 @@ class AddMetadataToRoot(PostprocessorBase):
 
         root_index_page = root.inner_index
 
-        body_container = root_index_page.dom.find("h1")[-1].parent
+        # Find the last div with class "page-body" content
+        page_body = root_index_page.dom.find("div", {"class": "page-body"})
+        if not page_body:
+            settings.logger.warning("Could not find page-body in root index!")
+            return
+
+        body_container = page_body[0]
 
         meta_info_html = f"""
         <h1>Meta</h1>

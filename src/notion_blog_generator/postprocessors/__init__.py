@@ -9,9 +9,9 @@ from notion_blog_generator.postprocessors.add_metadata_to_root import AddMetadat
 
 def get_postprocessors():
     return (
-        AddMetadataToRoot,
         FixInterestingArticlesLinks,
         AddMinichangelogToIndex,
+        AddMetadataToRoot,
         GenerateAtomFeedFromChangelog,
         ConvertTwitterCardsToAbsURL,
         AddRobotsAndSitemap,
