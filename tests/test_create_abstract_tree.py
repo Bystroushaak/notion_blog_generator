@@ -61,10 +61,100 @@ def test_patch_filename():
             "Active%20widget%20in%20PyQT5%20QTextEdit%20a35a5d6bff794aa8b78d198babf0bbbc/example_window.png",
             "Active%20widget%20in%20PyQT5%20QTextEdit/example_window.png",
         ),
+        # New Notion export: dirs with short disambiguation hash
+        (
+            "Environment and the programming language Self (par edb7-c0b8",
+            "Environment and the programming language Self (par",
+        ),
+        # Short hash should NOT be stripped when in middle of path
+        (
+            "some dir abcd-ef01/image.png",
+            "some dir abcd-ef01/image.png",
+        ),
+        # Dir without UUID stays the same
+        (
+            "Weekly update 2019 09 01; What I am working on",
+            "Weekly update 2019 09 01; What I am working on",
+        ),
     )
 
     for fucked, unfucked in filenames:
         assert UnfuckFilenames._unfuck_filename(fucked) == unfucked
+
+
+def test_dir_matches_html_when_dir_has_no_uuid():
+    """Dir: 'foo', HTML: 'foo abc123...def456.html' — should match."""
+    root = Directory("/")
+
+    subdir = Directory("Weekly update 2019 09 01")
+    root.add_subdir(subdir)
+    subdir.parent = root
+
+    html = HtmlPage(
+        "<body><h1 class='page-title'>Weekly update 2019/09/01; What I am working on</h1></body>",
+        "Weekly update 2019 09 01 9c3129837e3a4e19a07f7bf6131f7cc5.html",
+    )
+    root.add_file(html)
+    html.parent = root
+
+    match = UnfuckFilenames._dir_in_parent_with_same_name_as(html)
+    assert match is subdir
+
+
+def test_dir_matches_html_when_dir_has_short_hash():
+    """Dir: 'foo edb7-c0b8', HTML: 'foo edb7f886...c0b8.html' — should match."""
+    root = Directory("/")
+
+    subdir = Directory("Environment and Self (par edb7-c0b8")
+    root.add_subdir(subdir)
+    subdir.parent = root
+
+    html = HtmlPage(
+        "<body><h1 class='page-title'>Environment and Self (part two; language)</h1></body>",
+        "Environment and Self (par edb7f8862aa3467698a9fcb9bd63c0b8.html",
+    )
+    root.add_file(html)
+    html.parent = root
+
+    match = UnfuckFilenames._dir_in_parent_with_same_name_as(html)
+    assert match is subdir
+
+
+def test_dir_matches_html_exact_match_still_works():
+    """Old format: both have same UUID — exact match should still work."""
+    root = Directory("/")
+
+    subdir = Directory("Changelog 9439524048de45169fd74f5e92fb9598")
+    root.add_subdir(subdir)
+    subdir.parent = root
+
+    html = HtmlPage(
+        "<body><h1 class='page-title'>Changelog</h1></body>",
+        "Changelog 9439524048de45169fd74f5e92fb9598.html",
+    )
+    root.add_file(html)
+    html.parent = root
+
+    match = UnfuckFilenames._dir_in_parent_with_same_name_as(html)
+    assert match is subdir
+
+
+def test_dir_matches_html_no_match_returns_none():
+    root = Directory("/")
+
+    subdir = Directory("Completely different name")
+    root.add_subdir(subdir)
+    subdir.parent = root
+
+    html = HtmlPage(
+        "<body><h1 class='page-title'>Some page</h1></body>",
+        "Some page abc123def456abc123def456abc123de.html",
+    )
+    root.add_file(html)
+    html.parent = root
+
+    match = UnfuckFilenames._dir_in_parent_with_same_name_as(html)
+    assert match is None
 
 
 def test_path_property(tree):
@@ -173,6 +263,83 @@ def test_convert_resources_to_paths_skips_missing_resource():
     # href should remain unchanged (not crash)
     a_tag = page.dom.find("a")[0]
     assert a_tag["href"] == "resource:9999"
+
+
+def test_only_alnum_chars_strips_apostrophes():
+    assert UnfuckFilenames._only_alnum_chars("Godel's Proof") == "Godels Proof"
+
+
+def test_only_alnum_chars_strips_parentheses():
+    assert UnfuckFilenames._only_alnum_chars("Umira abicko (ano a drsne)") == "Umira abicko ano a drsne"
+
+
+def test_only_alnum_chars_strips_semicolons():
+    assert UnfuckFilenames._only_alnum_chars("Koronavirus; co bude dal") == "Koronavirus co bude dal"
+
+
+def test_only_alnum_chars_strips_commas():
+    assert UnfuckFilenames._only_alnum_chars("Zivy, syn Bdiciho") == "Zivy syn Bdiciho"
+
+
+def test_only_alnum_chars_converts_slash_to_dash():
+    assert UnfuckFilenames._only_alnum_chars("Control panels / alt interface") == "Control panels - alt interface"
+
+
+def test_only_alnum_chars_preserves_dashes():
+    assert UnfuckFilenames._only_alnum_chars("foo - bar") == "foo - bar"
+
+
+def test_only_alnum_chars_preserves_underscores():
+    assert UnfuckFilenames._only_alnum_chars("foo_bar") == "foo_bar"
+
+
+def test_only_alnum_chars_preserves_plain_alnum():
+    assert UnfuckFilenames._only_alnum_chars("Changelog") == "Changelog"
+
+
+def test_remove_dup_underscores_collapses():
+    assert UnfuckFilenames._remove_dup_underscores("foo__bar") == "foo_bar"
+
+
+def test_remove_dup_underscores_strips_leading_trailing():
+    assert UnfuckFilenames._remove_dup_underscores("_foo_") == "foo"
+
+
+def test_remove_dup_underscores_no_op_on_clean():
+    assert UnfuckFilenames._remove_dup_underscores("foo_bar") == "foo_bar"
+
+
+def _normalize_dir(raw_name):
+    """Mimic the directory normalization pipeline from UnfuckFilenames.preprocess."""
+    name = UnfuckFilenames._unfuck_filename(raw_name)
+    name = UnfuckFilenames.normalize(name)
+    name = UnfuckFilenames._only_alnum_chars(name)
+    name = UnfuckFilenames._remove_dup_underscores(name)
+    return name
+
+
+def test_dir_normalization_apostrophe():
+    assert _normalize_dir("Godel's Proof abc123def456abc123def456abc123de") == "Godels Proof"
+
+
+def test_dir_normalization_parentheses():
+    assert _normalize_dir("Umira abicko (ano a drsne) abc123def456abc123def456abc123de") == "Umira abicko ano a drsne"
+
+
+def test_dir_normalization_semicolon():
+    assert _normalize_dir("Koronavirus; co bude dal abc123def456abc123def456abc123de") == "Koronavirus co bude dal"
+
+
+def test_dir_normalization_comma():
+    assert _normalize_dir("Zivy, syn Bdiciho abc123def456abc123def456abc123de") == "Zivy syn Bdiciho"
+
+
+def test_dir_normalization_diacritics_stripped():
+    assert _normalize_dir("Změny abc123def456abc123def456abc123de") == "Zmeny"
+
+
+def test_dir_normalization_clean_unchanged():
+    assert _normalize_dir("Changelog abc123def456abc123def456abc123de") == "Changelog"
 
 
 def test_convert_resources_to_paths_resolves_valid_resource():

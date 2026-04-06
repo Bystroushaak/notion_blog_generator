@@ -38,6 +38,8 @@ class UnfuckFilenames(PreprocessorBase):
         for item in root.walk_dirs():
             new_filename = cls._unfuck_filename(item.filename)
             new_filename = cls.normalize(new_filename)
+            new_filename = cls._only_alnum_chars(new_filename)
+            new_filename = cls._remove_dup_underscores(new_filename)
             item.filename = cls._make_sure_filename_is_unique(item, new_filename)
 
     @classmethod
@@ -161,21 +163,37 @@ class UnfuckFilenames(PreprocessorBase):
 
         return False
 
-    @staticmethod
-    def _dir_in_parent_with_same_name_as(item):
+    @classmethod
+    def _dir_in_parent_with_same_name_as(cls, item):
         filename = item.filename.rsplit(".", 1)[0]  # remove .html
 
+        # Try exact match first (old Notion export: both had same UUID)
         for subdir in item.parent.subdirs:
             if subdir.filename == filename:
+                return subdir
+
+        # Fuzzy match: strip UUIDs/short hashes, then compare
+        # New Notion export: HTML has full UUID, dir has none or short hash
+        clean_filename = cls._unfuck_filename(filename)
+        for subdir in item.parent.subdirs:
+            clean_subdir = cls._unfuck_filename(subdir.filename)
+            if clean_filename and clean_filename == clean_subdir:
                 return subdir
 
         return None
 
     @classmethod
     def _unfuck_filename(cls, filename):
+        # Strip 32-char hex UUIDs:
         # "English section 8f6665fa0621410daa32502748e3cc5d.html"
-        # -> "English section"
-        return re.sub(' [a-z0-9]{32}|%20[a-z0-9]{32}', '', filename)
+        # -> "English section.html"
+        result = re.sub(' [a-z0-9]{32}|%20[a-z0-9]{32}', '', filename)
+
+        # Strip short Notion disambiguation hashes at end of dir names:
+        # "Environment and Self (par edb7-c0b8" -> "Environment and Self (par"
+        result = re.sub(r' [a-z0-9]{4}-[a-z0-9]{4}$', '', result)
+
+        return result
 
     @classmethod
     def _normalize_unicode(cls, unicode_name):
