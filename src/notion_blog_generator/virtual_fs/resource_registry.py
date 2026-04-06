@@ -8,7 +8,7 @@ class ResourceRegistry:
 
     def register_item(self, item):
         item_id = self._item_to_id.get(item)
-        if item_id:
+        if item_id is not None:
             return item_id
 
         item_id = self._inc_id()
