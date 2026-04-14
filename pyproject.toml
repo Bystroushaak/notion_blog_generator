@@ -24,7 +24,7 @@ notion-blog-generator = "notion_blog_generator.main:main"
 
 [dependency-groups]
 dev = [
-    "pytest>=9.0.2",
+    "pytest>=9.0.3",
 ]
 
 [[project.authors]]
