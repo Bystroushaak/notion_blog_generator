@@ -2,8 +2,8 @@
 
 .DEFAULT: build
 build:
-	uv run notion-blog-generator --zipfile ${HOME}/Plocha/*Export*.zip \
-                                 --blogroot ${HOME}/Plocha/xlit/notion_blog_content
+	uv run notion-blog-generator --zipfile ${HOME}/Desktop/*Export*.zip \
+                                 --blogroot ${HOME}/Desktop/xlit/notion_blog_content
 
 
 help:
