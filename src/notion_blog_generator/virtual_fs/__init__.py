@@ -1,6 +1,7 @@
 import queue
 import os.path
 import zipfile
+import tempfile
 import threading
 
 from tqdm import tqdm
@@ -15,13 +16,41 @@ from notion_blog_generator.virtual_fs.html_page import HtmlPage
 from notion_blog_generator.virtual_fs.resource_registry import ResourceRegistry
 
 
-def iterate_zipfile(zipfile_path):
+def _unwrap_nested_zip(zipfile_path):
+    """
+    If the ZIP contains a single .zip file, extract it to a temp file
+    and return the path. Otherwise return the original path.
+    """
     zf = zipfile.ZipFile(zipfile_path)
+    entries = zf.infolist()
 
-    for zip_info in zf.infolist():
-        yield zf, zip_info
+    if len(entries) == 1 and entries[0].filename.endswith(".zip"):
+        settings.logger.info("Detected nested ZIP, extracting to temp file..")
+        tmp = tempfile.NamedTemporaryFile(suffix=".zip", delete=False)
+        with zf.open(entries[0]) as src:
+            while chunk := src.read(1024 * 1024):
+                tmp.write(chunk)
+        tmp.close()
+        zf.close()
+        return tmp.name, True
 
     zf.close()
+    return zipfile_path, False
+
+
+def iterate_zipfile(zipfile_path):
+    actual_path, is_temp = _unwrap_nested_zip(zipfile_path)
+
+    try:
+        zf = zipfile.ZipFile(actual_path)
+        try:
+            for zip_info in zf.infolist():
+                yield zf, zip_info
+        finally:
+            zf.close()
+    finally:
+        if is_temp:
+            os.unlink(actual_path)
 
 
 class VirtualFS:
