@@ -13,6 +13,8 @@ from notion_blog_generator.html_transformers.fix_inlined_styles import FixInline
 from notion_blog_generator.html_transformers.fix_blockquotes import FixBlockquotes
 from notion_blog_generator.html_transformers.fix_file_uploads import FixFileUploads
 from notion_blog_generator.html_transformers.fix_checkboxes import FixCheckboxes
+from notion_blog_generator.html_transformers.fix_code_blocks_dir import FixCodeBlocksDir
+from notion_blog_generator.html_transformers.fix_toggle_blocks import FixToggleBlocks
 from notion_blog_generator.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from notion_blog_generator.html_transformers.generate_thumbnails import GenerateThumbnails
 from notion_blog_generator.html_transformers.add_meta_tags import AddMetaTags
@@ -39,6 +41,8 @@ def get_transformers():
         FixBlockquotes,
         FixFileUploads,
         FixCheckboxes,
+        FixCodeBlocksDir,
+        FixToggleBlocks,
         MakeNotionLinksLocal,
         GenerateThumbnails,
         AddTwitterCards,
