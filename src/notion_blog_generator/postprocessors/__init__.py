@@ -1,4 +1,5 @@
 from notion_blog_generator.postprocessors.add_changelog_to_index import AddMinichangelogToIndex
+from notion_blog_generator.postprocessors.add_tag_links_to_root_index import AddTagLinksToRootIndex
 from notion_blog_generator.postprocessors.generate_atom_feed_from_changelog import GenerateAtomFeedFromChangelog
 from notion_blog_generator.postprocessors.convert_twitter_card_to_abs_url import ConvertTwitterCardsToAbsURL
 from notion_blog_generator.postprocessors.add_robots_and_sitemap import AddRobotsAndSitemap
@@ -12,6 +13,7 @@ def get_postprocessors():
     return (
         FixInterestingArticlesLinks,
         AddMinichangelogToIndex,
+        AddTagLinksToRootIndex,
         AddMetadataToRoot,
         GenerateAtomFeedFromChangelog,
         ConvertTwitterCardsToAbsURL,
