@@ -80,16 +80,6 @@ class AddTwitterCards(TransformerBase):
             {"property": "og:image", "content": first_image_path},
             is_non_pair=True,
         )
-        head_tag[-1:] = dhtmlparser3.Tag(
-            "meta",
-            {"property": "og:image:width", "content": "440"},
-            is_non_pair=True,
-        )
-        head_tag[-1:] = dhtmlparser3.Tag(
-            "meta",
-            {"property": "og:image:height", "content": "220"},
-            is_non_pair=True,
-        )
 
 
     @classmethod
