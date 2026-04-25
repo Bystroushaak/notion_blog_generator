@@ -369,3 +369,28 @@ figure.link-to-page p { margin-top: 0 !important; }
     margin-top: 0.2em;
     color: #444;
 }
+
+
+/* ============================================================
+ * Heading anchors (permalinks visible on hover)
+ * ============================================================ */
+.heading-anchor {
+    margin-left: 0.4em;
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+h1:hover .heading-anchor,
+h2:hover .heading-anchor,
+h3:hover .heading-anchor,
+h4:hover .heading-anchor,
+h5:hover .heading-anchor,
+h6:hover .heading-anchor {
+    opacity: 1;
+}
+.heading-anchor:hover {
+    opacity: 1;
+}
+

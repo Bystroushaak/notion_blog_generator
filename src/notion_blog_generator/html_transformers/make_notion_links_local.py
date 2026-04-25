@@ -4,9 +4,12 @@ from notion_blog_generator.virtual_fs import VirtualFS
 from notion_blog_generator.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
+from .shorten_heading_ids import ShortenHeadingIds
 
 
 class MakeNotionLinksLocal(TransformerBase):
+    requires = [ShortenHeadingIds]
+
     initliazed = False
     title_to_ref_map = {}
     title_to_item_map = {}
@@ -36,14 +39,16 @@ class MakeNotionLinksLocal(TransformerBase):
                 continue
 
             hash = cls._hash_from_link(original_href)
+            fragment = cls._fragment_from_link(original_href)
+
             if hash in cls.hash_to_ref_map:
                 ref_str = cls.hash_to_ref_map[hash]
-                a["href"] = ref_str
+                a["href"] = ref_str + cls._remap_fragment(fragment)
                 continue
 
             if link_content in cls.title_to_ref_map:
                 ref_str = cls.title_to_ref_map[link_content]
-                a["href"] = ref_str
+                a["href"] = ref_str + cls._remap_fragment(fragment)
                 continue
 
             settings.logger.error("Couldn't patch %s in %s.", original_href,
@@ -65,3 +70,20 @@ class MakeNotionLinksLocal(TransformerBase):
     @classmethod
     def _hash_from_link(cls, original_href):
         return original_href.split("-")[-1].split("#")[0]
+
+    @classmethod
+    def _fragment_from_link(cls, original_href):
+        if "#" not in original_href:
+            return ""
+        return original_href.split("#", 1)[1]
+
+    @classmethod
+    def _remap_fragment(cls, fragment):
+        if not fragment:
+            return ""
+        target = fragment
+        if len(target) == 32 and "-" not in target:
+            target = HtmlPage.normalize_block_id(target)
+        if target in ShortenHeadingIds.heading_remap:
+            return "#" + ShortenHeadingIds.heading_remap[target]
+        return "#" + fragment
