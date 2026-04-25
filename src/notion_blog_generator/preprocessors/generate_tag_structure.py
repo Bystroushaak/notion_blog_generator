@@ -67,6 +67,8 @@ LINK_TEMPLATE = """
 class GenerateTagStructure(PreprocessorBase):
     requires = [MakeRootSections]
 
+    MIN_TAG_USAGE = 2
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Collecting tags..")
@@ -88,6 +90,9 @@ class GenerateTagStructure(PreprocessorBase):
         tag_directory = Directory(tag_manager.dirname)
         tag_to_ref_str_map = {}
         for tag, subpages in sorted(tag_manager.tag_dict.items()):
+            if len(subpages) < cls.MIN_TAG_USAGE:
+                continue
+
             links = cls._yield_links_to_subpages(registry, subpages)
 
             count_label = cls._count_label(len(subpages), tag_manager.dirname)
@@ -207,14 +212,19 @@ class GenerateTagStructure(PreprocessorBase):
         if not tags:
             return ""
 
-        out = "<hr><div><h3>%s</h3><p>" % title
         all_tags = []
         for tag in sorted(tags):
+            tag_ref = tag_to_ref_str_map.get(tag.lower())
+            if tag_ref is None:
+                continue
             tag_html = '<a href="{tag_ref}">{tag_name}</a>'
-            tag_html = tag_html.format(tag_ref=tag_to_ref_str_map[tag.lower()],
-                                       tag_name=tag)
+            tag_html = tag_html.format(tag_ref=tag_ref, tag_name=tag)
             all_tags.append(tag_html)
 
+        if not all_tags:
+            return ""
+
+        out = "<hr><div><h3>%s</h3><p>" % title
         out += ", ".join(all_tags)
         out += "</p></div>"
 
