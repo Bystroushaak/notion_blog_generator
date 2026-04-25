@@ -42,7 +42,7 @@ class SidebarsAddBacklinks(TransformerBase):
     @classmethod
     def _yield_links(cls, page):
         sorted_refs = sorted(page.metadata.refs_from_other_pages,
-                             key=lambda x: x.item.metadata.date or x.title)
+                             key=lambda x: (x.item.metadata.date or x.title, x.title))
 
         for ref, title, item in sorted_refs:
             if page.parent.inner_index is item or page.parent.outer_index is item:
