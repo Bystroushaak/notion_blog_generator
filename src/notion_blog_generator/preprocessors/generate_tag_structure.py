@@ -27,6 +27,7 @@ TAG_PAGE_TEMPLATE = """<!DOCTYPE html>
     <div class="page-body">
         {links}
     </div>
+  </article>
 </body>
 </html>
 """
@@ -50,6 +51,7 @@ TAG_INDEX_TEMPLATE = """<!DOCTYPE html>
     <div class="page-body">
         {links}
     </div>
+  </article>
 </body>
 </html>
 """

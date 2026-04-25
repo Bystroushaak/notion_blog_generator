@@ -355,7 +355,9 @@ figure.link-to-page p { margin-top: 0 !important; }
     margin-bottom: 0.3em !important;
 }
 .tag-page .tag-entry-meta a,
-.tag-index-page .tag-entry-meta a {
+.tag-page .tag-entry-meta a:visited,
+.tag-index-page .tag-entry-meta a,
+.tag-index-page .tag-entry-meta a:visited {
     color: #888;
     text-decoration-color: #bbb;
 }
