@@ -45,16 +45,19 @@ figure iframe {
 }
 
 #sidebar_top {
-    visibility: hidden;
-    height: 0;
+    display: none;
 }
 #sidebar_bottom {
-    margin-top: 7em;
+    margin-top: var(--sidebar-bottom-offset);
     width: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 130%;
 }
 
+
+body {
+    font-size: clamp(1rem, calc(0.7rem + 0.32vw), 1.3rem);
+}
 
 @media screen and (min-width: 3000px) {
     body {
@@ -82,6 +85,13 @@ figure iframe {
     body {
         margin-left: 5em;
     }
+
+.page-cover-image {
+    width: 100vw;
+    max-width: none;
+    margin-top: -2em;
+    margin-bottom: 2em;
+    margin-left: calc((100% - 100vw) / 2);
 }
 @media screen and (max-width: 1450px) {
     body {

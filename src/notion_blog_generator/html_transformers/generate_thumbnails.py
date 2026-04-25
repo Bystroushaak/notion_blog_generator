@@ -57,6 +57,9 @@ class GenerateThumbnails(TransformerBase):
                 settings.logger.warning("Image without src: `%s`", img.to_string())
                 continue
 
+            if "page-cover-image" in img.parameters.get("class", ""):
+                continue
+
             src = img["src"]
             if src.startswith("http://") or src.startswith("https://"):
                 continue
