@@ -8,10 +8,10 @@ from notion_blog_generator.virtual_fs import Directory
 from .transformer_base import TransformerBase
 
 
-class AddTwitterCards(TransformerBase):
+class AddSocialCards(TransformerBase):
     @classmethod
     def log_transformer(cls):
-        settings.logger.info("Adding Twitter card to all pages..")
+        settings.logger.info("Adding social cards to all pages..")
 
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
@@ -28,6 +28,24 @@ class AddTwitterCards(TransformerBase):
             cls._add_large_image_card(head_tag, image_tags, description, page)
         else:
             cls._add_summary_card(head_tag, description, page)
+
+        cls._add_fediverse_tags(head_tag)
+
+    @classmethod
+    def _add_fediverse_tags(cls, head_tag):
+        if settings.fediverse_creator:
+            head_tag[-1:] = dhtmlparser3.Tag(
+                "meta",
+                {"name": "fediverse:creator", "content": settings.fediverse_creator},
+                is_non_pair=True,
+            )
+
+        if settings.mastodon_url:
+            head_tag[-1:] = dhtmlparser3.Tag(
+                "link",
+                {"rel": "me", "href": settings.mastodon_url},
+                is_non_pair=True,
+            )
 
     @classmethod
     def _add_large_image_card(cls, head_tag, image_tags, description, page):

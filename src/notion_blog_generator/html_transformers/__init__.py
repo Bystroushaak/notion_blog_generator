@@ -5,7 +5,7 @@ from notion_blog_generator.html_transformers.add_favicon_links import AddFavicon
 from notion_blog_generator.html_transformers.add_patreon_buttons import AddPatreonButtons
 from notion_blog_generator.html_transformers.add_google_tags import AddGoogleTags
 from notion_blog_generator.html_transformers.add_scripts_and_twitter_buttons import AddScriptsAndTwitterButtons
-from notion_blog_generator.html_transformers.add_twitter_cards import AddTwitterCards
+from notion_blog_generator.html_transformers.add_social_cards import AddSocialCards
 from notion_blog_generator.html_transformers.add_syntax_highlighting import AddSyntaxHighlighting
 from notion_blog_generator.html_transformers.add_breadcrumbs import AddBreadcrumbs
 from notion_blog_generator.html_transformers.fix_youtube_embeds import FixYoutubeEmbeds
@@ -44,7 +44,7 @@ def get_transformers():
         FixCodeBlocksDir,
         FixToggleBlocks,
         MakeNotionLinksLocal,
-        AddTwitterCards,
+        AddSocialCards,
         GenerateThumbnails,
         AddScriptsAndTwitterButtons,
         AddMetaTags,

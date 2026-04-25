@@ -137,6 +137,8 @@ class Sidebar:
                 style,
             ),
             "\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0",  # nbsp
+            self._mastodon_link(),
+            "\u00A0\u00A0\u00A0 \u00A0\u00A0\u00A0",  # nbsp
             self._img_in_link(
                 settings.twitter_url, AddStaticFiles.twitter_icon_ref, style
             ),
@@ -147,6 +149,18 @@ class Sidebar:
         ]
 
         return div
+
+    def _mastodon_link(self) -> Tag:
+        span = Tag("span", parameters={"class": "fediverse-icon"}, content=["🌸"])
+        return Tag(
+            "a",
+            parameters={
+                "href": settings.mastodon_url,
+                "rel": "me",
+                "title": f"Mastodon: @{settings.fediverse_creator}",
+            },
+            content=[span],
+        )
 
     def _img_in_link(self, link: str, img_ref: str, img_style: str) -> Tag:
         img_tag = Tag(

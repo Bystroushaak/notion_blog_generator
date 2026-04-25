@@ -39,6 +39,9 @@ class Settings:
         self.twitter_url = ""
         self.twitter_handle = "@Bystroushaak"
 
+        self.mastodon_url = "https://sakurajima.social/@remotefox"
+        self.fediverse_creator = "remotefox@sakurajima.social"
+
         self.number_of_articles_in_sidebar = 10
         self.number_of_articles_in_minichangelog = 5
 

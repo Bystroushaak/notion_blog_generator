@@ -6,11 +6,11 @@ from notion_blog_generator.virtual_fs import VirtualFS
 from notion_blog_generator.virtual_fs import Directory
 
 from .transformer_base import TransformerBase
-from .add_twitter_cards import AddTwitterCards
+from .add_social_cards import AddSocialCards
 
 
 class ProcessImages(TransformerBase):
-    requires = [AddTwitterCards]
+    requires = [AddSocialCards]
 
     @classmethod
     def log_transformer(cls):
