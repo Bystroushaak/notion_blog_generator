@@ -252,8 +252,8 @@ a.unroll_category:hover {
 
 @font-face {
     font-family: "NotoEmojiSubset";
-    src: url(NotoEmojiSubset.ttf) format("ttf");
-    src: url(NotoEmojiSubset.woff) format("woff");
+    src: url(NotoEmojiSubset.woff) format("woff"),
+         url(NotoEmojiSubset.ttf) format("truetype");
     font-style: normal;
     font-weight: 400;
 }
