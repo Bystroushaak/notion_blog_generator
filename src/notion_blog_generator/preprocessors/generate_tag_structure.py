@@ -3,6 +3,7 @@ from notion_blog_generator.virtual_fs import Tags
 from notion_blog_generator.virtual_fs import HtmlPage
 from notion_blog_generator.virtual_fs import VirtualFS
 from notion_blog_generator.virtual_fs import Directory
+from notion_blog_generator.virtual_fs import RootSection
 
 from notion_blog_generator.preprocessors import MakeRootSections
 from notion_blog_generator.preprocessors.preprocessor_base import PreprocessorBase
@@ -11,17 +12,18 @@ TAG_PAGE_TEMPLATE = """<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>List of pages for `{tag_name}`</title>
+  <title>Tag: {tag_name}</title>
   <style></style>
 </head>
 <body>
-  <article class="page sans">
+  <article class="page sans tag-page">
     <header>
       <div class="page-header-icon undefined">
         <span class="icon">📂</span>
       </div>
-      <h1 class="page-title">List of pages with `{tag_name}` tag</h1>
+      <h1 class="page-title">Tag: {tag_name}</h1>
     </header>
+    <p class="tag-count">{count_label}</p>
     <div class="page-body">
         {links}
     </div>
@@ -33,17 +35,18 @@ TAG_INDEX_TEMPLATE = """<!DOCTYPE html>
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Tags</title>
+  <title>{title}</title>
   <style></style>
 </head>
 <body>
-  <article class="page sans">
+  <article class="page sans tag-index-page">
     <header>
       <div class="page-header-icon undefined">
         <span class="icon">📂</span>
       </div>
-      <h1 class="page-title">Tags used in the blogs</h1>
+      <h1 class="page-title">{title}</h1>
     </header>
+    <p class="tag-count">{count_label}</p>
     <div class="page-body">
         {links}
     </div>
@@ -85,8 +88,12 @@ class GenerateTagStructure(PreprocessorBase):
         for tag, subpages in sorted(tag_manager.tag_dict.items()):
             links = cls._yield_links_to_subpages(registry, subpages)
 
-            tag_page_html = TAG_PAGE_TEMPLATE.format(tag_name=tag,
-                                                     links="\n".join(list(links)))
+            count_label = cls._count_label(len(subpages), tag_manager.dirname)
+            tag_page_html = TAG_PAGE_TEMPLATE.format(
+                tag_name=tag,
+                count_label=count_label,
+                links="\n".join(list(links)),
+            )
 
             tag_page = HtmlPage(tag_page_html, tag + ".html")
             tag_page.alt_title = tag
@@ -98,12 +105,19 @@ class GenerateTagStructure(PreprocessorBase):
         links = []
         for tag, tag_ref in tag_to_ref_str_map.items():
             no_items = len(tag_manager.tag_dict[tag])
-            no_tags = "(%s items)" if no_items > 1 else "(%s item)"
+            description = ('<p class="tag-entry-meta">'
+                           + cls._count_label(no_items, tag_manager.dirname)
+                           + "</p>")
             links.append(LINK_TEMPLATE.format(page_name=tag, ref_str=tag_ref,
-                                              no_tags=no_tags % no_items,
-                                              description=""))
+                                              no_tags="",
+                                              description=description))
 
-        tag_index_html = TAG_INDEX_TEMPLATE.format(links="\n".join(links))
+        tag_index_html = TAG_INDEX_TEMPLATE.format(
+            title=tag_manager.alt_title,
+            count_label=cls._tags_total_label(len(tag_to_ref_str_map),
+                                              tag_manager.dirname),
+            links="\n".join(links),
+        )
         tag_index_outer = HtmlPage(tag_index_html, "%s.html" % tag_manager.dirname)
         tag_index_outer.alt_title = tag_manager.alt_title
 
@@ -121,9 +135,61 @@ class GenerateTagStructure(PreprocessorBase):
 
         for page in subpages_sorted:
             ref_str = registry.register_item_as_ref_str(page)
-            description = "<p>" + page.metadata.page_description + "</p><hr>"
+
+            meta_parts = []
+            if page.metadata.date:
+                meta_parts.append(page.metadata.date)
+            cat_link = cls._get_category_link(page, registry)
+            if cat_link:
+                meta_parts.append(cat_link)
+
+            description = ""
+            if meta_parts:
+                description = ('<p class="tag-entry-meta">'
+                               + " \u00B7 ".join(meta_parts) + "</p>")
+            if page.metadata.page_description:
+                description += "<p>" + page.metadata.page_description + "</p>"
+
             yield LINK_TEMPLATE.format(page_name=page.title, ref_str=ref_str,
                                        no_tags="", description=description)
+
+    @classmethod
+    def _get_category_link(cls, page, registry):
+        if not page.parent or isinstance(page.parent, RootSection):
+            return None
+
+        current = page.parent
+        while current.parent is not None and not isinstance(current.parent, RootSection):
+            current = current.parent
+
+        if not isinstance(current.parent, RootSection):
+            return None
+        if current.outer_index is None:
+            return None
+
+        cat_ref = registry.register_item_as_ref_str(current.outer_index)
+        cat_name = current.filename.replace("_", " ")
+        return '<a href="%s">%s</a>' % (cat_ref, cat_name)
+
+    @classmethod
+    def _count_label(cls, n, dirname):
+        if dirname == "Tagy":
+            if n == 1:
+                return "%d článek" % n
+            if 2 <= n <= 4:
+                return "%d články" % n
+            return "%d článků" % n
+        return "%d article" % n if n == 1 else "%d articles" % n
+
+    @classmethod
+    def _tags_total_label(cls, n, dirname):
+        if dirname == "Tagy":
+            if n == 1:
+                return "%d tag" % n
+            if 2 <= n <= 4:
+                return "%d tagy" % n
+            return "%d tagů" % n
+        return "%d tag" % n if n == 1 else "%d tags" % n
 
     @classmethod
     def _add_tags_to_all_pages(cls, tag_manager, tag_to_ref_str_map):

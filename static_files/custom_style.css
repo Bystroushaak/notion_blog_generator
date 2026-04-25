@@ -1,9 +1,16 @@
+/* ============================================================
+ * Layout variables
+ * ============================================================ */
 :root {
   --sidebar-width: 25em;
   --sidebar-top-offset: 11em;
   --sidebar-bottom-offset: 7em;
 }
 
+
+/* ============================================================
+ * Corner ribbon (legacy badge)
+ * ============================================================ */
 .corner-ribbon{
   width: 14em;
   background: #e43;
@@ -36,6 +43,10 @@
 
 .corner-ribbon.red{background: #e43;}
 
+
+/* ============================================================
+ * Code blocks & embeds
+ * ============================================================ */
 pre {
   white-space: pre-wrap;
   overflow-wrap: break-word;
@@ -49,6 +60,10 @@ figure iframe {
     height: 550px;
 }
 
+
+/* ============================================================
+ * Sidebar & body (fluid layout, 4K support)
+ * ============================================================ */
 #sidebar_top {
     display: none;
 }
@@ -76,6 +91,10 @@ body {
     }
 }
 
+
+/* ============================================================
+ * Cover image (full-bleed)
+ * ============================================================ */
 .page-cover-image {
     width: 100vw;
     max-width: none;
@@ -120,6 +139,10 @@ body {
     }
 }
 
+
+/* ============================================================
+ * Twitter share button
+ * ============================================================ */
 .twitter-share-button {
     float: right;
     visibility: hidden;
@@ -129,6 +152,10 @@ body {
     width: 5em;
 }
 
+
+/* ============================================================
+ * Image figures & modal lightbox
+ * ============================================================ */
 figure.image img {
   border-radius: 5px;
   cursor: pointer;
@@ -196,6 +223,10 @@ figure.image img:hover {opacity: 0.7;}
   }
 }
 
+
+/* ============================================================
+ * Unrolled list styles
+ * ============================================================ */
 ul.unroll {
     list-style: none;
     margin-top: -0.1em;
@@ -218,6 +249,10 @@ ul.no_icon > li {
     margin-top: 0.2em;
 }
 
+
+/* ============================================================
+ * Anchor states
+ * ============================================================ */
 a.unroll_link,
 a.visited {
     text-decoration-color: #bbbbbb;
@@ -230,6 +265,10 @@ a.unroll_category:hover {
     text-decoration: underline;
 }
 
+
+/* ============================================================
+ * Notion fonts & typography classes
+ * ============================================================ */
 @font-face {
     font-family: "NotoEmojiSubset";
     src: url(NotoEmojiSubset.woff) format("woff"),
@@ -250,6 +289,10 @@ a.unroll_category:hover {
 
 .pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
 
+
+/* ============================================================
+ * Link & icon adjustments
+ * ============================================================ */
 a {
     white-space: pre-wrap;
     overflow-wrap: break-word;
@@ -260,6 +303,10 @@ a .icon {
 }
 
 
+
+/* ============================================================
+ * Heading rhythm & Notion inline overrides
+ * ============================================================ */
 h1 { margin-top: 0.9rem; }
 h2 { margin-top: 0.75rem; }
 h3 { margin-top: 0.6rem; }
@@ -269,6 +316,10 @@ h4 { margin-top: 0.6rem; margin-bottom: 0; }
 .page-description:empty { display: none; }
 figure.link-to-page p { margin-top: 0 !important; }
 
+
+/* ============================================================
+ * Fediverse icon (Mastodon link in sidebar)
+ * ============================================================ */
 .fediverse-icon {
     font-size: 2.7em;
     line-height: 1;
@@ -276,4 +327,43 @@ figure.link-to-page p { margin-top: 0 !important; }
     display: inline-block;
     position: relative;
     top: 0.15em;
+}
+
+
+/* ============================================================
+ * Tag pages (per-tag list + tags index)
+ * ============================================================ */
+.tag-count {
+    color: #888;
+    font-size: 0.9em;
+    margin-top: -0.5em;
+    margin-bottom: 2em;
+}
+.tag-page figure.link-to-page,
+.tag-index-page figure.link-to-page {
+    margin-bottom: 1.5em;
+}
+.tag-page figure.link-to-page h3,
+.tag-index-page figure.link-to-page h3 {
+    margin-bottom: 0.2em;
+}
+.tag-page .tag-entry-meta,
+.tag-index-page .tag-entry-meta {
+    color: #888;
+    font-size: 0.85em;
+    margin-top: 0 !important;
+    margin-bottom: 0.3em !important;
+}
+.tag-page .tag-entry-meta a,
+.tag-index-page .tag-entry-meta a {
+    color: #888;
+    text-decoration-color: #bbb;
+}
+.tag-page .tag-entry-meta a:hover,
+.tag-index-page .tag-entry-meta a:hover {
+    color: #555;
+}
+.tag-page figure.link-to-page > p:not(.tag-entry-meta) {
+    margin-top: 0.2em;
+    color: #444;
 }
