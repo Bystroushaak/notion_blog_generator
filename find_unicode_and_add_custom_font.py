@@ -20,7 +20,7 @@ def generate_font_subset(blogroot, font_path):
 
     unicode_points = ",".join(_convert_unicode_chars_to_codepoints(unicode_characters))
 
-    pyftsubset = sh.Command("~/.local/bin/pyftsubset")
+    pyftsubset = sh.Command("pyftsubset")
 
     pyftsubset(font_path, unicodes=unicode_points, layout_features="",
                output_file="static_files/NotoEmojiSubset.ttf", )
