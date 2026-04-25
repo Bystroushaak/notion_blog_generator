@@ -114,6 +114,11 @@ class AddSocialCards(TransformerBase):
         )
         head_tag[-1:] = dhtmlparser3.Tag(
             "meta",
+            {"name": "twitter:creator", "content": settings.twitter_handle},
+            is_non_pair=True,
+        )
+        head_tag[-1:] = dhtmlparser3.Tag(
+            "meta",
             {"name": "twitter:title", "content": page.title},
             is_non_pair=True,
         )
