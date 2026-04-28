@@ -1,0 +1,177 @@
+digraph pipeline {
+    rankdir=TB
+    bgcolor="#ffffff"
+    node [shape=plaintext fontname="Helvetica" fontsize=11]
+    edge [color="#4a6fa5" arrowsize=0.8]
+    nodesep=0.4
+    ranksep=0.5
+
+    zip [label=<<TABLE BORDER="0" CELLBORDER="1" CELLPADDING="8" CELLSPACING="0" BGCOLOR="#fdf6e3"><TR><TD><B>📦 Notion Export.zip</B></TD></TR></TABLE>>]
+
+    vfs [label=<<TABLE BORDER="0" CELLBORDER="1" CELLPADDING="8" CELLSPACING="0" BGCOLOR="#fff3d6"><TR><TD><B>🗂️ VirtualFS</B>  <FONT POINT-SIZE="9"><I>in-memory tree<BR/>+ resource registry</I></FONT></TD></TR></TABLE>>]
+
+    helpers [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="6" BGCOLOR="#fbf4f4">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Support</B>  <FONT POINT-SIZE="9"><I>(top-level)</I></FONT></TD></TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🚀 BlogGenerator</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Orchestrates the<BR ALIGN="LEFT"/>whole pipeline</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>⚙️ Settings</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Global config<BR ALIGN="LEFT"/>and logger</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📦 ThumbCache</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Persistent thumbnail<BR ALIGN="LEFT"/>storage between runs</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📐 ThumbFormat</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Thumbnail size<BR ALIGN="LEFT"/>and format config</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+    </TABLE>>]
+
+    classes [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="6" BGCOLOR="#f4f7fb">
+      <TR><TD COLSPAN="2" ALIGN="LEFT"><B>Core classes</B>  <FONT POINT-SIZE="9"><I>(virtual_fs/)</I></FONT></TD></TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📁 Directory</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Subdirs, files,<BR ALIGN="LEFT"/>inner/outer index</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🌐 RootSection</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">en/ and cz/<BR ALIGN="LEFT"/>top-level dirs</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📄 HtmlPage</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">DOM, metadata,<BR ALIGN="LEFT"/>sidebar wrapper</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🗄 Data</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Binary files<BR ALIGN="LEFT"/>(images, csv, …)</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🏷️ Tags</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Tag pages and<BR ALIGN="LEFT"/>tag index</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📋 Metadata</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Date, tags, refs,<BR ALIGN="LEFT"/>cover image, …</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📑 Sidebar</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Backlinks, last 5,<BR ALIGN="LEFT"/>categories</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🔖 ResourceRegistry</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Canonical paths<BR ALIGN="LEFT"/>for static assets</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+    </TABLE>>]
+
+    pre [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="6" BGCOLOR="#f4f7fb">
+      <TR><TD COLSPAN="5" ALIGN="LEFT"><B>Preprocessors</B>  <FONT POINT-SIZE="9"><I>(whole tree)</I></FONT></TD></TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📦 SquashToplevel</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Drop the wrapper<BR ALIGN="LEFT"/>top dir from zip</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📋 LoadMetadata</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Parse per-page<BR ALIGN="LEFT"/>metadata blocks</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🔗 CollectRefs</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Build cross-page<BR ALIGN="LEFT"/>backlink index</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🪛 UnfuckFilenames</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">NFKD-normalize<BR ALIGN="LEFT"/>weird unicode</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>␣ ConvertSpaces</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Spaces in names<BR ALIGN="LEFT"/>→ underscores</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📑 GenerateIndexes</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Auto index.html<BR ALIGN="LEFT"/>for every dir</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🌐 MakeRootSections</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Rename to<BR ALIGN="LEFT"/>en/ and cz/</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🏷️ GenerateTagStructure</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Build Tags/ and<BR ALIGN="LEFT"/>Tagy/ pages</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📁 AddStaticFiles</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Inject CSS/JS/img<BR ALIGN="LEFT"/>into vfs</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🛠️ FixChangelogs</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Repair broken<BR ALIGN="LEFT"/>changelog tables</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📰 MakeChangelogReadable</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Render changelog<BR ALIGN="LEFT"/>as a real page</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🧹 RemoveDullTables</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Drop Notion's<BR ALIGN="LEFT"/>table-of-pages dirs</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BORDER="0" BGCOLOR="#f4f7fb"></TD>
+        <TD BORDER="0" BGCOLOR="#f4f7fb"></TD>
+        <TD BORDER="0" BGCOLOR="#f4f7fb"></TD>
+      </TR>
+    </TABLE>>]
+
+    tr [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="6" BGCOLOR="#f4f7fb">
+      <TR><TD COLSPAN="5" ALIGN="LEFT"><B>HTML transformers</B>  <FONT POINT-SIZE="9"><I>(per page)</I></FONT></TD></TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🎨 ReplaceInlinedStyles</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Strip Notion's<BR ALIGN="LEFT"/>inline style="..."</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📡 AddAtomFeedTags</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">&lt;link&gt; to atom<BR ALIGN="LEFT"/>feed in &lt;head&gt;</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🖼️ AddFileIcons</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Per-extension<BR ALIGN="LEFT"/>file icons</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>⭐ AddFaviconLinks</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Favicon &lt;link&gt;<BR ALIGN="LEFT"/>tags</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>💝 AddPatreonButtons</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Inject Patreon<BR ALIGN="LEFT"/>support button</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>💡 AddSyntaxHighlighting</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Prism on &lt;pre&gt;<BR ALIGN="LEFT"/>code blocks</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🍞 AddBreadcrumbs</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Hierarchical<BR ALIGN="LEFT"/>breadcrumb nav</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>▶ FixYoutubeEmbeds</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Wrap YT links<BR ALIGN="LEFT"/>in &lt;iframe&gt;</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🎨 FixInlinedStyles</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Post-process<BR ALIGN="LEFT"/>remaining &lt;style&gt;</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>💬 FixBlockquotes</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Preserve newlines<BR ALIGN="LEFT"/>in quotes</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📎 FixFileUploads</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Rename + link<BR ALIGN="LEFT"/>uploaded files</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>☑️ FixCheckboxes</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Repair broken<BR ALIGN="LEFT"/>checkbox markup</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>↔ FixCodeBlocksDir</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Force dir=ltr<BR ALIGN="LEFT"/>on code blocks</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>▾ FixToggleBlocks</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Collapse<BR ALIGN="LEFT"/>&lt;details open&gt;</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>✂ ShortenHeadingIds</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">UUID → 4-char<BR ALIGN="LEFT"/>heading ids</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🔗 AddHeadingAnchors</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Hover-reveal 🔗<BR ALIGN="LEFT"/>anchor links</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🏠 MakeNotionLinksLocal</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Stale notion.so<BR ALIGN="LEFT"/>URLs → local</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🃏 AddSocialCards</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">og: + twitter:<BR ALIGN="LEFT"/>card meta tags</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🌅 GenerateThumbnails</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Resized cached<BR ALIGN="LEFT"/>image thumbs</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🐦 AddScripts+Twitter</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Tweet share<BR ALIGN="LEFT"/>button + scripts</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🏷️ AddMetaTags</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Generic &lt;meta&gt;<BR ALIGN="LEFT"/>(desc, author...)</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📜 UnrollSections</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Inline articles<BR ALIGN="LEFT"/>in unroll sections</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📝 UnrollSubpageDescr</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Show subpage<BR ALIGN="LEFT"/>descriptions inline</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🗂️ UnrollCategories</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Index pages list<BR ALIGN="LEFT"/>their children</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📚 Sidebar:LastFive</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Recent 5 articles<BR ALIGN="LEFT"/>in sidebar</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📂 Sidebar:Categories</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Top section<BR ALIGN="LEFT"/>links in sidebar</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>↩ Sidebar:Backlinks</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Pages linking<BR ALIGN="LEFT"/>to this one</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📊 AddGoogleTags</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Analytics +<BR ALIGN="LEFT"/>Adsense scripts</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🖼 ProcessImages</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Linkify, drop<BR ALIGN="LEFT"/>ignored images</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BORDER="0" BGCOLOR="#f4f7fb"></TD>
+      </TR>
+    </TABLE>>]
+
+    post [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="6" BGCOLOR="#f4f7fb">
+      <TR><TD COLSPAN="5" ALIGN="LEFT"><B>Postprocessors</B>  <FONT POINT-SIZE="9"><I>(whole tree)</I></FONT></TD></TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🔧 FixInterestingArticles</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Repair "interesting<BR ALIGN="LEFT"/>articles" URLs</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📰 AddMinichangelog</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Latest posts on<BR ALIGN="LEFT"/>root index</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🏷️ AddTagLinksToRoot</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Tags/Tagy entries<BR ALIGN="LEFT"/>on root index</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>ℹ AddMetadataToRoot</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Meta info block<BR ALIGN="LEFT"/>on root index</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📡 GenerateAtomFeed</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">EN + CZ<BR ALIGN="LEFT"/>atom.xml feeds</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🐦 ConvertTwitterCardURL</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Relative → absolute<BR ALIGN="LEFT"/>card image URLs</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🤖 AddRobots+Sitemap</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">robots.txt and<BR ALIGN="LEFT"/>sitemap.xml</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📑 AddSidebarsToAllPages</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Inject finalized<BR ALIGN="LEFT"/>sidebar HTML</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>⬆ MoveCoverImageToTop</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Cover above<BR ALIGN="LEFT"/>sidebar+breadcrumb</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BORDER="0" BGCOLOR="#f4f7fb"></TD>
+      </TR>
+    </TABLE>>]
+
+    out [label=<<TABLE BORDER="0" CELLBORDER="1" CELLPADDING="8" CELLSPACING="0" BGCOLOR="#fdf6e3"><TR><TD><B>📁 blog_root/</B>  <FONT POINT-SIZE="9"><I>static HTML</I></FONT></TD></TR></TABLE>>]
+
+    files [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="4" CELLPADDING="6" BGCOLOR="#fdf6e3">
+      <TR><TD COLSPAN="5" ALIGN="LEFT"><B>Output artifacts</B>  <FONT POINT-SIZE="9"><I>(blog_root/ contents)</I></FONT></TD></TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📄 *.html</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Articles, indexes,<BR ALIGN="LEFT"/>tag pages</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📁 en/, cz/, Tags/</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Section + tag<BR ALIGN="LEFT"/>directory tree</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🖼 *.png/.jpg</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Originals + linked<BR ALIGN="LEFT"/>images</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🌅 *_thumb.jpg</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Generated<BR ALIGN="LEFT"/>thumbnails</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📦 .thumb_cache/</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Persistent thumb<BR ALIGN="LEFT"/>cache between runs</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📡 atom.xml, atom_cz.xml</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">RSS/Atom feeds<BR ALIGN="LEFT"/>per language</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🗺 sitemap.xml</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">All URLs with<BR ALIGN="LEFT"/>last-modified</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🤖 robots.txt</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Crawler<BR ALIGN="LEFT"/>directives</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>💰 ads.txt</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">AdSense<BR ALIGN="LEFT"/>verification</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>↪ nginx_redirects.txt</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Old → new path<BR ALIGN="LEFT"/>map</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+      <TR>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🎨 style.css</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Notion's CSS +<BR ALIGN="LEFT"/>custom_style</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📜 scripts.js</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Client-side JS<BR ALIGN="LEFT"/>(prism, …)</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>⭐ favicon.ico</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Site<BR ALIGN="LEFT"/>favicon</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>🔤 NotoEmoji.*</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Embedded font<BR ALIGN="LEFT"/>for emoji</FONT><BR ALIGN="LEFT"/></TD>
+        <TD BGCOLOR="white" ALIGN="LEFT"><B>📄 *.csv</B><BR ALIGN="LEFT"/><FONT POINT-SIZE="9">Source data<BR ALIGN="LEFT"/>(Changelog, …)</FONT><BR ALIGN="LEFT"/></TD>
+      </TR>
+    </TABLE>>]
+
+    { rank=same; helpers; vfs; classes }
+
+    zip -> vfs
+    helpers -> vfs [style=dashed color="#999999" arrowhead=none dir=none]
+    vfs -> classes [style=dashed color="#999999" arrowhead=none dir=none]
+    vfs -> pre
+    pre -> tr
+    tr -> post
+    post -> out
+    out -> files [style=dashed color="#999999" arrowhead=none]
+}

@@ -38,3 +38,14 @@ src/notion_blog_generator/
 ├── postprocessors/      # post-processing (atom feed, sitemap, ..)
 └── virtual_fs/          # virtual filesystem abstraction over the Notion export
 ```
+
+## Architecture
+
+![Architecture diagram](docs/architecture.png)
+
+Source: [`docs/architecture.dot`](docs/architecture.dot) (Graphviz). Re-render with:
+
+```bash
+dot -Tpng docs/architecture.dot -o docs/architecture.png
+dot -Tsvg docs/architecture.dot -o docs/architecture.svg
+```
