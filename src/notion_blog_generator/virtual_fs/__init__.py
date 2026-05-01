@@ -121,7 +121,7 @@ class VirtualFS:
                 directory.set_parent(parent_dir)
                 parent_dir.add_subdir(directory)
 
-    def _build_resource_registry(self):
+    def _build_resource_registry(self) -> ResourceRegistry:
 
         full_path_lookup_table = {item.path: item for item in self.root.walk_all()}
 

@@ -123,6 +123,7 @@ class GenerateTagStructure(PreprocessorBase):
         # sort by tag count
         links = (link for link, count in sorted(links_and_count, key=lambda x: x[1], reverse=True))
 
+        # generate the tag index page
         tag_index_html = TAG_INDEX_TEMPLATE.format(
             title=tag_manager.alt_title,
             count_label=cls._tags_total_label(len(tag_to_ref_str_map),

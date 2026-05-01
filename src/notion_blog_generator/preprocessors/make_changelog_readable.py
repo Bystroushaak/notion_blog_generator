@@ -17,6 +17,8 @@ class Post(namedtuple("Post", "timestamp title link description description_clea
 
 class Changelog:
     def __init__(self, changelog_dir, resource_registry):
+        self.resource_registry = resource_registry
+
         self.feed_name = "atom.xml"
         self.posts = []
         self.posts_deduplication_cache = set()
@@ -44,8 +46,9 @@ class Changelog:
 
         content_element = "<div>\n"
         for post in self.posts:
+            icon = self.resource_registry.item_by_ref_str(post.link).icon
             tr_line = f"""
-                <p><span class="changelog_short"><a href="{post.link}">{post.title}</a></span> ({post.timestamp})</p>
+                <p><span class="changelog_short"><a href="{post.link}">{icon} {post.title}</a></span> ({post.timestamp})</p>
                 {post.description}
                 <hr style="margin-bottom: 1em; margin-top: 1em;"/>
 
