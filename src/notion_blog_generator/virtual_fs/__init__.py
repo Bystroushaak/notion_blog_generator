@@ -3,6 +3,7 @@ import os.path
 import zipfile
 import tempfile
 import threading
+import concurrent.futures
 
 from tqdm import tqdm
 
@@ -143,8 +144,15 @@ class VirtualFS:
     def convert_resources_to_paths(self):
         settings.logger.info("Converting resources to paths..")
 
-        for html in self.root.walk_htmls():
+        def worker(html):
             html.convert_resources_to_paths(self.resource_registry)
+
+        with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
+            submitted = [executor.submit(worker, html)
+                         for html in self.root.walk_htmls()]
+
+            for completed in tqdm(concurrent.futures.as_completed(submitted), total=len(submitted)):
+                completed.result()
 
     def store_on_disc(self, blog_root_path):
         self.convert_resources_to_paths()
