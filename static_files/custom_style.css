@@ -329,6 +329,14 @@ figure.link-to-page p { margin-top: 0 !important; }
     top: 0.15em;
 }
 
+#sidebar_bottom .fediverse-icon {
+    font-size: 4.4em;
+    line-height: 1;
+    vertical-align: top;
+    display: inline-block;
+    position: relative;
+    top: 0.15em;
+}
 
 /* ============================================================
  * Tag pages (per-tag list + tags index)
