@@ -42,6 +42,7 @@ def main():
         settings.generate_thumbnails = False
 
     zipfile = _path_or_find_zipfile_if_dir(args.zipfile)
+    settings.logger.info(f"Reading `{zipfile}` ..")
 
     generator = BlogGenerator(zipfile, args.blogroot)
     generator.generate_blog()
