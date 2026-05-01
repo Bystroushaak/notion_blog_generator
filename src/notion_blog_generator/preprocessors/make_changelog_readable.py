@@ -46,7 +46,11 @@ class Changelog:
 
         content_element = "<div>\n"
         for post in self.posts:
-            icon = self.resource_registry.item_by_ref_str(post.link).icon
+            try:
+                icon = self.resource_registry.item_by_ref_str(post.link).icon
+            except Exception:
+                icon = "🔗"
+
             tr_line = f"""
                 <p><span class="changelog_short"><a href="{post.link}">{icon} {post.title}</a></span> ({post.timestamp})</p>
                 {post.description}
