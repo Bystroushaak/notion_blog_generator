@@ -1,7 +1,19 @@
+#! /usr/bin/env python3
 import argparse
+from pathlib import Path
 
 from notion_blog_generator.settings import settings
 from notion_blog_generator.generator import BlogGenerator
+
+
+def _path_or_find_zipfile_if_dir(path_str: str) -> str:
+    path = Path(path_str)
+
+    if not path.is_dir():
+        return path_str
+
+    for zipfile in path.glob("*-*-*.zip"):
+        return str(zipfile)
 
 
 def main():
@@ -27,7 +39,9 @@ def main():
     if args.no_thumbs:
         settings.generate_thumbnails = False
 
-    generator = BlogGenerator(args.zipfile, args.blogroot)
+    zipfile = _path_or_find_zipfile_if_dir(args.zipfile)
+
+    generator = BlogGenerator(zipfile, args.blogroot)
     generator.generate_blog()
 
 
