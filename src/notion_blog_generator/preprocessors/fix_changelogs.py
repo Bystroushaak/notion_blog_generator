@@ -151,7 +151,7 @@ class FixChangelogs(PreprocessorBase):
 
     @classmethod
     def _handle_link_conversion(cls, resource_registry, link: str) -> str:
-        if not link.startswith("https://www.notion.so/"):
+        if not link.startswith("https://www.notion.so/") and not link.startswith("https://app.notion.com/"):
             return link
 
         notion_hash = link.rsplit("/", 1)[-1]
