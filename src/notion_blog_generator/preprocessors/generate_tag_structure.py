@@ -109,15 +109,19 @@ class GenerateTagStructure(PreprocessorBase):
             tag_ref_str = registry.register_item_as_ref_str(tag_page)
             tag_to_ref_str_map[tag] = tag_ref_str
 
-        links = []
+        links_and_count = []
         for tag, tag_ref in tag_to_ref_str_map.items():
             no_items = len(tag_manager.tag_dict[tag])
             description = ('<p class="tag-entry-meta">'
                            + cls._count_label(no_items, tag_manager.dirname)
                            + "</p>")
-            links.append(LINK_TEMPLATE.format(page_name=tag, ref_str=tag_ref,
-                                              no_tags="",
-                                              description=description))
+            link = LINK_TEMPLATE.format(page_name=tag, ref_str=tag_ref,
+                                        no_tags="",
+                                        description=description)
+            links_and_count.append((link, no_items))
+
+        # sort by tag count
+        links = (link for link, count in sorted(links_and_count, key=lambda x: x[1], reverse=True))
 
         tag_index_html = TAG_INDEX_TEMPLATE.format(
             title=tag_manager.alt_title,
