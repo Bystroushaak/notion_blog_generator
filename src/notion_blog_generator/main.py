@@ -15,6 +15,8 @@ def _path_or_find_zipfile_if_dir(path_str: str) -> str:
     for zipfile in path.glob("*-*-*.zip"):
         return str(zipfile)
 
+    raise IOError(f"Couldn't find correct file in `{path_str}`!")
+
 
 def main():
     parser = argparse.ArgumentParser()
