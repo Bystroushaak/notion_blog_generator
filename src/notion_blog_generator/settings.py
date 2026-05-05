@@ -42,6 +42,15 @@ class Settings:
         self.mastodon_url = "https://sakurajima.social/@remotefox"
         self.fediverse_creator = "remotefox@sakurajima.social"
 
+        self.friends_to_sidebar = (
+            ("https://jenda.hrach.eu/", "Jenda Hrach"),
+            ("https://p.janouch.name/articles.html", "Přemysl Eric Janouch"),
+            ("https://its.wtf/", "itsgoingd"),
+            ("https://vojtechkral.github.io/", "kralyk"),
+            ("https://blog.frantovo.cz/", "xkucf03"),
+            ("https://q66.moe/", "q66"),
+        )
+
         self.number_of_articles_in_sidebar = 10
         self.number_of_articles_in_minichangelog = 5
 

@@ -74,6 +74,11 @@ class Sidebar:
         top_div[-1:] = self._get_sections_tag()
         bottom_div[-1:] = self._get_sections_tag()
 
+        # friends
+        if settings.friends_to_sidebar:
+            top_div[-1:] = self._add_friends_section()
+            bottom_div[-1:] = self._add_friends_section()
+
         # twitter / rss buttons for bottom
         bottom_div[-1:] = Tag("h3", content="Follow this blog")
         bottom_div[-1:] = self._get_feed_icons(page.root_section, big=True)
@@ -120,6 +125,18 @@ class Sidebar:
 
     def _get_sections_tag(self) -> Tag:
         return dhtmlparser3.parse(self.sections_html).find("div")[0]
+
+    def _add_friends_section(self):
+        return Tag(
+            "div",
+            content=[
+                Tag("h3", content="Friends"),
+                Tag("ul", content=[
+                    Tag("li", content=[Tag("a", parameters={"href": href}, content=[descr])])
+                    for href, descr in settings.friends_to_sidebar
+                ])
+            ]
+        )
 
     def _get_feed_icons(self, root, big=False) -> Tag:
         from notion_blog_generator.preprocessors.add_static_files import AddStaticFiles
