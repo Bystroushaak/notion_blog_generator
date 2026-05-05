@@ -13,6 +13,18 @@ from notion_blog_generator.settings import settings
 
 
 class Sidebar:
+    _i18n = {
+        "new_posts": {"en": "New posts", "cz": "Poslední blogy"},
+        "enjoy": {
+            "en": "Did you enjoy the blogpost? Here are other posts from this blog:",
+            "cz": "Užili jste si blog? Tady jsou další:",
+        },
+        "more": {"en": "You can find ", "cz": "Víc jich můžete najít "},
+        "more2": {"en": "many more in changelog", "cz": "v changelogu"},
+        "follow": {"en": "Follow this blog", "cz": "Sledujte tento blog"},
+        "friends": {"en": "Friends", "cz": "Přátelé"},
+    }
+
     def __init__(self):
         self.ad_code = None
         self.last_five_html = None
@@ -29,7 +41,7 @@ class Sidebar:
 
         # last five
         last_five_top, last_five_bottom = self._get_last_five_tags()
-        top_div[-1:] = Tag("h3", content=["New posts"])
+        top_div[-1:] = Tag("h3", content=[self._i18n["new_posts"][page.lang]])
         top_div[-1:] = last_five_top
         top_div.content.extend(
             [
@@ -39,21 +51,16 @@ class Sidebar:
         )
 
         bottom_div[-1:] = Tag("hr", is_non_pair=True)
-        bottom_div[-1:] = Tag(
-            "p",
-            content=[
-                "Did you enjoy the blogpost? Here are other posts from this blog:"
-            ],
-        )
+        bottom_div[-1:] = Tag("p", content=[self._i18n["enjoy"][page.lang]])
         bottom_div[-1:] = last_five_bottom
         bottom_div[-1:] = Tag(
             "p",
             content=[
-                "You can find ",
+                self._i18n["more"][page.lang],
                 Tag(
                     "a",
                     parameters={"href": self.changelog_ref},
-                    content=["many more in changelog"],
+                    content=[self._i18n["more2"][page.lang]],
                 ),
                 "..",
             ],
@@ -76,11 +83,11 @@ class Sidebar:
 
         # friends
         if settings.friends_to_sidebar:
-            top_div[-1:] = self._add_friends_section()
-            bottom_div[-1:] = self._add_friends_section()
+            top_div[-1:] = self._add_friends_section(page.lang)
+            bottom_div[-1:] = self._add_friends_section(page.lang)
 
         # twitter / rss buttons for bottom
-        bottom_div[-1:] = Tag("h3", content="Follow this blog")
+        bottom_div[-1:] = Tag("h3", content=self._i18n["follow"][page.lang])
         bottom_div[-1:] = self._get_feed_icons(page.root_section, big=True)
 
         # ads
@@ -126,17 +133,23 @@ class Sidebar:
     def _get_sections_tag(self) -> Tag:
         return dhtmlparser3.parse(self.sections_html).find("div")[0]
 
-    def _add_friends_section(self):
+    def _add_friends_section(self, lang: str):
         return Tag(
             "div",
             content=[
-                Tag("h3", content="Friends"),
-                Tag("ul", content=[
-                    Tag("li", content=[Tag("a", parameters={"href": href}, content=[descr])])
-                    for href, descr in settings.friends_to_sidebar
-                ])
-            ]
+                Tag("h3", content=self._i18n["friends"][lang]),
+                Tag(
+                    "ul",
+                    content=[
+                        self._get_li_with_a(href, descr)
+                        for href, descr in settings.friends_to_sidebar
+                    ],
+                ),
+            ],
         )
+
+    def _get_li_with_a(self, href: str, descr: str) -> Tag:
+        return Tag("li", content=[Tag("a", parameters={"href": href}, content=descr)])
 
     def _get_feed_icons(self, root, big=False) -> Tag:
         from notion_blog_generator.preprocessors.add_static_files import AddStaticFiles

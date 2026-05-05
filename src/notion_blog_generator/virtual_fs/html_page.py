@@ -255,3 +255,7 @@ class HtmlPage(FileBase):
             return self.is_index_to.root_section
 
         return self.parent.root_section
+
+    @property
+    def lang(self) -> str:
+        return self.root_section.filename
