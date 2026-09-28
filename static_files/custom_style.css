@@ -402,3 +402,251 @@ h6:hover .heading-anchor {
     opacity: 1;
 }
 
+
+
+:root {
+  --ink: #2e1f1c;
+  --ink-soft: #6e4f45;
+  --ink-faint: #c9a192;
+  --rust: #963f1e;
+}
+
+/* Grain on html so it covers the whole canvas, not just the 900px body column. */
+html {
+  background: #ffffff url(grain_white.png) repeat;
+  image-rendering: pixelated;
+  min-height: 100%;
+}
+
+/* image-rendering inherits; only the grain tile should stay pixel-sharp on hiDPI. */
+body {
+  image-rendering: auto;
+  color: var(--ink);
+}
+
+.highlight-default,
+.highlight-default_background {
+  color: var(--ink);
+}
+
+th,
+.tag-count,
+.tag-page .tag-entry-meta,
+.tag-page .tag-entry-meta a,
+.tag-index-page .tag-entry-meta,
+.tag-index-page .tag-entry-meta a {
+  color: var(--ink-soft);
+}
+
+a.unroll_link,
+a.visited {
+  text-decoration-color: var(--ink-faint);
+}
+
+header {
+  position: relative;
+}
+
+.article-strip {
+  position: absolute;
+  right: 100%;
+  top: -0.4em;
+  width: 72px;
+  margin-right: 1.4em;
+}
+
+.article-strip svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 1100px) {
+  .article-strip {
+    position: static;
+    float: left;
+    width: 46px;
+    margin: 0.2em 1em 0.4em 0;
+  }
+}
+
+.strip-mark {
+  display: inline-block;
+  width: 1.05em;
+  height: 1.2em;
+  margin-right: 0.35em;
+  vertical-align: -0.22em;
+}
+
+.page-header-icon svg {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+}
+
+/* figure.image img gets a pointer and hover fade for the lightbox; tags in captions aren't clickable images */
+figure.image img.strip-mark {
+  cursor: inherit;
+  opacity: 1;
+  border-radius: 0;
+}
+
+#last_five_top ul,
+#links_from_other_pages ul,
+ul.no_icon {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* Hanging indent, so wrapped titles align with the text and not with the tag. */
+#last_five_top li,
+#links_from_other_pages li,
+ul.no_icon > li {
+  list-style: none;
+  margin-left: 0;
+  padding: 0.12em 0 0.12em 1.2em;
+  text-indent: -1.2em;
+}
+
+#sidebar_top h3,
+#sidebar_bottom h3 {
+  color: var(--ink);
+  padding-bottom: 12px;
+  background: url(emb_h_black.svg) left bottom / auto 10px round no-repeat;
+}
+
+a.breadcrumb,
+#sidebar_top a[href*="/Tags/"],
+#sidebar_bottom a[href*="/Tags/"],
+#sidebar_top a[href*="/Tagy/"],
+#sidebar_bottom a[href*="/Tagy/"] {
+  color: var(--rust);
+  text-decoration-color: #d9b3a0;
+}
+
+/* keep a tag's cloth mark on the same line as its name */
+#sidebar_top a[href*="/Tags/"],
+#sidebar_bottom a[href*="/Tags/"],
+#sidebar_top a[href*="/Tagy/"],
+#sidebar_bottom a[href*="/Tagy/"] {
+  white-space: nowrap;
+}
+
+.breadcrumb {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.9em;
+}
+
+time {
+  color: var(--rust);
+  opacity: 1;
+}
+
+.heading-anchor svg {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  vertical-align: middle;
+}
+
+hr {
+  border: none;
+  height: 16px;
+  margin: 2em 0;
+  background: url(emb_h_black.svg) center / auto 16px round no-repeat;
+}
+
+blockquote {
+  border-left: 1.5px solid var(--ink);
+  padding-left: 1em;
+}
+
+/* Nine-slice frame: fixed corners, edges repeated `round` so no motif is cut in half. */
+pre.code,
+figure.image {
+  border: 14px solid transparent;
+  border-image: url(frame_black.svg) 10 / 14px round;
+  border-radius: 0;
+}
+
+pre.code {
+  background: #faf7f3 padding-box;
+  padding: 1.4em 1.6em;
+}
+
+figure.image {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 8px;
+}
+
+figure.image img {
+  border-radius: 0;
+}
+
+.incipit::first-letter {
+  float: left;
+  font-size: 3.4em;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--rust);
+  padding: 0.14em 0.2em 0.06em;
+  margin: 0.08em 0.18em 0 0;
+  border: 8px solid transparent;
+  border-image: url(frame_rust.svg) 10 / 8px round;
+}
+
+.explicit {
+  text-align: center;
+  margin: 3em 0 1em;
+}
+
+.explicit svg {
+  width: 28px;
+  height: 28px;
+}
+
+.corner-ribbon.red {
+  background:
+    linear-gradient(to bottom,
+      transparent 3px, #fffaf2 3px, #fffaf2 4.5px, transparent 4.5px,
+      transparent calc(100% - 4.5px), #fffaf2 calc(100% - 4.5px), #fffaf2 calc(100% - 3px), transparent calc(100% - 3px)),
+    repeating-linear-gradient(90deg, rgba(58, 20, 8, 0.08) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(0deg, rgba(246, 227, 204, 0.07) 0 1px, transparent 1px 4px),
+    linear-gradient(to bottom, #a64a26, #8d391b);
+  border-top: 2px solid #fffaf2;
+  border-bottom: 2px solid #fffaf2;
+  box-shadow: 0 0 7px rgba(255, 243, 226, 0.9), 0 1px 5px rgba(60, 20, 5, 0.35);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.9em;
+  letter-spacing: 0.05em;
+}
+
+.corner-ribbon.red a {
+  color: #fff1e0;
+  text-decoration: none;
+}
+
+.corner-ribbon.red a:hover {
+  text-decoration: underline;
+}
+
+.corner-ribbon.red a::before,
+.corner-ribbon.red a::after {
+  content: "";
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin: 0 0.6em;
+  vertical-align: -0.05em;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%207%207%22%20fill%3D%22%23fff1e0%22%20shape-rendering%3D%22crispEdges%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%221%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%222%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%220%22%20y%3D%221%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%220%22%20y%3D%222%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%224%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%225%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%226%22%20y%3D%220%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%226%22%20y%3D%221%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%224%22%20y%3D%222%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%226%22%20y%3D%222%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%220%22%20y%3D%224%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%222%22%20y%3D%224%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%220%22%20y%3D%225%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%220%22%20y%3D%226%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%221%22%20y%3D%226%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%222%22%20y%3D%226%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%226%22%20y%3D%224%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%226%22%20y%3D%225%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%224%22%20y%3D%226%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%225%22%20y%3D%226%22%20width%3D%221%22%20height%3D%221%22/%3E%3Crect%20x%3D%226%22%20y%3D%226%22%20width%3D%221%22%20height%3D%221%22/%3E%3C/svg%3E") center / contain no-repeat;
+  filter: drop-shadow(0 0 1.5px rgba(255, 243, 226, 0.8));
+}
+
+/* The Notion layout has no side gutter at all on phones. */
+@media screen and (max-width: 700px) {
+  body {
+    padding: 0 14px;
+  }
+}

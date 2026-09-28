@@ -45,6 +45,15 @@ class AddStaticFiles(PreprocessorBase):
     ads_txt = None
     ads_txt_ref = ""
 
+    # referenced only from the CSS by filename, so they need no ref
+    style_assets = (
+        "grain_white.png",
+        "frame_black.svg",
+        "frame_rust.svg",
+        "emb_h_black.svg",
+        "emb_h_rust.svg",
+    )
+
     @classmethod
     def preprocess(cls, virtual_fs: VirtualFS, root: Directory):
         settings.logger.info("Adding static files to virtual filesystem..")
@@ -101,6 +110,7 @@ class AddStaticFiles(PreprocessorBase):
             cls.noto_font_subset_ttf,
             cls.noto_font_subset_woff,
             cls.ads_txt,
+            *(cls._data_from_static_files(fn) for fn in cls.style_assets),
         )
 
         for file in new_files:
