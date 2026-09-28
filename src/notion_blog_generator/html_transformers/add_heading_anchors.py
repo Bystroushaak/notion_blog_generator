@@ -1,4 +1,8 @@
+import uuid
+
 import dhtmlparser3
+
+from notion_blog_generator import glyphs
 
 from notion_blog_generator.settings import settings
 from notion_blog_generator.virtual_fs import HtmlPage
@@ -13,7 +17,6 @@ class AddHeadingAnchors(TransformerBase):
     requires = [ShortenHeadingIds]
 
     HEADING_TAGS = frozenset(("h1", "h2", "h3", "h4", "h5", "h6"))
-    ANCHOR_SYMBOL = "🔗"
 
     @classmethod
     def log_transformer(cls):
@@ -49,5 +52,11 @@ class AddHeadingAnchors(TransformerBase):
                 continue
             anchor_html = (' <a class="heading-anchor" href="#%s"'
                            ' aria-label="Link to this heading">%s</a>'
-                           % (heading_id, cls.ANCHOR_SYMBOL))
+                           % (heading_id, cls._heading_glyph(page, heading_id)))
             heading[-1:] = dhtmlparser3.parse(anchor_html)
+
+    @staticmethod
+    def _heading_glyph(page: HtmlPage, heading_id: str) -> str:
+        """Every section of every page gets its own stable mark."""
+        heading_uuid = str(uuid.uuid5(uuid.NAMESPACE_URL, f"{page.hash}#{heading_id}"))
+        return glyphs.render_svg(glyphs.name_glyph(heading_uuid), glyphs.RUST)
