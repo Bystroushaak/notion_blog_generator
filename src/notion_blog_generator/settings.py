@@ -51,6 +51,18 @@ class Settings:
             ("https://q66.moe/", "q66"),
         )
 
+        # glyphs.PICTOGRAMS instead of the name glyph, keyed by Notion page UUID
+        self.page_pictograms = {
+            "94395240-48de-4516-9fd7-4f5e92fb9598": "changelog",  # Changelog
+            "15edc7ea-f441-4fb2-9f55-3de30279484f": "changelog",  # Změny
+            "8e98ba90-c04f-4189-8f43-affb827c9d6f": "letter",  # Contact info
+            "be042a5d-5a88-4317-94c8-cd55a5031e1d": "bookmark",  # Interesting articles
+        }
+        # external links that deserve a tag too
+        self.url_pictograms = {
+            "http://kitakitsune.org/raw/doctene_knihy.txt": "book",
+        }
+
         self.number_of_articles_in_sidebar = 10
         self.number_of_articles_in_minichangelog = 5
 

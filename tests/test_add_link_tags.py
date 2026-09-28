@@ -36,3 +36,17 @@ def test_strip_icon_leaves_tag_content_alone():
     AddLinkTags._strip_icon(tag)
     assert tag.find("img")
 
+
+@mark.parametrize(
+    "html, expected",
+    [
+        ('<p>📚 <a href="x">Books</a> (since 2010)</p>', "<p><a"),
+        ('<p>Read the 📚 <a href="x">Books</a></p>', "<p>Read the <a"),
+        ('<p>Plain <a href="x">Books</a></p>', "<p>Plain <a"),
+        ('<p><a href="x">Books</a></p>', "<p><a"),
+    ],
+)
+def test_strip_preceding_icon(html, expected):
+    dom = dhtmlparser3.parse(html)
+    AddLinkTags._strip_preceding_icon(dom.find("a")[0])
+    assert str(dom).startswith(expected)

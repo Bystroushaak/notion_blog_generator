@@ -1,3 +1,5 @@
+import uuid
+import unicodedata
 from collections import defaultdict
 
 from dhtmlparser3 import Tag
@@ -46,11 +48,18 @@ class AddLinkTags(PostprocessorBase):
 
     @classmethod
     def _tag_src(cls, link: Tag, registry: ResourceRegistry, root: Directory) -> str | None:
+        href = link.parameters.get("href", "")
+        pictogram = settings.url_pictograms.get(href)
+        if pictogram:
+            cls._strip_preceding_icon(link)
+            link_uuid = str(uuid.uuid5(uuid.NAMESPACE_URL, href))
+            return glyphs.tag_data_uri(link_uuid, "rust", pictogram)
+
         target = cls._link_target(link, registry, root)
         if target is None:
             return None
 
-        return glyphs.tag_data_uri(target.pretty_hash, target.glyph_dye)
+        return glyphs.tag_data_uri(target.pretty_hash, target.glyph_dye, target.pictogram)
 
     @classmethod
     def _link_target(
@@ -97,6 +106,18 @@ class AddLinkTags(PostprocessorBase):
                 return
 
     @classmethod
+    def _strip_preceding_icon(cls, link: Tag):
+        """External links carry their emoji in the text before them: `📚 <a ..>`."""
+        siblings = link.parent.content
+        index = next(i for i, item in enumerate(siblings) if item is link)
+        if index == 0 or not isinstance(siblings[index - 1], str):
+            return
+
+        text = siblings[index - 1].rstrip()
+        if text and unicodedata.category(text[-1]) == "So":
+            siblings[index - 1] = text[:-1].rstrip() + (" " if text[:-1].strip() else "")
+
+    @classmethod
     def _warn_about_name_collisions(cls, root: Directory):
         """
         Name glyphs are a 7,381-way fingerprint, not an id; the strip under them
@@ -104,7 +125,7 @@ class AddLinkTags(PostprocessorBase):
         """
         pages_by_glyph = defaultdict(set)
         for page in root.walk_htmls():
-            if glyphs.is_page_uuid(page.pretty_hash):
+            if glyphs.is_page_uuid(page.pretty_hash) and not page.pictogram:
                 pages_by_glyph[glyphs.name_glyph(page.pretty_hash)].add(page.title)
 
         for titles in pages_by_glyph.values():

@@ -33,12 +33,12 @@ class AddArticleStrip(TransformerBase):
             icon.parent.remove_item(icon)
 
         strip = glyphs.render_strip(
-            page.pretty_hash, page.glyph_language, page.glyph_dye
+            page.pretty_hash, page.glyph_language, page.glyph_dye, page.pictogram
         )
         strip_html = f'<div class="article-strip" aria-hidden="true">{strip}</div>'
         header[0:] = dhtmlparser3.parse(strip_html)
 
-        if page.is_category or page.is_tag_page:
+        if page.is_category or page.is_tag_page or page.pictogram:
             return
 
         explicit = glyphs.render_svg(glyphs.name_glyph(page.pretty_hash), glyphs.RUST)

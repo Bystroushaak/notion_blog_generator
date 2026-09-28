@@ -21,7 +21,7 @@ class AddFaviconLinkTags(TransformerBase):
         head = page.dom.find("head")[0]
 
         if glyphs.is_page_uuid(page.pretty_hash):
-            svg = glyphs.render_svg(glyphs.name_glyph(page.pretty_hash), glyphs.RUST)
+            svg = glyphs.render_mark_svg(page.pretty_hash, page.pictogram, glyphs.RUST)
             head[-1:] = dhtmlparser3.Tag(
                 "link",
                 parameters={

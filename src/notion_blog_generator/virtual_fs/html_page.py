@@ -284,5 +284,9 @@ class HtmlPage(FileBase):
         return "rust"
 
     @property
+    def pictogram(self) -> str | None:
+        return settings.page_pictograms.get(self.pretty_hash)
+
+    @property
     def glyph_language(self) -> str:
         return self.tag_language or self.lang
