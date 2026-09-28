@@ -16,10 +16,9 @@ class AddTagLinksToRootIndex(PostprocessorBase):
         ("cz", "Tagy",  "Tagy"),
     )
 
-    TPL = ('<div style="display:contents" dir="ltr">'
-           '<figure class="link-to-page">'
+    TPL = ('<figure class="link-to-page">'
            '<a href="%s" title="%s"><span class="icon">🏷️</span>%s</a>'
-           '</figure></div>')
+           '</figure>')
 
     @classmethod
     def postprocess(cls, virtual_fs: VirtualFS, root: Directory):
@@ -55,13 +54,14 @@ class AddTagLinksToRootIndex(PostprocessorBase):
             if not link or link[0]["href"] != anchor_href:
                 continue
 
-            wrapper = fig.parent
-            column = wrapper.parent
-            for i, child in enumerate(column.content):
-                if child is wrapper:
-                    new_wrap = dhtmlparser3.parse(
+            # insert as the changelog's sibling; older exports wrap each block in
+            # <div style="display:contents">, newer ones put it straight into the column
+            container = fig.parent
+            for i, child in enumerate(container.content):
+                if child is fig:
+                    new_fig = dhtmlparser3.parse(
                         cls.TPL % (new_href, label, label)
-                    ).find("div")[0]
-                    column.content.insert(i + 1, new_wrap)
-                    new_wrap.parent = column
+                    ).find("figure")[0]
+                    container.content.insert(i + 1, new_fig)
+                    new_fig.parent = container
                     return
