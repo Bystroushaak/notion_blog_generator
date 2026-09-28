@@ -31,6 +31,7 @@ class HtmlPage(FileBase):
         self.sidebar = Sidebar()  # may be replaced with None in add_sidebars.py!
 
         self.is_index_to = None
+        self.tag_language = None  # generated tag pages live outside the en/cz sections
 
     def __repr__(self):
         return "HtmlPage(%s)" % self.filename
@@ -245,6 +246,7 @@ class HtmlPage(FileBase):
         page_copy.original_fn = self.original_fn
         page_copy.is_index_to = self.is_index_to
         page_copy.alt_title = self.alt_title
+        page_copy.tag_language = self.tag_language
 
         page_copy.metadata = self.metadata.create_copy()
         page_copy.sidebar = self.sidebar
@@ -261,3 +263,26 @@ class HtmlPage(FileBase):
     @property
     def lang(self) -> str:
         return self.root_section.filename
+
+    @property
+    def is_tag_page(self) -> bool:
+        articles = self.dom.find("article")
+        if not articles:
+            return False
+
+        classes = articles[0].parameters.get("class", "").split()
+        return "tag-page" in classes or "tag-index-page" in classes
+
+    @property
+    def glyph_dye(self) -> str:
+        if self.is_tag_page:
+            return "green"
+
+        if self.is_category:
+            return "gold"
+
+        return "rust"
+
+    @property
+    def glyph_language(self) -> str:
+        return self.tag_language or self.lang

@@ -1,3 +1,5 @@
+import uuid
+
 from notion_blog_generator.settings import settings
 from notion_blog_generator.virtual_fs import Tags
 from notion_blog_generator.virtual_fs import HtmlPage
@@ -18,9 +20,6 @@ TAG_PAGE_TEMPLATE = """<!DOCTYPE html>
 <body>
   <article class="page sans tag-page">
     <header>
-      <div class="page-header-icon undefined">
-        <span class="icon">📂</span>
-      </div>
       <h1 class="page-title">Tag: {tag_name}</h1>
     </header>
     <p class="tag-count">{count_label}</p>
@@ -42,9 +41,6 @@ TAG_INDEX_TEMPLATE = """<!DOCTYPE html>
 <body>
   <article class="page sans tag-index-page">
     <header>
-      <div class="page-header-icon undefined">
-        <span class="icon">📂</span>
-      </div>
       <h1 class="page-title">{title}</h1>
     </header>
     <p class="tag-count">{count_label}</p>
@@ -67,6 +63,14 @@ LINK_TEMPLATE = """
 class GenerateTagStructure(PreprocessorBase):
     requires = [MakeRootSections]
 
+    @staticmethod
+    def _tag_uuid(tag: str) -> str:
+        """
+        Tag pages have no Notion UUID; a stable derived one gives them a strip
+        (`AddArticleStrip`) and a tag next to every link to them (`AddLinkTags`).
+        """
+        return str(uuid.uuid5(uuid.NAMESPACE_URL, f"tag:{tag}"))
+
     MIN_TAG_USAGE = 2
 
     @classmethod
@@ -80,13 +84,14 @@ class GenerateTagStructure(PreprocessorBase):
 
         for root_section in root.get_root_sections():
             tag_to_ref_str_map = cls._generate_tag_structure(root, registry,
-                                                             root_section.tags)
+                                                             root_section.tags,
+                                                             root_section.filename)
 
             settings.logger.info("Putting taglist to pages with tags..")
             cls._add_tags_to_all_pages(root_section.tags, tag_to_ref_str_map)
 
     @classmethod
-    def _generate_tag_structure(cls, root, registry, tag_manager):
+    def _generate_tag_structure(cls, root, registry, tag_manager, language):
         tag_directory = Directory(tag_manager.dirname)
         tag_to_ref_str_map = {}
         for tag, subpages in sorted(tag_manager.tag_dict.items()):
@@ -104,6 +109,8 @@ class GenerateTagStructure(PreprocessorBase):
 
             tag_page = HtmlPage(tag_page_html, tag + ".html")
             tag_page.alt_title = tag
+            tag_page.hash = cls._tag_uuid(tag)
+            tag_page.tag_language = language
             tag_directory.add_file(tag_page)
 
             tag_ref_str = registry.register_item_as_ref_str(tag_page)
@@ -132,6 +139,8 @@ class GenerateTagStructure(PreprocessorBase):
         )
         tag_index_outer = HtmlPage(tag_index_html, "%s.html" % tag_manager.dirname)
         tag_index_outer.alt_title = tag_manager.alt_title
+        tag_index_outer.hash = cls._tag_uuid(tag_manager.dirname)
+        tag_index_outer.tag_language = language
 
         root.add_subdir(tag_directory)
         root.add_file(tag_index_outer)

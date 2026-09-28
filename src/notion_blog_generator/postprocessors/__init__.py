@@ -7,6 +7,7 @@ from notion_blog_generator.postprocessors.add_sidebars import AddSidebarsToAllPa
 from notion_blog_generator.postprocessors.fix_interesting_articles import FixInterestingArticlesLinks
 from notion_blog_generator.postprocessors.add_metadata_to_root import AddMetadataToRoot
 from notion_blog_generator.postprocessors.move_cover_image_to_top import MoveCoverImageToTop
+from notion_blog_generator.postprocessors.add_link_tags import AddLinkTags
 
 
 def get_postprocessors():
@@ -20,4 +21,5 @@ def get_postprocessors():
         AddRobotsAndSitemap,
         AddSidebarsToAllPages,
         MoveCoverImageToTop,
+        AddLinkTags,
     )
