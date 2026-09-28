@@ -230,7 +230,9 @@ class HtmlPage(FileBase):
 
         if settings.tidy_html:
             try:
-                sh.tidy("-m", "-w", "0", "-i", file_path)
+                # empty <span class="icon" data-emoji="👉"> carries the callout
+                # and page icons; Notion's CSS renders them via ::before
+                sh.tidy("-m", "-w", "0", "-i", "--drop-empty-elements", "no", file_path)
             except:
                 pass
 

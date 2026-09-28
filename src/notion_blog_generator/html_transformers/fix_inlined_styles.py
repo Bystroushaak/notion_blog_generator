@@ -13,9 +13,15 @@ class FixInlinedStyles(TransformerBase):
     def log_transformer(cls):
         settings.logger.info("Postprocessing inlined <style> tags..")
 
+    # callouts used to be <figure>, newer Notion exports make them <aside>
+    PRE_WRAP_CONTAINERS = frozenset(("figure", "aside"))
+
     @classmethod
     def transform(cls, virtual_fs: VirtualFS, root: Directory, page: HtmlPage):
-        for item in page.dom.find("figure", fn=lambda x: "style" in x.parameters):
+        containers = page.dom.find(
+            "", fn=lambda x: x.name in cls.PRE_WRAP_CONTAINERS and "style" in x.parameters
+        )
+        for item in containers:
             cls._postprocess_figure(item)
 
     @classmethod
