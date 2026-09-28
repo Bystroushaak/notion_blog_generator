@@ -17,6 +17,7 @@ from notion_blog_generator.html_transformers.fix_code_blocks_dir import FixCodeB
 from notion_blog_generator.html_transformers.fix_toggle_blocks import FixToggleBlocks
 from notion_blog_generator.html_transformers.shorten_heading_ids import ShortenHeadingIds
 from notion_blog_generator.html_transformers.add_heading_anchors import AddHeadingAnchors
+from notion_blog_generator.html_transformers.add_incipit import AddIncipit
 from notion_blog_generator.html_transformers.make_notion_links_local import MakeNotionLinksLocal
 from notion_blog_generator.html_transformers.generate_thumbnails import GenerateThumbnails
 from notion_blog_generator.html_transformers.add_meta_tags import AddMetaTags
@@ -47,6 +48,7 @@ def get_transformers():
         FixToggleBlocks,
         ShortenHeadingIds,
         AddHeadingAnchors,
+        AddIncipit,
         MakeNotionLinksLocal,
         AddSocialCards,
         GenerateThumbnails,
